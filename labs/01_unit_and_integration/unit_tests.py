@@ -13,6 +13,7 @@ def test_sum_two_positives():
     # Assert
     assert result == expected_result
     print("Hej")
+    print("hej again")
 
 
 # Lab tasks
