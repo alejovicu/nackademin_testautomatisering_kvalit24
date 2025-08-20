@@ -4,9 +4,9 @@ BASE_URL = "http://127.0.0.1:8000"
 
 def test_addition():
     # Arrange
-    possitive_value = 2
+    positive_value = 2
     negative_value  = 3
-    url_params = {"a": possitive_value, "b": negative_value}
+    url_params = {"a": positive_value, "b": negative_value}
     expected_result = {"result": 5}
 
     # Act
@@ -20,4 +20,15 @@ def test_addition():
 
 ## Complete the following tests
 
-# def test_sum_one_positive_one_negative():
+def test_sum_one_positive_one_negative():
+    # Arrange
+    positive_value = 2
+    negative_value = -3
+    url_params = {"a": positive_value, "b": negative_value}
+    expected_result = {"result": -6}
+
+    # Act
+    response = requests.get(f"{BASE_URL}/multiplication", params=url_params)
+
+    # Assert
+    assert response.json() == expected_result
