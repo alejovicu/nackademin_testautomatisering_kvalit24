@@ -39,22 +39,21 @@ def test_sum_one_positive_one_string_value():
     expected_result = {"result": 15}
 
     # act
-    result = main.addition(possitive_value , int(string_value))
-
+    result = main.addition(possitive_value, int(string_value))
 
     # assert
     assert result == expected_result
 
-    
+
 # def test_divide_two_positive_values():
-def test_subtract_two_positives():
+def test_divide_two_positive_values():
     # Arrange
     positive_value_1 = 10
-    positive_value_2 = 4
-    expected_result = {"result": 6}
+    positive_value_2 = 2
+    expected_result = {"result": 5}
 
     # Act
-    result = main.substraction(positive_value_1, positive_value_2)
+    result = main.division(positive_value_1, positive_value_2)
 
     # Assert
     assert result == expected_result
