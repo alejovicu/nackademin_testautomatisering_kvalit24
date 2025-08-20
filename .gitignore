@@ -10,3 +10,5 @@ __pycache__
 *.pdb
 *.egg
 *.egg-info
+.venv_api
+.venv_test

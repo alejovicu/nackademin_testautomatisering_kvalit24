@@ -1,5 +1,7 @@
 import main
 
+#hej 
+
 def test_sum_two_positives():
     # Arrange
     possitive_value_1 = 1
@@ -17,17 +19,17 @@ def test_sum_two_positives():
 
 ## Complete the following tests
 
-# def test_sum_one_positive_one_negative():
-#     # Arrange
-#     possitive_value = **
-#     negative_value  = **
-#     expected_result = {"result": ** }
+def test_sum_one_positive_one_negative():
+    # Arrange
+    possitive_value = 4
+    negative_value  = -3
+    expected_result = {"result": 1 }
 
-#     # Act
-#     result = main.sum( ** , ** )
+    # Act
+    result = main.addition( possitive_value , negative_value )
 
-#     # Assert
-#     assert  result == expected_result
+    # Assert
+    assert  result == expected_result
 
 
 
