@@ -1,0 +1,3 @@
+.venv_test
+*pycache*
+.pytest_cache
