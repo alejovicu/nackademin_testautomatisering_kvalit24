@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+# i love python
+
 app = FastAPI()
 
 def format_response(data):
