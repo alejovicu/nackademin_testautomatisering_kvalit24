@@ -2,6 +2,8 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+# Hello what a good day it is 
+
 def format_response(data):
     return {"result": data }
 
