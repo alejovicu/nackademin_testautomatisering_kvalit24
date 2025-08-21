@@ -34,6 +34,7 @@ def test_sum_one_positive_one_negative():
 
     # Assert
     assert response.json() == expected_result  
-    assert response.status_code == 200  
+    assert response.status_code == 200
+
 
 
