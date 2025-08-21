@@ -2,9 +2,8 @@
 ## Setup local environment
 
 ```shell
-rm -rf .venv
-python3 -m venv .venv ; pip install --upgrade pip ; source .venv/bin/activate
-
+rm -rf venv
+python3 -m venv venv ; pip install --upgrade pip ; source venv/Scripts/activate
 
 pip install -r requirements.txt
 
@@ -16,13 +15,13 @@ This will deploy the backend application in the port 8000
 
 Start the application
 ```shell
-uvicorn main:app --reload
+uvicorn backend.main:app --reload
 ```
 
 To Stop the application type `ctrl + C` in the terminal that was started.
 
 
-# APIs
+# APIs can be found by using http://127.0.0.1:8000/docs (swagger)
 ## 
 
 ### Don`t require token
