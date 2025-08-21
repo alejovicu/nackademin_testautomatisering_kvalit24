@@ -57,7 +57,7 @@ def test_divide_two_positive_values():
 
 def test_divide_by_zero():
     # Arrange
-    positive_value = 9
+    positive_value = 8
     zero_value = 0
     expected_error = ZeroDivisionError
 
