@@ -22,10 +22,10 @@ def test_sum_one_positive_one_negative():
     # Arrange
     positive_value = 4
     negative_value  = -2
-    expected_result = {"result": -8 }
+    expected_result = {"result": 2 }
 
     # Act
-    result = main.multiplication( positive_value , negative_value )
+    result = main.addition( positive_value , negative_value )
 
     # Assert
     assert  result == expected_result
