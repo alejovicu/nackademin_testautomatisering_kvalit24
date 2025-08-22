@@ -34,13 +34,11 @@ def test_sum_one_positive_one_string_value():
     # Arrange
     positive_value = 5
     string_value = "3"
-    expected_result = {"result": 8}
+    expected_error = TypeError
 
     # Act
-    result = main.addition(positive_value, int(string_value))
-
-    # Assert 
-    assert result == expected_result
+    with pytest.raises(expected_error):
+        main.division(positive_value, string_value)
 
 def test_divide_two_positive_values():
     # Arrange
