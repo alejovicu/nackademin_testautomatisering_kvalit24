@@ -1,16 +1,17 @@
 import main
 
+
 def test_sum_two_positives():
     # Arrange
     possitive_value_1 = 1
     possitive_value_2 = 4
-    expected_result = {"result": 5 }
+    expected_result = {"result": 5}
 
     # Act
-    result = main.addition(possitive_value_1,possitive_value_2)
+    result = main.addition(possitive_value_1, possitive_value_2)
 
     # Assert
-    assert  result == expected_result
+    assert result == expected_result
 
 
 # Lab tasks
@@ -28,7 +29,6 @@ def test_sum_two_positives():
 
 #     # Assert
 #     assert  result == expected_result
-
 
 
 # def test_sum_one_positive_one_string_value():
