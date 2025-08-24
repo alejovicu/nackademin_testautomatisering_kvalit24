@@ -10,3 +10,4 @@ __pycache__
 *.pdb
 *.egg
 *.egg-info
+**/.venv*
