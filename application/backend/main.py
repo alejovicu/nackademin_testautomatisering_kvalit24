@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
 from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker, Session
 from typing import List
+from pydantic import BaseModel
 
 # --- CONFIG ---
 DATABASE_URL = "sqlite:///./test.db"
@@ -16,13 +17,13 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # --- DB Setup ---
 Base = declarative_base()
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # --- Password hashing ---
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# --- OAuth2 ---
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+# --- HTTP Bearer Auth (simpler than OAuth2PasswordBearer) ---
+oauth2_scheme = HTTPBearer()
 
 # Association table for many-to-many
 user_products = Table(
@@ -49,8 +50,6 @@ class Product(Base):
 Base.metadata.create_all(bind=engine)
 
 # --- Schemas ---
-from pydantic import BaseModel
-
 class ProductBase(BaseModel):
     name: str
 
@@ -107,7 +106,11 @@ def authenticate_user(db: Session, username: str, password: str):
         return False
     return user
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
+):
+    token = credentials.credentials  # extract JWT from Authorization header
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -142,10 +145,14 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 @app.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login(form_data: UserCreate, db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     access_token = create_access_token(
         data={"sub": user.username},
         expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
@@ -192,7 +199,6 @@ def unassign_product_from_user(
         db.refresh(current_user)
     return current_user
 
-
 # --- PRODUCTS ENDPOINTS ---
 @app.post("/products", response_model=ProductResponse)
 def create_product(
@@ -209,7 +215,6 @@ def create_product(
 @app.get("/products", response_model=List[ProductResponse])
 def list_products(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     return db.query(Product).all()
-
 
 @app.delete("/product/{product_id}", response_model=ProductResponse)
 def delete_product(
