@@ -11,7 +11,7 @@ from typing import List
 DATABASE_URL = "sqlite:///./test.db"
 DB_KEY = "It_is_NOT_safe_to_use_this_key_in_production_just_a_playground"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 400
 
 # --- DB Setup ---
 Base = declarative_base()

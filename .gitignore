@@ -1,5 +1,6 @@
 **/.venv
 .venv
+.env
 .vscode
 **/.vscode/
 __pycache__
@@ -10,3 +11,6 @@ __pycache__
 *.pdb
 *.egg
 *.egg-info
+**/.venv_api/
+**/.pycache/
+**/.venv_test/
