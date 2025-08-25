@@ -68,6 +68,8 @@ Then The product is available to be used in the app
 
 Create the environment in postman to run the tests towards QA environtment and save it in this path as `qa.local.postman_environment.json`
 
+# I added username and password to `dev.local.postman_environment.json`
+
 Run the tests towards DEV and QA environments using the command:
 
 Mac
