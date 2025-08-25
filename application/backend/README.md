@@ -27,7 +27,8 @@ This will deploy the backend application in the port 8000
 
 
 Start the application
-```sh
+```shell
+uvicorn main:app --reload
 ```
 
 To Stop the application type `ctrl + C` in the terminal that was started.
