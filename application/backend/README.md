@@ -27,8 +27,7 @@ This will deploy the backend application in the port 8000
 
 
 Start the application
-```shell
-uvicorn main:app --reload
+```sh
 ```
 
 To Stop the application type `ctrl + C` in the terminal that was started.
@@ -72,3 +71,5 @@ If the process doesn't stop, find the process and stop it manually
 lsof -i :8000
 kill -9 <PID>
 ```
+
+#tesatar 
