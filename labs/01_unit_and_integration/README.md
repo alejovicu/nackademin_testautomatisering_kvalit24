@@ -27,7 +27,7 @@ pip install -r requirements_test.txt
 
 # Integration Tests
 
-## Terminal tab 1 - run API
+## Terminal tab 1 - run API:
 ```shell
 rm -rf .venv_api
 python3 -m venv .venv_api ; pip install --upgrade pip ; source .venv_api/bin/activate
