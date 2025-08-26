@@ -20,4 +20,13 @@ def test_addition():
 
 ## Complete the following tests
 
-# def test_sum_one_positive_one_negative():
+def test_sum_one_positive_one_negative():
+    positive_value = 5
+    negative_value = -10
+    url_params = {"a": positive_value, "b": negative_value}
+    expected_result = {"result": -5}
+
+    response = requests.get(f"{BASE_URL}/addition", params=url_params)
+
+    assert response.status_code == 200
+    assert response.json() == expected_result
