@@ -78,7 +78,7 @@ export default function App() {
             <Login setToken={setToken} />
             <p>
               Don't have an account?{" "}
-              <button onClick={() => setScreen("signup")}>Sign Up</button>
+              <button id='signup' onClick={() => setScreen("signup")}>Sign Up</button>
             </p>
           </>
         ) : (
@@ -86,7 +86,7 @@ export default function App() {
             <Signup />
             <p>
               Already have an account?{" "}
-              <button onClick={() => setScreen("login")}>Login</button>
+              <button className="btn btn-blue" onClick={() => setScreen("login")}>Login</button>
             </p>
           </>
         )}
@@ -101,52 +101,37 @@ export default function App() {
   return (
     <div>
       <h1>Nackademin Course App</h1>
-      <button onClick={handleLogout} style={{ marginBottom: "10px" }}>
-        Logout
-      </button>
 
       <h2>Welcome, {user.username}!</h2>
 
       {user.id === 1 ? (
-        // Admin view: all products
         <div>
-          <h3>All Products:</h3>
+          <h3>Products available:</h3>
           {allProducts.length === 0 ? (
             <p>No products available.</p>
           ) : (
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
-    gap: "10px",
-  }}
->
-  {allProducts.map((product) => (
-    <div
-      key={product.id}
-      style={{
-        border: "1px solid #ccc",
-        padding: "10px",
-        borderRadius: "5px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <span>{product.name}</span>
-      <button
-        onClick={() => handleDeleteProduct(product.id)}
-        style={{ padding: "2px 5px", fontSize: "0.8rem" }}
-      >
-        Delete
-      </button>
-    </div>
-  ))}
-</div>
+            <div
+              className="product-grid"
+            >
+              {allProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="product-item"
+                >
+                  <span>{product.name}</span>
+                  <button
+                    onClick={() => handleDeleteProduct(product.id)}
+                    className="product-item-button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
 
           <div style={{ marginTop: "20px" }}>
-            <h3>Admin: Add New Product</h3>
+            <h3>Add new product:</h3>
             <input
               type="text"
               placeholder="Product Name"
@@ -186,6 +171,9 @@ export default function App() {
           )}
         </div>
       )}
+      <button onClick={handleLogout} style={{ marginBottom: "10px" }}>
+        Logout
+      </button>
     </div>
   );
 }

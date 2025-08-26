@@ -8,6 +8,7 @@ export default function Signup() {
   const handleSignup = async () => {
     try {
       const user = await signup(username, password)
+      alert("User registered OK.");
     } catch (err) {
       console.error(err.message)
       alert("Signup failed: " + err.message)
@@ -19,7 +20,7 @@ export default function Signup() {
       <h2>Signup</h2>
       <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
       <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-      <button onClick={handleSignup}>Sign Up</button>
+      <button className="button-primary" onClick={handleSignup}>Sign Up</button>
     </div>
   )
 }
