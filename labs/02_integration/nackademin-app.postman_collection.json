@@ -1,69 +1,21 @@
 {
 	"info": {
-		"_postman_id": "b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171",
-		"name": "nackademin-app",
-		"description": "|  |  |\n| --- | --- |\n|  |  |",
+		"_postman_id": "86faf286-5d21-40d5-9df0-10b02ab75d6f",
+		"name": "Lab2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2980405",
-		"_collection_link": "https://nackademin-testautomation-24.postman.co/workspace/eb1d397c-a9ac-4e07-b498-24360914bfba/collection/2980405-b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171?action=share&source=collection_link&creator=2980405"
+		"_exporter_id": "40986312"
 	},
 	"item": [
 		{
-			"name": "signup",
+			"name": "New Request",
 			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"// Function to generate a random username\r",
-							"function generateUsername(length) {\r",
-							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';\r",
-							"    let username = '';\r",
-							"    for (let i = 0; i < length; i++) {\r",
-							"        username += chars.charAt(Math.floor(Math.random() * chars.length));\r",
-							"    }\r",
-							"    return username;\r",
-							"}\r",
-							"\r",
-							"// Generate a 10-character username\r",
-							"let username = generateUsername(10);\r",
-							"\r",
-							"// Store it in an environment variable\r",
-							"pm.environment.set(\"username\", username);\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"// Parse the JSON response body\r",
-							"let responseJson = pm.response.json();\r",
-							"\r",
-							"\r",
-							"// Validate that ID is a number\r",
-							"pm.test(\"ID is a number\", function() {\r",
-							"    pm.expect(responseJson.id).to.be.a('number');\r",
-							"});\r",
-							"\r",
-							"// Validate that username is a string\r",
-							"pm.test(\"Username is a string\", function() {\r",
-							"    pm.expect(responseJson.username).to.be.a('string');\r",
-							"});\r",
-							"\r",
-							"// Validate that products is an array\r",
-							"pm.test(\"Products is an array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array');\r",
-							"});\r",
-							"\r",
-							"// Validate that products array is empty\r",
-							"pm.test(\"Products is an empty array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array').that.is.empty;\r",
-							"});\r",
-							""
+							"var json = pm.response.json();\r",
+							"// Store it in an environment variable\r",
+							"pm.environment.set(\"token\", json.access_token);"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -75,7 +27,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"1234\"\r\n}",
+					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,12 +35,89 @@
 					}
 				},
 				"url": {
-					"raw": "{{backend.env}}/signup",
+					"raw": "{{url}}/login",
 					"host": [
-						"{{backend.env}}"
+						"{{url}}"
 					],
 					"path": [
-						"signup"
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_user_product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Correct status code returned (200)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.equal(200)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_random_product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{$randomProduct}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
 					]
 				}
 			},
