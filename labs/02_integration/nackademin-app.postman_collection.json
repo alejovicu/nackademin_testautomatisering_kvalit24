@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "User Login",
+			"name": "Admin Login",
 			"event": [
 				{
 					"listen": "test",
@@ -16,6 +16,16 @@
 							"var json = pm.response.json();\r",
 							"// Store it in an environment variable\r",
 							"pm.environment.set(\"TOKEN\", json.access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -47,17 +57,18 @@
 			"response": []
 		},
 		{
-			"name": "View User Profile",
+			"name": "View Admin Profile",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
+							"let json = pm.response.json();\r",
+							"pm.collectionVariables.set(\"userID\", json.id)\r",
+							"\r",
 							"pm.test(\"Correct status code returned (200)\", function () {\r",
 							"    pm.expect(pm.response.code).to.be.equal(200)\r",
 							"});\r",
-							"\r",
-							"let json = pm.response.json();\r",
 							"\r",
 							"pm.test(\"User is authorized\", function () {\r",
 							"    pm.expect(json).to.have.property(\"username\");\r",
@@ -106,14 +117,23 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Correct status code returned (200)\", function () {\r",
-							"    pm.expect(pm.response.code).to.be.equal(200)\r",
+							"pm.test(\"Correct status code returned (201)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.equal(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is logged in as Admin\", function () {\r",
+							"    pm.expect(pm.collectionVariables.get(\"userID\")).to.equal(1)\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Product creation successful\", function () {\r",
 							"    const product = pm.response.json();\r",
 							"    pm.expect(product).to.have.property(\"id\");\r",
 							"    pm.expect(product).to.have.property(\"name\");\r",
+							"\r",
+							"    pm.collectionVariables.set(\"CreatedProduct\", product);\r",
+							"\r",
+							"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+							"    pm.expect(product.name).to.equal(requestBody.name);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -164,6 +184,354 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "List products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"const createdProduct = pm.collectionVariables.get(\"CreatedProduct\");\r",
+							"\r",
+							"// Check if the response status is 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"// Check if the last product in the response matches the created product\r",
+							"pm.test(\"Last product matches CreatedProduct\", function () {\r",
+							"    const lastProduct = response[response.length - 1];\r",
+							"    pm.expect(lastProduct).to.deep.equal(createdProduct);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/products",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let username = pm.variables.replaceIn(\"{{$randomUserName}}\");\r",
+							"let password = pm.variables.replaceIn(\"{{$randomPassword}}\");\r",
+							"\r",
+							"pm.collectionVariables.set(\"newUsername\", username);\r",
+							"pm.collectionVariables.set(\"newPassword\", password);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"{{newUsername}}\", \r\n    \"password\": \"{{newPassword}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/signup",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var json = pm.response.json();\r",
+							"// Store it in an environment variable\r",
+							"pm.collectionVariables.set(\"userToken\", json.access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"{{newUsername}}\", \r\n    \"password\": \"{{newPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign product to user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"assignedProduct\", pm.response.json().products[0]);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/user/products/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View User Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json = pm.response.json();\r",
+							"pm.collectionVariables.set(\"userID\", json.id);\r",
+							"\r",
+							"pm.test(\"Correct status code returned (200)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.equal(200)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is authorized\", function () {\r",
+							"    pm.expect(json).to.have.property(\"username\");\r",
+							"});\r",
+							"\r",
+							"const products = json.products;\r",
+							"\r",
+							"pm.test(\"User products are returned and not empty\", function () {\r",
+							"    pm.expect(products).to.be.an(\"array\");\r",
+							"    pm.expect(products.length).to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User productlist contains the correct product\", function () {\r",
+							"    assignedProduct = pm.collectionVariables.get(\"assignedProduct\")\r",
+							"    pm.expect(products[0].name).to.equal(assignedProduct.name)\r",
+							"    pm.expect(products[0].id).to.equal(assignedProduct.id)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/user",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User add product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Correct response code (403)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.equal(403)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is NOT admin\", function () {\r",
+							"    pm.expect(pm.collectionVariables.get(\"userID\")).to.not.equal(1)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains correct error message\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Access denied\")\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{$randomProduct}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/products",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "CreatedProduct",
+			"value": ""
+		},
+		{
+			"key": "userID",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "newUsername",
+			"value": ""
+		},
+		{
+			"key": "newPassword",
+			"value": ""
+		},
+		{
+			"key": "userToken",
+			"value": ""
+		},
+		{
+			"key": "assignedProduct",
+			"value": ""
 		}
 	]
 }
