@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "dcac7fbf-bc35-4986-be07-0f18899fb42c",
-		"name": "DEV",
+		"name": "nackademin-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40998188"
 	},
@@ -74,6 +74,7 @@
 									"if (pm.response.code === 200) {\r",
 									"    pm.test(\"User created\", function () {\r",
 									"        pm.response.to.have.status(200);\r",
+									"        console.log(\"Account created:\", \"username\");\r",
 									"    });\r",
 									"} else if (pm.response.code === 400) {\r",
 									"    pm.test(\"User already exists\", function () {\r",
@@ -437,12 +438,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const productId = pm.response.json().id;\r",
-									"pm.environment.set(\"product_id\", productId);\r",
+									"const jsonData = pm.response.json()\r",
+									"pm.environment.set(\"product_id\", jsonData.id);\r",
+									"pm.environment.set(\"product_name\", jsonData.name);\r",
 									"\r",
 									"pm.test(\"Product created successfully\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -473,7 +485,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"computer\"\n}",
+							"raw": "{\n  \"name\": \"{{product_name}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -584,6 +596,70 @@
 							"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
 						}
 					]
+				},
+				{
+					"name": "Get product by ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let productId = pm.environment.get(\"product_id\");\r",
+									"\r",
+									"if (!productId) {\r",
+									"    throw new Error(\"No product found.\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"console.log(\"Using product_id:\", productId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const productId = pm.environment.get(\"product_id\");\r",
+									"const productName = pm.environment.get(\"product_name\");\r",
+									"\r",
+									"pm.test(\"Product ID matches correct name\", function () {\r",
+									"    const product = jsonData.find(p => p.id === productId);\r",
+									"    pm.expect(product).to.not.be.undefined;\r",
+									"    pm.expect(product.name).to.eql(productName);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend.env}}/products",
+							"host": [
+								"{{backend.env}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
 				},
 				{
 					"name": "List Products",
