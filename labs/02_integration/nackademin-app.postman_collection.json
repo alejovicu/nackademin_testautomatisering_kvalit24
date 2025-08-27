@@ -71,9 +71,20 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"User successfully created\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"if (pm.response.code === 200) {\r",
+									"    pm.test(\"User created\", function () {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    });\r",
+									"} else if (pm.response.code === 400) {\r",
+									"    pm.test(\"User already exists\", function () {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        pm.expect(jsonData.detail).to.eql(\"Username already registered\");\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(\"Unexpected status code\", function () {\r",
+									"        pm.expect.fail(\"Got unexpected status code: \" + pm.response.code);\r",
+									"    });\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -233,7 +244,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"admin_dev\",\n  \"password\": \"pass_1234\"\n}",
+							"raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -370,13 +381,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend.env}}/user/{{product_id}}",
+							"raw": "{{backend.env}}/user",
 							"host": [
 								"{{backend.env}}"
 							],
 							"path": [
-								"user",
-								"{{product_id}}"
+								"user"
 							]
 						}
 					},
