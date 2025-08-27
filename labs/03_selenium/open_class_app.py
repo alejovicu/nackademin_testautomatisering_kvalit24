@@ -7,20 +7,34 @@ APP_URL='http://localhost:5173'
 options = Options()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
-def test_navigate_to_signup():
 
-    #Arrange
+# Given I am a new potential customer
+# When I signup in the app
+# Then I should be able to log in with my new user
+
+def test_registration():
+    # Arrange
     driver = webdriver.Chrome(options=options)
     driver.get(APP_URL)
 
+    username = "admin"
+    password = "admin"
+    
+    # Act
     login_btn_signup = driver.find_element("id", "signup")
-
-    #Act
     login_btn_signup.click()
+    time.sleep(2)
+    username_input_signup = driver.find_element("xpath", '//input[@placeholder="Username"]')
+    username_input_signup.send_keys(username)
+    password_input_signup = driver.find_element("xpath", '//input[@placeholder="Password"]')
+    password_input_signup.send_keys(password)
 
-    time.sleep(5) # wait 3 seconds.
+    signup_btn = driver.find_element("")
 
-
-
+    time.sleep(5)
+    
     # Teardown
-    driver.quit()
+
+# Given I am an admin user​
+# When I add a product to the catalog​
+# Then The product is available to be used in the app
