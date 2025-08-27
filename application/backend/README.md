@@ -1,9 +1,21 @@
 
 ## Setup local environment
 
+mac
 ```shell
 rm -rf .venv
 python3 -m venv .venv ; pip install --upgrade pip ; source .venv/bin/activate
+
+
+pip install -r requirements.txt
+
+```
+
+windows - powershell
+```shell
+rmdir .\.venv\
+python -m venv .venv
+. .\.venv\Scripts\activate
 
 
 pip install -r requirements.txt
