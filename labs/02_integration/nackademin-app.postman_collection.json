@@ -199,6 +199,71 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "products to validate creation",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Check if status code shows 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Check the response is a list (example-code from Chat GPT)\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response is an array\", function() {\r",
+							"    pm.expect(jsonData).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"//Check that added product exists in list (example-code from Chat GPT)\r",
+							"let lastAddedName = pm.environment.get(\"dynamicName\");\r",
+							"pm.test(\"Product list includes the new product\", function () {\r",
+							"    let found = jsonData.some(p => p.name === lastAddedName);\r",
+							"    pm.expect(found).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASEURL}}/products",
+					"host": [
+						"{{BASEURL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
