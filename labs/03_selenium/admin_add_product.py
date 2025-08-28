@@ -9,15 +9,10 @@ options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
 
 ## Given I am an admin user​.
-## When I add a product to the catalog​.
-## Then The product is available to be used in the app. Assert thet the product is added.
-
-
 def test_signup_admin():
-    # Arrange
     driver = webdriver.Chrome(options=options)
     driver.get(APP_URL)
-
+    # Arrange
     username = "Admin_user"
     password = "Automation53"
     product_name = "Asksvin"
@@ -39,14 +34,14 @@ def test_signup_admin():
     )
     signup_password_input.send_keys(password)
 
-    time.sleep(5)  # wait 3 seconds.
+    time.sleep(2)  # wait
 
     signup_btn_signup = driver.find_element(
         "xpath", "//button[@class='button-primary']"
     )
     signup_btn_signup.click()
 
-    time.sleep(5)  # wait 3 seconds.
+    time.sleep(2)  # wait
 
     alert = driver.switch_to.alert
     alert.accept()
@@ -66,19 +61,35 @@ def test_signup_admin():
     )
     login_password_input.send_keys(password)
 
-    time.sleep(5)  # wait 3 seconds.
+    time.sleep(2)  # wait
 
     login_btn_login = driver.find_element("xpath", "//button[@class='button-primary']")
     login_btn_login.click()
 
-    time.sleep(5)  # wait 3 seconds.
+    time.sleep(2)  # wait
 
+    ## When I add a product to the catalog​.
     product_name_input = driver.find_element(
         "xpath", "//input[@placeholder='Product Name']"
     )
     product_name_input.send_keys(product_name)
 
-    time.sleep(5)  # wait 3 seconds.
+    time.sleep(2)  # wait
+
+    create_product_btn = driver.find_element(
+        "xpath", "//button[text()='Create Product']"
+    )
+    create_product_btn.click()
+    # Create Product
+    time.sleep(2)  # wait
+
+    ## Then The product is available to be used in the app. Assert thet the product is added. assertEqual(a,b) = product-item or assertIn(a,b) b=product-item
+    product_item = driver.find_element(
+        "xpath", "//span[text()= '" + product_name + "' ]"
+    )
+    assert product_item.text == product_name
+
+    time.sleep(2)  # wait
 
     # Teardown
     driver.quit()
