@@ -29,12 +29,9 @@ def test_registration():
     password_input_signup = driver.find_element("xpath", '//input[@placeholder="Password"]')
     password_input_signup.send_keys(password)
 
-    signup_btn = driver.find_element("")
+    signup_button = driver.find_element("xpath", "//button[text()='Sign Up']")
+    signup_button.click()
 
     time.sleep(5)
     
     # Teardown
-
-# Given I am an admin user​
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
