@@ -12,24 +12,24 @@ options.add_experimental_option("excludeSwitches", ["enable-logging"])
 # Helper function to login as admin
 def admin_login(driver:webdriver):
 
+    # Username and pass should be put in an .env-file in real world scenarios
     username = "admin"
     password = "admin"
     
     # Act
-    username_input_signup = driver.find_element("xpath", '//input[@placeholder="Username"]')
-    username_input_signup.send_keys(username)
-    password_input_signup = driver.find_element("xpath", '//input[@placeholder="Password"]')
-    password_input_signup.send_keys(password)
+    username_input_login = driver.find_element("xpath", '//input[@placeholder="Username"]')
+    username_input_login.send_keys(username)
+    password_input_login = driver.find_element("xpath", '//input[@placeholder="Password"]')
+    password_input_login.send_keys(password)
 
     signup_button = driver.find_element("xpath", "//button[text()='Login']")
     signup_button.click()
 
     time.sleep(5)
 
-
-# Given I am a new potential customer
-# When I signup in the app
-# Then I should be able to log in with my new user
+# Given I am an admin user​
+# When I add a product to the catalog​
+# Then The product is available to be used in the app
 
 def test_admin_add_product():
 
