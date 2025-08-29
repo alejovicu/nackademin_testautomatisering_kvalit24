@@ -7,6 +7,68 @@
 	},
 	"item": [
 		{
+			"name": "Create_admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"{\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    // Validate that ID is a number,\r",
+							"    pm.test(\"ID is a number\", function () {\r",
+							"        pm.expect(responseJson.id).to.be.a('number');\r",
+							"    });\r",
+							"\r",
+							"    // Validate that username is a string\r",
+							"    pm.test(\"Username is a string\", function () {\r",
+							"        pm.expect(responseJson.username).to.be.a('string');\r",
+							"    });\r",
+							"\r",
+							"    // Validate that products is an array\r",
+							"    pm.test(\"Products is an array\", function () {\r",
+							"        pm.expect(responseJson.products).to.be.an('array');\r",
+							"    });\r",
+							"\r",
+							"    // Validate that products array is empty\r",
+							"    pm.test(\"Products is an empty array\", function () {\r",
+							"        pm.expect(responseJson.products).to.be.an('array').that.is.empty;\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{admin_user}}\",\r\n  \"password\": \"{{admin_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{backend.env}}/signup"
+			},
+			"response": []
+		},
+		{
 			"name": "Create_user",
 			"event": [
 				{
@@ -92,12 +154,12 @@
 						}
 					}
 				},
-				"url": "{{backend-qa.env}}/signup"
+				"url": "{{backend.env}}/signup"
 			},
 			"response": []
 		},
 		{
-			"name": "Login_admin_QA",
+			"name": "Login_admin",
 			"event": [
 				{
 					"listen": "test",
@@ -140,14 +202,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"admin_qa\",\r\n  \"password\": \"pass_5678\"\r\n}",
+					"raw": "{\r\n  \"username\": \"{{admin_user}}\",\r\n  \"password\": \"{{admin_password}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{backend-qa.env}}/login"
+				"url": "{{backend.env}}/login"
 			},
 			"response": []
 		},
@@ -184,12 +246,12 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "{{backend-qa.env}}/products"
+				"url": "{{backend.env}}/products"
 			},
 			"response": []
 		},
 		{
-			"name": "Admin_add_product QA",
+			"name": "Admin_add_product",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -240,7 +302,7 @@
 						}
 					}
 				},
-				"url": "{{backend-qa.env}}/products"
+				"url": "{{backend.env}}/products"
 			},
 			"response": []
 		},
@@ -294,7 +356,7 @@
 						}
 					}
 				},
-				"url": "{{backend-qa.env}}/login"
+				"url": "{{backend.env}}/login"
 			},
 			"response": []
 		},
@@ -340,7 +402,7 @@
 						}
 					}
 				},
-				"url": "{{backend-qa.env}}/user/products/{{product_id}}"
+				"url": "{{backend.env}}/user/products/{{product_id}}"
 			},
 			"response": []
 		},
@@ -389,7 +451,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "{{backend-qa.env}}/user"
+				"url": "{{backend.env}}/user"
 			},
 			"response": []
 		},
@@ -436,7 +498,7 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "{{backend-qa.env}}/products"
+				"url": "{{backend.env}}/products"
 			},
 			"response": []
 		}
