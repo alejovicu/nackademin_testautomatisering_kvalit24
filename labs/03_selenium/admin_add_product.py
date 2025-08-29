@@ -22,8 +22,8 @@ def admin_login(driver:webdriver):
     password_input_login = driver.find_element("xpath", '//input[@placeholder="Password"]')
     password_input_login.send_keys(password)
 
-    signup_button = driver.find_element("xpath", "//button[text()='Login']")
-    signup_button.click()
+    login_button = driver.find_element("xpath", "//button[text()='Login']")
+    login_button.click()
 
     time.sleep(5)
 
