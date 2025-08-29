@@ -30,8 +30,9 @@ user_products = Table(
     "user_products",
     Base.metadata,
     Column("user_id", Integer, ForeignKey("users.id")),
-    Column("product_id", Integer, ForeignKey("products.id"))
+    Column("product_id", Integer, ForeignKey("products.id")),
 )
+
 
 # --- Models ---
 class User(Base):
@@ -41,41 +42,53 @@ class User(Base):
     hashed_password = Column(String)
     products = relationship("Product", secondary=user_products, back_populates="owners")
 
+
 class Product(Base):
     __tablename__ = "products"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     owners = relationship("User", secondary=user_products, back_populates="products")
 
+
 Base.metadata.create_all(bind=engine)
+
 
 # --- Schemas ---
 class ProductBase(BaseModel):
     name: str
 
+
 class ProductCreate(ProductBase):
     pass
 
+
 class ProductResponse(ProductBase):
     id: int
+
     class Config:
         orm_mode = True
+
 
 class UserBase(BaseModel):
     username: str
 
+
 class UserCreate(UserBase):
     password: str
+
 
 class UserResponse(UserBase):
     id: int
     products: List[ProductResponse] = []
+
     class Config:
         orm_mode = True
+
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 # --- Utils ---
 def get_db():
@@ -85,11 +98,14 @@ def get_db():
     finally:
         db.close()
 
+
 def get_password_hash(password):
     return pwd_context.hash(password)
 
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -97,8 +113,10 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, DB_KEY, algorithm=ALGORITHM)
 
+
 def get_user_by_username(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
+
 
 def authenticate_user(db: Session, username: str, password: str):
     user = get_user_by_username(db, username)
@@ -106,9 +124,10 @@ def authenticate_user(db: Session, username: str, password: str):
         return False
     return user
 
+
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     token = credentials.credentials  # extract JWT from Authorization header
     credentials_exception = HTTPException(
@@ -128,8 +147,10 @@ async def get_current_user(
         raise credentials_exception
     return user
 
+
 # --- FastAPI App ---
 app = FastAPI()
+
 
 # --- Auth endpoints ---
 @app.post("/signup", response_model=UserResponse)
@@ -143,6 +164,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     return new_user
+
 
 @app.post("/login", response_model=Token)
 def login(form_data: UserCreate, db: Session = Depends(get_db)):
@@ -159,15 +181,18 @@ def login(form_data: UserCreate, db: Session = Depends(get_db)):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 # --- healthcheck ---
 @app.get("/health")
 def healthcheck():
     return "alive"
 
+
 # --- USER ENDPOINTS ---
 @app.get("/user", response_model=UserResponse)
 def get_current_user_profile(current_user: User = Depends(get_current_user)):
     return current_user
+
 
 @app.post("/user/products/{product_id}", response_model=UserResponse)
 def assign_product_to_user(
@@ -184,6 +209,7 @@ def assign_product_to_user(
         db.refresh(current_user)
     return current_user
 
+
 @app.delete("/user/product/{product_id}", response_model=UserResponse)
 def unassign_product_from_user(
     product_id: int,
@@ -199,6 +225,7 @@ def unassign_product_from_user(
         db.refresh(current_user)
     return current_user
 
+
 # --- PRODUCTS ENDPOINTS ---
 @app.post("/products", response_model=ProductResponse)
 def create_product(
@@ -212,9 +239,13 @@ def create_product(
     db.refresh(new_product)
     return new_product
 
+
 @app.get("/products", response_model=List[ProductResponse])
-def list_products(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def list_products(
+    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
+):
     return db.query(Product).all()
+
 
 @app.delete("/product/{product_id}", response_model=ProductResponse)
 def delete_product(

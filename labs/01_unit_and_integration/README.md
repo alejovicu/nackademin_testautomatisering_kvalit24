@@ -2,11 +2,7 @@
 ## Lab 01 Unit Testing
 
 ```shell
-rm -rf .venv_test
-python3 -m venv .venv_test ; pip install --upgrade pip ; source .venv_test/bin/activate
 
-
-pip install -r requirements_test.txt
 ```
 
 ## Unit Tests
@@ -42,8 +38,6 @@ uvicorn main:app --reload
 
 ```shell
 rm -rf .venv_test
-python3 -m venv .venv_test ; pip install --upgrade pip ; source .venv_test/bin/activate
-
 
 pip install -r requirements_test.txt
 ```
