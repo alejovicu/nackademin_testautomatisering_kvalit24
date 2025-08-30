@@ -100,7 +100,7 @@ def test_navigate_to_signup():
         response.raise_for_status()
         products = response.json()
 
-        print(products)
+        #print(products)
 
         # Does the product exist? IF not, we assert product was not found.
         product_names = [p["name"] for p in products]
