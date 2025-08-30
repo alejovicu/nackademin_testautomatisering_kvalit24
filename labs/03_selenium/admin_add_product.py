@@ -7,9 +7,11 @@ import time
 import requests
 
 
-## LAB ASSIGNMENT 3 - SIGN UP AS ADMIN, LOGIN, ADD PRODUCT AND VALIDATE PRODUCT EXISTS
+## LAB ASSIGNMENT 3 - SIGN UP AS ADMIN, LOGIN, ADD PRODUCT AND VALIDATE PRODUCT EXISTS (both UI and Backend)
 APP_URL='http://localhost:5173'
-API_URL='http://localhost:8000/api/products'
+API_URL='http://localhost:8000'
+API_LOGIN_URL = "http://localhost:8000/login"
+API_PRODUCTS_URL = "http://localhost:8000/products"
 
 options = Options()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -84,10 +86,29 @@ def test_navigate_to_signup():
         )
         assert product_element.is_displayed(), f"Product '{product}' not found in UI!"
 
+        # Here we get the access token from a "log in" api call
+        login_response = requests.post(
+            API_LOGIN_URL,
+            json={"username": username, "password": password}
+        )
+        login_response.raise_for_status()
+        token = login_response.json()["access_token"]
 
-        #to check if product exist in backend.
-        # TBI ( TO BE IMPLEMENTED :] )
-                
+        # Here we verify the backend
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get(API_PRODUCTS_URL, headers=headers)
+        response.raise_for_status()
+        products = response.json()
+
+        print(products)
+
+        # Does the product exist? IF not, we assert product was not found.
+        product_names = [p["name"] for p in products]
+        assert product in product_names, f"Product '{product}' not found in backend."
+
+        # just to make it exra clear the product exists, run as -> pytest -s admin_add_product.py
+        print(f"{product} found in backend! All products: {product_names}")
+
         time.sleep(2)
     
     finally:
