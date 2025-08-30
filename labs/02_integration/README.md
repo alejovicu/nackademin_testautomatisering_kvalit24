@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 From backend-dev path deploy the `dev` environment
 ```shell
-uvicorn main:app --reload --port 8080 
+uvicorn main:app --reload  --port 8080 
 ```
 
 In other terminal, from backend-qa deploy the `qa` environment

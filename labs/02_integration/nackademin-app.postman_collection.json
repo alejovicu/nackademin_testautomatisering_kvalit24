@@ -1,68 +1,31 @@
 {
 	"info": {
-		"_postman_id": "b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171",
+		"_postman_id": "68029b3c-d071-4243-9de4-853547417a83",
 		"name": "nackademin-app",
-		"description": "|  |  |\n| --- | --- |\n|  |  |",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2980405",
-		"_collection_link": "https://nackademin-testautomation-24.postman.co/workspace/eb1d397c-a9ac-4e07-b498-24360914bfba/collection/2980405-b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171?action=share&source=collection_link&creator=2980405"
+		"_exporter_id": "40975146"
 	},
 	"item": [
 		{
-			"name": "signup",
+			"name": "sign up",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"// Function to generate a random username\r",
 							"function generateUsername(length) {\r",
 							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';\r",
-							"    let username = '';\r",
+							"    let username = \"\";\r",
 							"    for (let i = 0; i < length; i++) {\r",
 							"        username += chars.charAt(Math.floor(Math.random() * chars.length));\r",
 							"    }\r",
 							"    return username;\r",
 							"}\r",
 							"\r",
-							"// Generate a 10-character username\r",
 							"let username = generateUsername(10);\r",
 							"\r",
-							"// Store it in an environment variable\r",
-							"pm.environment.set(\"username\", username);\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Parse the JSON response body\r",
-							"let responseJson = pm.response.json();\r",
+							"pm.environment.set(\"USERNAME_DEV\", username);\r",
 							"\r",
-							"\r",
-							"// Validate that ID is a number\r",
-							"pm.test(\"ID is a number\", function() {\r",
-							"    pm.expect(responseJson.id).to.be.a('number');\r",
-							"});\r",
-							"\r",
-							"// Validate that username is a string\r",
-							"pm.test(\"Username is a string\", function() {\r",
-							"    pm.expect(responseJson.username).to.be.a('string');\r",
-							"});\r",
-							"\r",
-							"// Validate that products is an array\r",
-							"pm.test(\"Products is an array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array');\r",
-							"});\r",
-							"\r",
-							"// Validate that products array is empty\r",
-							"pm.test(\"Products is an empty array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array').that.is.empty;\r",
-							"});\r",
 							""
 						],
 						"type": "text/javascript",
@@ -75,7 +38,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"1234\"\r\n}",
+					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,12 +46,243 @@
 					}
 				},
 				"url": {
-					"raw": "{{backend.env}}/signup",
+					"raw": "{{url}}/signup",
 					"host": [
-						"{{backend.env}}"
+						"{{url}}"
 					],
 					"path": [
 						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\",function\r",
+							"    (){\r",
+							"    pm.expect(pm.response.code).not.equal(401); \r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"\r",
+							"// Store it in an environment variable\r",
+							"pm.environment.set(\"TOKEN\", json.access_token);\r",
+							"\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.be.empty; \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Access token is present in the response\", function\r",
+							"(){\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.access_token).to.exist;\r",
+							"    pm.expect(json.access_token).to.be.a('string')\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Token type is present and correct\", function\r",
+							"(){\r",
+							"    const json = pm.response.json();\r",
+							"    pm.expect(json.token_type).to.exist;\r",
+							"    pm.expect(json.token_type).to.equal('bearer')\r",
+							"}); \r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbl9kZXYiLCJleHAiOjE3NTYyMTg2NzJ9.P-r5VWrQz5cSUN1CN2CX57a507AZGNPIR5lijoOKv5w\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse JSON response\r",
+							"let json = pm.response.json();\r",
+							"\r",
+							"// Test: Status code is 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test: ID is a number\r",
+							"pm.test(\"ID is a number\", function () {\r",
+							"    pm.expect(json.id).to.be.a(\"number\");\r",
+							"});\r",
+							"\r",
+							"// Test: username/name is a string\r",
+							"pm.test(\"Has username or name as string\", function () {\r",
+							"    let value = json.username ?? json.name;\r",
+							"    pm.expect(value, \"Neither username nor name exists\").to.exist;\r",
+							"    pm.expect(value).to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbl9xYSIsImV4cCI6MTc1NjU0NjkyMn0.SIAekoEjuvPR-aIoIu-_YOb92brpZwY39y-FKgkkg3M",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Apple\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+							"});\r",
+							"pm.test(\"Response body contains one product\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.equal(4);\r",
+							"});\r",
+							"pm.test(\"Response body contains correct product name\", function () {\r",
+							"    var json = pm.response.json()[0]; // Define json correctly\r",
+							"    pm.expect(json).to.have.property(\"name\");\r",
+							"    pm.expect(json.name).to.be.a(\"string\");\r",
+							"    pm.expect(json.name).to.eql(\"Apple\"); // förväntat produktnamn\r",
+							"});\r",
+							"pm.test(\"Response body contains correct product id\", function () {\r",
+							"    var json = pm.response.json()[0]; // Define json correctly\r",
+							"    pm.expect(json).to.have.property(\"id\");\r",
+							"    pm.expect(json.id).to.be.a(\"number\");\r",
+							"    pm.expect(json.id).to.eql(1); // förväntat produktid\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbl9kZXYiLCJleHAiOjE3NTY1NDczNzV9.v6Err34ozIimf4MXGOw0C_egIT3_JLiVVNn-xIRAGAo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n"
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
 					]
 				}
 			},
