@@ -9,7 +9,7 @@ import requests
 
 ## LAB ASSIGNMENT 3 - SIGN UP AS ADMIN, LOGIN, ADD PRODUCT AND VALIDATE PRODUCT EXISTS
 APP_URL='http://localhost:5173'
-API_URL='http://localhost:8000'
+API_URL='http://localhost:8000/api/products'
 
 options = Options()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -23,6 +23,7 @@ def test_navigate_to_signup():
     product = "Test_course"
 
     driver = webdriver.Chrome(options=options)
+    
     try:
         driver.get(APP_URL)
 
@@ -33,7 +34,6 @@ def test_navigate_to_signup():
         #Finds username input and sends it.
         signup_input_username = driver.find_element('xpath', '//input[@placeholder="Username"]')
         signup_input_username.send_keys(username)
-
         #Finds password input and sends it.
         signup_input_password = driver.find_element('xpath', '//input[@placeholder="Password"]')
         signup_input_password.send_keys(password)
@@ -55,23 +55,22 @@ def test_navigate_to_signup():
         #Fins username input and enters it/clicks it.
         login_input_username = driver.find_element('xpath', '//input[@placeholder="Username"]')
         login_input_username.send_keys(username)
-
         #Fins password input and enters it/clicks it.
         login_input_password = driver.find_element('xpath', '//input[@placeholder="Password"]')
         login_input_password.send_keys(password)
 
-        #Clicks login button
+            #Clicks login button
         login_btn_signup = driver.find_element('xpath', '//button[text()="Login"]')
         login_btn_signup.click()
 
-        #LOGGED INTO USER PAGE
+            #LOGGED INTO USER PAGE
         #Here I use the newer way of doing it with By.XPATH instead.
         wait = WebDriverWait(driver, 10)
         product_input = wait.until(
         EC.presence_of_element_located((By.XPATH, '//input[@placeholder="Product Name"]'))
         )
         product_input.send_keys(product)
-        #In this way it waits for the elements to appear and then enters input.
+            #In this way it waits for the elements to appear and then enters input.
 
         wait = WebDriverWait(driver, 10)
         create_product_btn = wait.until(
@@ -79,13 +78,17 @@ def test_navigate_to_signup():
         )
         create_product_btn.click()
 
+        # This is only an assert on the UI side, not backend.
+        product_element = wait.until(
+            EC.presence_of_element_located((By.XPATH, f"//div[@class='product-item']/span[text()='{product}']"))
+        )
+        assert product_element.is_displayed(), f"Product '{product}' not found in UI!"
 
 
-
-        time.sleep(5) # wait 5 seconds.
-
-
-
-        # Teardown
+        #to check if product exist in backend.
+        # TBI ( TO BE IMPLEMENTED :] )
+                
+        time.sleep(2)
+    
     finally:
         driver.quit()
