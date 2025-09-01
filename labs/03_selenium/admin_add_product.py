@@ -11,9 +11,9 @@ options = Options()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
 def test_create_user():
-    username = "test_admin"
-    password = "1234"
-    product_name = "AirPods"
+    username = "Test_admin"
+    password = "Pass_12345"
+    product_name = "Apple"
 
     # Arrange
     driver = webdriver.Chrome(options=options)
@@ -22,7 +22,7 @@ def test_create_user():
 
     login_btn_signup = driver.find_element("id", "signup")
     login_btn_signup.click()
-    time.sleep(3)
+    time.sleep(2)
     
     signup_input_username = WebDriverWait(driver, 3).until(
         EC.presence_of_element_located((By.XPATH, '//input[@placeholder="Username"]')))
@@ -54,7 +54,7 @@ def test_create_user():
     login_btn = driver.find_element('xpath', '//button[text()="Login"]')
     login_btn.click()
     
-    time.sleep(5)
+    time.sleep(3)
 
 # Test to add product
     product_input = WebDriverWait(driver, 3).until(
@@ -69,6 +69,6 @@ def test_create_user():
         EC.presence_of_element_located((By.XPATH, f"//*[text()='{product_name}']")))
 
     assert show_product_list is not None, "The product could not be added"
-    time.sleep(5)
+    time.sleep(3)
 
     driver.quit()
