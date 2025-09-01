@@ -56,7 +56,7 @@ def test_create_user():
     login_btn.click()
     
     time.sleep(5)
-
+  #test
 # Test to add product
     product_input = WebDriverWait(driver, 3).until(
         EC.presence_of_element_located((By.XPATH, '//input[@placeholder="Product Name"]')))
