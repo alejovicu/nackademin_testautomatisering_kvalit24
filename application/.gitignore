@@ -1,7 +1,7 @@
 **/.venv
 .venv
 venv
-venv_test
+test.db
 .vscode
 **/.vscode/
 __pycache__
