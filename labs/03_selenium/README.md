@@ -8,7 +8,7 @@ uvicorn main:app --reload
 
 terminal 2 - from application/frontend
 ```
-uvicorn main:app --reload
+npm run dev
 ```
 
 
