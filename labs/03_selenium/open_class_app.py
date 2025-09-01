@@ -16,6 +16,7 @@ def test_navigate_to_signup():
     login_btn_signup = driver.find_element("id", "signup")
 
     #Act
+    time.sleep(5) # wait 3 seconds.
     login_btn_signup.click()
 
     time.sleep(5) # wait 3 seconds.
