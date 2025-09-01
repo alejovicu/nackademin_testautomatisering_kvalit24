@@ -1,0 +1,956 @@
+{
+	"info": {
+		"_postman_id": "93ce4e90-f822-45cb-95ed-5d908958fb7d",
+		"name": "nackakdmin-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41007024",
+		"_collection_link": "https://alpha0-8164.postman.co/workspace/nackakadmin~ee2e0243-00fd-4e40-a7e0-6a76673172ec/collection/41007024-93ce4e90-f822-45cb-95ed-5d908958fb7d?action=share&source=collection_link&creator=41007024"
+	},
+	"item": [
+		{
+			"name": "signup_admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"{{username_admin}}\",\n    \"password\":\"{{password_admin}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('token', pm.response.json().access_token);",
+							"",
+							"const jwt = pm.response.json().access_token",
+							"",
+							"pm.environment.set(\"token_admin\", jwt)",
+							"",
+							"",
+							"pm.test(\"Response status code is 200\",function",
+							"    (){",
+							"    pm.expect(pm.response.code).not.equal(401); ",
+							"});",
+							"",
+							"var json = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty; ",
+							"});",
+							"",
+							"pm.test(\"Access token is present in the response\", function",
+							"(){",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.access_token).to.exist;",
+							"    pm.expect(json.access_token).to.be.a('string')",
+							"}); ",
+							"",
+							"pm.test(\"Token type is present and correct\", function",
+							"(){",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.token_type).to.exist;",
+							"    pm.expect(json.token_type).to.equal('bearer')",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"{{username_admin}}\",\n    \"password\":\"{{password_admin}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token\"); // or wherever your token is stored",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    pm.expect(authHeader).to.include(token);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Response body contains the correct id\", function () {",
+							"    const jsonData = pm.response.json(); // Added missing definition",
+							"    pm.expect(jsonData.id).to.equal(1);",
+							"});",
+							"",
+							"pm.test(\"Response body contains an empty products array\", function () {",
+							"    const jsonData = pm.response.json(); // Added missing definition",
+							"    pm.expect(jsonData.products).to.be.an('array').that.is.empty;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add product apple",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let expectedName = pm.environment.get(\"productName\");",
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200 (Created)\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Product name has valid length\", function () {",
+							"    pm.expect(expectedName.length).to.be.within(2, 12);",
+							"});",
+							"",
+							"pm.test(\"Product name contains only letters\", function () {",
+							"    pm.expect(/^[a-zA-Z]+$/.test(expectedName)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response body contains the name and id\", function () {",
+							"   pm.expect(responseData).to.have.property('id').that.is.a('number'); ",
+							"   pm.expect(responseData).to.have.property('name').that.is.a('string'); // Added check for name property type",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Response contains product name and id\", function () {",
+							"    pm.expect(responseData.name).to.be.a('string').and.not.empty;",
+							"    pm.expect(responseData).to.have.property(\"id\");",
+							"});",
+							"",
+							"",
+							"if (responseData.id) {",
+							"    pm.environment.set(\"productId\", responseData.id);",
+							"}",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token\"); // or wherever your token is stored",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    ",
+							"    pm.expect(authHeader).to.include(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateProductName(length) {",
+							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';",
+							"    let name = '';",
+							"    for (let i = 0; i < length; i++) {",
+							"        name += chars.charAt(Math.floor(Math.random() * chars.length));",
+							"    }",
+							"    return name;",
+							"}",
+							"",
+							"// Ensure product name has length > 1",
+							"let minLength = 2;",
+							"let maxLength = 12;",
+							"let length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;",
+							"",
+							"let productName = generateProductName(length);",
+							"pm.environment.set(\"productName\", productName)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"apples\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add product orange",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let expectedName = pm.environment.get(\"productName\");",
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200 (Created)\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Product name has valid length\", function () {",
+							"    pm.expect(expectedName.length).to.be.within(2, 12);",
+							"});",
+							"",
+							"pm.test(\"Product name contains only letters\", function () {",
+							"    pm.expect(/^[a-zA-Z]+$/.test(expectedName)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response body contains the name and id\", function () {",
+							"   pm.expect(responseData).to.have.property('id').that.is.a('number'); ",
+							"   pm.expect(responseData).to.have.property('name').that.is.a('string'); // Added check for name property type",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Response contains product name and id\", function () {",
+							"    pm.expect(responseData.name).to.be.a('string').and.not.empty;",
+							"    pm.expect(responseData).to.have.property(\"id\");",
+							"});",
+							"",
+							"",
+							"if (responseData.id) {",
+							"    pm.environment.set(\"productId\", responseData.id);",
+							"}",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token\"); // or wherever your token is stored",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    ",
+							"    pm.expect(authHeader).to.include(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateProductName(length) {",
+							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';",
+							"    let name = '';",
+							"    for (let i = 0; i < length; i++) {",
+							"        name += chars.charAt(Math.floor(Math.random() * chars.length));",
+							"    }",
+							"    return name;",
+							"}",
+							"",
+							"// Ensure product name has length > 1",
+							"let minLength = 2;",
+							"let maxLength = 12;",
+							"let length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;",
+							"",
+							"let productName = generateProductName(length);",
+							"pm.environment.set(\"productName\", productName)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"oranges\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a product as admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token\"); // or wherever your token is stored",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    ",
+							"    pm.expect(authHeader).to.include(token);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"orange juice\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup_user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"{{username_non_admin}}\",\n    \"password\":\"{{password_non_admin}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('token', pm.response.json().access_token);",
+							"",
+							"const jwt = pm.response.json().access_token",
+							"",
+							"pm.environment.set(\"token_non_admin\", jwt)",
+							"",
+							"",
+							"pm.test(\"Response status code is 200\",function",
+							"    (){",
+							"    pm.expect(pm.response.code).not.equal(401); ",
+							"});",
+							"",
+							"var json = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty; ",
+							"});",
+							"",
+							"pm.test(\"Access token is present in the response\", function",
+							"(){",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.access_token).to.exist;",
+							"    pm.expect(json.access_token).to.be.a('string')",
+							"}); ",
+							"",
+							"pm.test(\"Token type is present and correct\", function",
+							"(){",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.token_type).to.exist;",
+							"    pm.expect(json.token_type).to.equal('bearer')",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"{{username_non_admin}}\",\n    \"password\":\"{{password_non_admin}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a product as user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token\"); // or wherever your token is stored",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    ",
+							"    pm.expect(authHeader).to.include(token);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_non_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"orange juice\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product 1 for non admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let expectedName = pm.environment.get(\"productName\");",
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200 (Created)\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Product name has valid length\", function () {",
+							"    pm.expect(expectedName.length).to.be.within(2, 12);",
+							"});",
+							"",
+							"pm.test(\"Product name contains only letters\", function () {",
+							"    pm.expect(/^[a-zA-Z]+$/.test(expectedName)).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response body contains the name and id\", function () {",
+							"   pm.expect(responseData).to.have.property('id').that.is.a('number'); ",
+							"   pm.expect(responseData).to.have.property('username').that.equals('user_dev')",
+							"});",
+							"",
+							"pm.test(\"Response contains product name and id\", function () {",
+							"    pm.expect(responseData.username).to.be.a('string').and.not.empty;",
+							"    pm.expect(responseData).to.have.property(\"id\");",
+							"});",
+							"",
+							"",
+							"if (responseData.id) {",
+							"    pm.environment.set(\"productId\", responseData.id);",
+							"}",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token_non_admin\"); ",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    ",
+							"    pm.expect(authHeader).to.include(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateProductName(length) {",
+							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';",
+							"    let name = '';",
+							"    for (let i = 0; i < length; i++) {",
+							"        name += chars.charAt(Math.floor(Math.random() * chars.length));",
+							"    }",
+							"    return name;",
+							"}",
+							"",
+							"// Ensure product name has length > 1",
+							"let minLength = 2;",
+							"let maxLength = 12;",
+							"let length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;",
+							"",
+							"let productName = generateProductName(length);",
+							"pm.environment.set(\"productName\", productName)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_non_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user/products/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product 2 for non admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateProductName(length) {",
+							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';",
+							"    let name = '';",
+							"    for (let i = 0; i < length; i++) {",
+							"        name += chars.charAt(Math.floor(Math.random() * chars.length));",
+							"    }",
+							"    return name;",
+							"}",
+							"",
+							"// Ensure product name has length > 1",
+							"let minLength = 2;",
+							"let maxLength = 12;",
+							"let length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;",
+							"",
+							"let productName = generateProductName(length);",
+							"pm.environment.set(\"productName\", productName)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let expectedName = pm.environment.get(\"productName\");",
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200 (Created)\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Product name has valid length\", function () {",
+							"    pm.expect(expectedName.length).to.be.within(2, 12);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Product name contains only letters\", function () {",
+							"    pm.expect(/^[a-zA-Z]+$/.test(expectedName)).to.be.true;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response body contains the name and id\", function () {",
+							"   pm.expect(responseData).to.have.property('id').that.is.a('number'); ",
+							"   pm.expect(responseData).to.have.property('username').that.equals('user_dev'); ",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Response contains product name and id\", function () {",
+							"    pm.expect(responseData.username).to.be.a('string').and.not.empty;",
+							"    pm.expect(responseData).to.have.property(\"id\");",
+							"});",
+							"",
+							"",
+							"if (responseData.id) {",
+							"    pm.environment.set(\"productId\", responseData.id);",
+							"}",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token_non_admin\"); // or wherever your token is stored",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    pm.expect(authHeader).to.include(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_non_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user/products/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"products",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "non admin user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Authorization header contains the current token\", function () {",
+							"    const token = pm.environment.get(\"token_non_admin\"); ",
+							"    const authHeader = pm.request.headers.get(\"Authorization\");",
+							"    pm.expect(authHeader).to.include(token);",
+							"});",
+							"",
+							"pm.test(\"Response body contains correct username and id\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.equal(\"user_dev\"); ",
+							"    pm.expect(jsonData.id).to.be.a(\"number\");",
+							"    pm.expect(jsonData.id).to.be.above(0)",
+							"});",
+							"",
+							"pm.test(\"Response body contains a products array\", function () {",
+							"    const jsonData = pm.response.json(); ",
+							"    pm.expect(jsonData.products).to.be.an('array').that.is.not.empty;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_non_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
