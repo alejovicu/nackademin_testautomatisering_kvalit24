@@ -1,27 +1,46 @@
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-APP_URL='http://localhost:5173'
+APP_URL = 'http://localhost:5173'
 
-options = Options()
-options.add_experimental_option("excludeSwitches", ["enable-logging"])
-
-def test_navigate_to_signup():
-
-    #Arrange
+@pytest.fixture
+def driver():
+    options = Options()
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     driver = webdriver.Chrome(options=options)
+    driver.maximize_window()
+    yield driver
+    driver.quit()
+
+def test_navigate_to_signup(driver):
+    # Arrange
     driver.get(APP_URL)
 
-    login_btn_signup = driver.find_element("id", "signup")
+    # Act
+    signup_btn = WebDriverWait(driver, 5).until(
+        EC.element_to_be_clickable((By.ID, "signup"))
+    )
+    signup_btn.click()
 
-    #Act
-    time.sleep(5) # wait 3 seconds.
-    login_btn_signup.click()
+    # Assert (kontrollera att vi faktiskt hamnat på signup-sidan)
+    header = WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.XPATH, "//h1[contains(., 'Sign up')]"))
+    )
+    assert header.is_displayed()
 
-    time.sleep(5) # wait 3 seconds.
+# def test_input_username(driver):
+#     # Arrange
+#     driver.get(APP_URL)
 
+#     # Act
+#     username_input = WebDriverWait(driver, 5).until(
+#         EC.presence_of_element_located((By.XPATH, '//input[@placeholder="Username"]'))
+#     )
+#     username_input.send_keys("testuser")
 
-
-    # Teardown
-    driver.quit()
+#     # Assert (verifiera att värdet är inskrivet)
+#     assert username_input.get_attribute("value") == "testuser"
