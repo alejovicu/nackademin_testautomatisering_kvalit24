@@ -11,31 +11,34 @@ options = Options()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 def test_add_product():
 
+    username = "admin"
+    password = "admin123"
+    product_name = "Iphone 14 Pro Max"
+
     #Arrange
     driver = webdriver.Chrome(options=options)
     driver.get(APP_URL)
-    driver.delete_all_cookies()
-    time.sleep(1)
-
+    
 
     input_username = driver.find_element("xpath", '//input[@placeholder="Username"]')
+    input_username.send_keys(username)
     input_password = driver.find_element("xpath", '//input[@placeholder="Password"]')
+    input_password.send_keys(password)
 
-    input_username.send_keys("admin_test")
-    input_password.send_keys("admin123")
+    login_btn = driver.find_element("class name", "button-primary")
+    login_btn.click()
+    print("Login successful")
+    time.sleep(2)
 
-    submit_btn = driver.find_element("class name", "button-primary")
-    submit_btn.click()
-    time.sleep(5)
+    input_product = driver.find_element("xpath", '//input[@placeholder="Product Name"]')
+    input_product.send_keys(product_name)
+    print("Product name entered")
+    time.sleep(2)
 
-    input_name = driver.find_element("xpath", '//input[@placeholder="name"]')
-    input_name.send_keys("Test Product")
+    product_list = driver.find_element("class name", "product-grid")
+    assert product_name in product_list.text
+    print("Product name found in the list")
 
-    add_product_btn = driver.find_element("id", "add-product")
-    add_product_btn.click()
-    print("Product added")
-
-    time.sleep(5)
 
     # Tear down
     driver.quit()
