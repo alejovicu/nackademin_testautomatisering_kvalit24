@@ -5,13 +5,15 @@
 class SignupPage:
     def __init__(self, page):
         self.page = page
-        self.signup_input_username = page.locator("#username")
-        self.signup_input_password = page.locator("#password")
-        self.button_signup = page.locator("#signup")
+        self.signup_input_username = page.get_by_placeholder("Username")
+        self.signup_input_password = page.get_by_placeholder("Password")
+        self.button_signup = page.get_by_role("button", name="Sign Up")
+        #self.button_login = page.get_by_role("button", name="Login")
 
     def sign_up(self, username, password):
         self.signup_input_username.fill(username)
         self.signup_input_password.fill(password)
         self.button_signup.click()
+        #self.button_login.click()
         
         
