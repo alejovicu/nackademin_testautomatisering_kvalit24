@@ -11,3 +11,5 @@ __pycache__
 *.egg
 *.egg-info
 **/.venv*
+.pytest_cache
+**/.pytest_cache
