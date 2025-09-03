@@ -1,3 +1,4 @@
+import pytest
 import main
 
 def test_sum_two_positives():
@@ -7,34 +8,38 @@ def test_sum_two_positives():
     expected_result = {"result": 5 }
 
     # Act
-    result = main.addition(possitive_value_1,possitive_value_2)
+    result = main.addition(possitive_value_1, possitive_value_2)
 
     # Assert
-    assert  result == expected_result
+    assert result == expected_result
 
 
 # Lab tasks
 
-## Complete the following tests
+def test_sum_one_positive_one_negative():
+    # Arrange
+    a = 7
+    b = -3
+    expected_result = {"result": 4}
 
-# def test_sum_one_positive_one_negative():
-#     # Arrange
-#     possitive_value = **
-#     negative_value  = **
-#     expected_result = {"result": ** }
+    # Act
+    result = main.addition(a, b)
 
-#     # Act
-#     result = main.sum( ** , ** )
-
-#     # Assert
-#     assert  result == expected_result
+    # Assert
+    assert result == expected_result
 
 
+def test_sum_one_positive_one_string_value():
+    # adding int + str should raise TypeError in pure Python
+    with pytest.raises(TypeError):
+        main.addition(1, "2")
 
-# def test_sum_one_positive_one_string_value():
+
+def test_divide_two_positive_values():
+    # 10 / 2 -> 5.0 (float)
+    assert main.division(10, 2) == {"result": 5.0}
 
 
-# def test_divide_two_positive_values():
-
-
-# def test_divide_by_zero():
+def test_divide_by_zero():
+    with pytest.raises(ZeroDivisionError):
+        main.division(1, 0)
