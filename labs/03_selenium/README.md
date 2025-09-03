@@ -18,10 +18,10 @@ npm run dev
 mac
 ```shell
 rm -rf .venv
-python3 -m venv .venv ; pip install --upgrade pip ; source .venv/bin/activate
+python3 -m venv venv ; pip3 install --upgrade pip ; source venv/bin/activate
 
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 ```
 
@@ -41,7 +41,7 @@ pip install -r requirements.txt
 Validate the installation and setup is properly installed with
 
 ```shell
-python open_class_app.py
+pytest open_class_app.py
 ```
 
 
