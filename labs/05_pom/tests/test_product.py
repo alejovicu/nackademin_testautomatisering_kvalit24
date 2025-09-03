@@ -1,8 +1,6 @@
 from playwright.sync_api import Page, expect
 
-from models.home import HomePage
-from models.login import LoginPage
-from models.signup import SignUpPage
+from facade.auth_facade import AuthFacade
 from models.product_page import ProductPage
 import time
 
@@ -13,27 +11,17 @@ username = "admin"
 password = "admin123"
 
 
-def test_add_and_remove_product_to_catalog(page: Page):
+def test_add__remove_product(page: Page):
 
-    # Skapar objekt av klasserna ("Models")
-    home_page = HomePage(page) 
-    login_page = LoginPage(page)
-    signup_page = SignUpPage(page)
+    # Skapar objekt
     product_page = ProductPage(page)
+    auth_facade = AuthFacade(page)
 
     # Genererar produktnamn
     new_product = f"product_{int(time.time())}"
 
-    # Go to homepage
-    home_page.navigate() 
-
-    # Attempt sign-up
-    login_page.navigate_to_signup() 
-    signup_page.signup(username, password)
-
-    # Login + assert admin
-    signup_page.navigate_to_login()
-    login_page.login(username, password)
+    # Signup/Login (facade) + assert admin
+    auth_facade.signup_and_login(username, password)
     expect(page.get_by_role("button", name="Create Product")).to_be_visible()
 
     # Add product + assert
