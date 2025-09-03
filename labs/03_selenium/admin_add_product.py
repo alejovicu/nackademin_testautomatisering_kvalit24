@@ -24,7 +24,7 @@ def test_admin_add_product():
 
 
     wait.until(EC.presence_of_element_located((By.XPATH, '//button[text()="Create Product"]')))
-#add product
+    #add product
     product_name = "chairs"
     product_input = driver.find_element(By.XPATH,'//input[@placeholder="Product Name"]')
     product_input.send_keys(product_name)
