@@ -17,16 +17,17 @@ windows - powershell
 ```shell
 rmdir .\.venv\
 python -m venv .venv
-. .\.venv\Scripts\activate
+source .venv/Scripts/activate
 
 pip install -r requirements.txt
 
-```
-
+``` 
+# uvicorn main:app --reload
+# npm run dev
 
 1. Install the browsers by running the command  `playwright install` then run the existing demo test:
     ```
-    pytest --browser chromium --headed --slowmo 1000 tests
+    pytest --browser chromium --headed --slowmo 1000
     ```
 
 1. Modify the file `test_product.py` and automate the requirements but using the pattern POM.
