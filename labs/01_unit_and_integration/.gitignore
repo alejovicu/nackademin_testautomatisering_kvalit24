@@ -1,0 +1,16 @@
+**/.venv
+.venv
+venv_test
+.vscode
+**/.vscode/
+__pycache__
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info
+**/.venv*
+.pytest_cache
+**/.pytest_cache
