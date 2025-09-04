@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "7e6ded50-8637-48cb-a9ef-65cfd43cd9a9",
+		"name": "nackademin-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43612655",
+		"_collection_link": "https://sabosm-3364507.postman.co/workspace/SabOsm's-Workspace~7e954bf8-ef47-428e-8909-6e2dc1c74706/collection/43612655-7e6ded50-8637-48cb-a9ef-65cfd43cd9a9?action=share&source=collection_link&creator=43612655"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\",function",
+							"    (){",
+							"    pm.expect(pm.response.code).not.equal(401); ",
+							"});",
+							"",
+							"var json = pm.response.json();",
+							"",
+							"",
+							"pm.environment.set(\"TOKEN\", json.access_token);",
+							"",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty; ",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbl9kZXYiLCJleHAiOjE3NTY0NTg4NzN9.W6oWifSDN4_DPQmmbeLF2Eh8pOl-gq8aDWz8frFEWck",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{USERNAME_QA}}\",\n  \"password\": \"{{PASSWORD_QA}}\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/signup",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\",function",
+							"    (){",
+							"    pm.expect(pm.response.code).not.equal(401); ",
+							"});",
+							"",
+							"var json = pm.response.json();",
+							"",
+							"pm.environment.set(\"TOKEN\", json.access_token);",
+							"",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty; ",
+							"});",
+							"",
+							"pm.test(\"Access token is present in the response\", function",
+							"(){",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.access_token).to.exist;",
+							"    pm.expect(json.access_token).to.be.a('string')",
+							"}); ",
+							"",
+							"pm.test(\"Token type is present and correct\", function",
+							"(){",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.token_type).to.exist;",
+							"    pm.expect(json.token_type).to.equal('bearer')",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ7e1VTRVJOQU1FX1FBfX0iLCJleHAiOjE3NTY1NTY1MTR9.Y8Ynd7UoTWNeDZvquWui6JyPTfL24etw_DQ1HDvryb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{USERNAME_QA}}\",\n  \"password\": \"{{PASSWORD_QA}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code = 200 eller 201\", function () {",
+							"  pm.expect([200, 201]).to.include(pm.response.code);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"New product name contains a maximum of 10 letters\", function() {",
+							"    const jsonResponse = pm.response.json();",
+							"    pm.expect(jsonResponse.name.length).to.be.at.most(10);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ7e1VTRVJOQU1FX1FBfX0iLCJleHAiOjE3NTY1NTY1MTR9.Y8Ynd7UoTWNeDZvquWui6JyPTfL24etw_DQ1HDvryb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Magnum\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/products",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response is JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"let products = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Products is an array\", function () {",
+							"    pm.expect(products).to.be.an(\"array\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Products list is not empty\", function () {",
+							"    pm.expect(products.length).to.be.above(0);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ7e1VTRVJOQU1FX1FBfX0iLCJleHAiOjE3NTY1NTY1MTR9.Y8Ynd7UoTWNeDZvquWui6JyPTfL24etw_DQ1HDvryb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/products",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
