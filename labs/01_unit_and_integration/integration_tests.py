@@ -18,6 +18,16 @@ def test_addition():
 
 # Lab tasks
 
-## Complete the following tests
 
-# def test_sum_one_positive_one_negative():
+def test_sum_one_positive_one_negative():
+    # Arrange
+    possitive_value = 5
+    negative_value = -10
+    url_params = {"a": possitive_value, "b": negative_value}
+    expect_result = {"result": -5}
+
+    # Act
+    response = requests.get(f"{BASE_URL}/addition", params=url_params)
+
+    # Assert
+    assert response.json() == expect_result
