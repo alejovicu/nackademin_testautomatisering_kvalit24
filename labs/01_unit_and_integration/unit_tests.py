@@ -1,40 +1,57 @@
 import main
+import pytest
+
 
 def test_sum_two_positives():
     # Arrange
-    possitive_value_1 = 1
-    possitive_value_2 = 4
-    expected_result = {"result": 5 }
+    positive_value_1 = 1
+    positive_value_2 = 4
+    expected_result = {"result": 5}
 
     # Act
-    result = main.addition(possitive_value_1,possitive_value_2)
+    result = main.addition(positive_value_1, positive_value_2)
 
     # Assert
-    assert  result == expected_result
+    assert result == expected_result
 
 
-# Lab tasks
+def test_sum_one_positive_one_negative():
+    # Arrange
+    positive_value = 25
+    negative_value = -15
+    expected_result = {"result": 10}
 
-## Complete the following tests
+    # Act
+    result = main.addition(positive_value, negative_value)
 
-# def test_sum_one_positive_one_negative():
-#     # Arrange
-#     possitive_value = **
-#     negative_value  = **
-#     expected_result = {"result": ** }
-
-#     # Act
-#     result = main.sum( ** , ** )
-
-#     # Assert
-#     assert  result == expected_result
+    # Assert
+    assert result == expected_result
 
 
+def test_sum_one_positive_one_string_value():
+    # Act and Assert
+    with pytest.raises(TypeError):
+        main.addition(17, "arina")
 
-# def test_sum_one_positive_one_string_value():
+
+def test_divide_two_positive_values():
+    # Arrange
+    a = 15
+    b = 5
+    excpected_result = {"result": 3}
+
+    # Act
+    result = main.division(a, b)
+
+    # Assert
+    assert result == excpected_result
 
 
-# def test_divide_two_positive_values():
+def test_divide_by_zero():
+    # Arrange
+    a = 13
+    b = 0
 
-
-# def test_divide_by_zero():
+    # Act and Assert
+    with pytest.raises(ZeroDivisionError):
+        main.division(a, b)

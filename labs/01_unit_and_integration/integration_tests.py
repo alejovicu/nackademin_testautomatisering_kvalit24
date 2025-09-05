@@ -2,22 +2,32 @@ import requests
 
 BASE_URL = "http://127.0.0.1:8000"
 
+
 def test_addition():
     # Arrange
-    possitive_value = 2
-    negative_value  = 3
-    url_params = {"a": possitive_value, "b": negative_value}
+    positive_value_1 = 2
+    positive_value_2 = 3
+    url_params = {"a": positive_value_1, "b": positive_value_2}
     expected_result = {"result": 5}
 
     # Act
     response = requests.get(f"{BASE_URL}/addition", params=url_params)
 
     # Assert
+    assert response.status_code == 200
     assert response.json() == expected_result
 
 
-# Lab tasks
+def test_sum_one_positive_one_negative():
+    # Arrange
+    positive_value = 22
+    negative_value = -16
+    url_params = {"a": positive_value, "b": negative_value}
+    expected_result = {"result": 6}
 
-## Complete the following tests
+    # Act
+    response = requests.get(f"{BASE_URL}/addition", params=url_params)
 
-# def test_sum_one_positive_one_negative():
+    # Assert
+    assert response.status_code == 200
+    assert response.json() == expected_result
