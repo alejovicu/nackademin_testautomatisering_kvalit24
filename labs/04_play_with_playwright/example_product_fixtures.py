@@ -7,10 +7,11 @@
 import re
 from playwright.sync_api import sync_playwright, expect
 
+
 def test_has_title_fixtures():
     with sync_playwright() as p:
         # Launch browser
-        browser = p.chromium.launch(headless=True)  # set headless=True to hide UI
+        browser = p.chromium.launch(headless=False)  # set headless=True to hide UI
 
         # Create a new browser context (like a fresh browser profile)
         context = browser.new_context()

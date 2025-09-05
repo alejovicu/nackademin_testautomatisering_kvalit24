@@ -46,3 +46,4 @@ pip install -r requirements.txt
 
     Then The product should not be listed in the app to be used
     ```
+# https://playwright.dev/python/docs/locators
