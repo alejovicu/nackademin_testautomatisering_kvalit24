@@ -3,8 +3,8 @@
 
 mac
 ```shell
-rm -rf .venv
-python3 -m venv .venv ; pip install --upgrade pip ; source .venv/bin/activate
+python3 -m venv .venv     rm -rf .venv
+ ; pip install --upgrade pip ; source .venv/bin/activate
 
 
 pip install -r requirements.txt
@@ -48,7 +48,8 @@ QA:
 `admin_qa  | pass_5678`
 
 
-Implement the validation for the requirements in postman, export it and save it as `nackademin-app.postman_collection.json` in this path.
+Implement the validation for the requirements in postman, export it and save it as `
+nackademin-app.postman_collection.json ` in this path.
 
 ```
 Given I am an authenticated user​
@@ -67,6 +68,8 @@ Then The product is available to be used in the app
 ```
 
 Create the environment in postman to run the tests towards QA environtment and save it in this path as `qa.local.postman_environment.json`
+
+qa.local.postman_environment.json
 
 Run the tests towards DEV and QA environments using the command:
 

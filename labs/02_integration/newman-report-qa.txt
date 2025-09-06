@@ -1,0 +1,89 @@
+newman
+
+backend_dev
+
+→ signup
+  POST http://127.0.0.1:9090/signup [200 OK, 174B, 324ms]
+  ✓  Status code is 200 or 201
+  ✓  Username in response matches generated username
+  ┌
+  │ 'User ID stored in environment:', 54
+  └
+  ✓  User ID is a number
+  ✓  User ID is not null
+  ✓  User ID is not undefined
+  ✓  User ID is not NaN
+  ✓  User ID is not a string
+  ✓  User ID is not a boolean
+  ✓  User ID is not an array
+  ✓  User ID is not an object
+
+→ login
+  POST http://127.0.0.1:9090/login [200 OK, 300B, 276ms]
+  ✓  Response status code is 200
+  ✓  Response body contains access_token and token_type with correct values
+
+→ health
+  GET http://127.0.0.1:9090/health [200 OK, 131B, 4ms]
+  ✓  status code is 200
+  ✓  Response time is less than 200ms
+
+→ products
+  POST http://127.0.0.1:9090/products [200 OK, 156B, 11ms]
+  ✓  Status code is 200 (Created)
+  ✓  Product name has valid length
+  ✓  Product name contains only letters
+  ✓  Response body contains the name and id
+  ✓  Product name in response matches generated name
+  ✓  Response contains product ID
+  ✓  Authorization header contains the current token
+
+→ list of all products
+  GET http://127.0.0.1:9090/products [200 OK, 1.4kB, 7ms]
+  ✓  Response status code is 200
+  ✓  Response time is less than 200ms
+  ✓  Response is an array
+  ✓  Each product has a non-empty name
+  ✓  Each product ID is a positive integer
+
+→ assign prod to user by prod_id
+  POST http://127.0.0.1:9090/user/products/51 [200 OK, 205B, 9ms]
+  ✓  Authorization header contains the current token
+  ✓  Response status code is 200
+
+→ get the user with product_list
+  GET http://127.0.0.1:9090/user [200 OK, 205B, 6ms]
+  ✓  Status code is 200
+  ✓  Response includes products for the current user
+
+→ user/product/product_id
+  DELETE http://127.0.0.1:9090/user/product/51 [200 OK, 174B, 10ms]
+  ✓  Authorization header contains the current token
+  ✓  Product is deleted successfully
+  ✓  User's product list is updated
+
+→ delete product by id
+  DELETE http://127.0.0.1:9090/product/51 [200 OK, 156B, 11ms]
+  ✓  Status code is 200
+  ✓  Response time is less than 200ms
+  ✓  Authorization header contains the current token
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                 9 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                 9 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 2 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                36 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 876ms                                       │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 1.77kB (approx)                            │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 73ms [min: 4ms, max: 324ms, s.d.: 121ms] │
+└─────────────────────────────────────────────────────────────────┘
