@@ -1,4 +1,5 @@
 import main
+import pytest
 
 def test_sum_two_positives():
     # Arrange
@@ -17,24 +18,41 @@ def test_sum_two_positives():
 
 ## Complete the following tests
 
-# def test_sum_one_positive_one_negative():
-#     # Arrange
-#     possitive_value = **
-#     negative_value  = **
-#     expected_result = {"result": ** }
+def test_sum_one_positive_one_negative():
+     # Arrange
+     possitive_value = 5
+     negative_value  = -2
+     expected_result = {"result": 3 }
 
 #     # Act
-#     result = main.sum( ** , ** )
+     result = main.addition( possitive_value, negative_value )
 
 #     # Assert
-#     assert  result == expected_result
+     assert  result == expected_result
 
 
+def test_sum_one_positive_one_string_value():
 
-# def test_sum_one_positive_one_string_value():
+    a = 5
+    b = "3"
+
+    with pytest.raises(TypeError):
+        main.addition(a, b)
+
+def test_divide_two_positive_values():
+    a = 10
+    b = 2
+    
+    expected_result = {"result": 5}
+
+    result = main.division(a,b)
+
+    assert result == expected_result
 
 
-# def test_divide_two_positive_values():
+def test_divide_by_zero():
+    a = 10
+    b = 0
 
-
-# def test_divide_by_zero():
+    with pytest.raises(ZeroDivisionError):
+        main.division (a, b)
