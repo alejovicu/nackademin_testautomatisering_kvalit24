@@ -1,0 +1,7 @@
+#!/Users/nerminmahsan/Desktop/testautomation/nackademin_testautomatisering_kvalit24/labs/01_unit_and_integration/venv_test/bin/python3.12
+import sys
+from uvicorn.main import main
+if __name__ == '__main__':
+    if sys.argv[0].endswith('.exe'):
+        sys.argv[0] = sys.argv[0][:-4]
+    sys.exit(main())
