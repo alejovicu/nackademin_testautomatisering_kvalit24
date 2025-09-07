@@ -1,8 +1,3 @@
-fastapi==0.116.1
-SQLAlchemy==2.0.43
-passlib==1.7.4
-uvicorn==0.35.0
-bcrypt==4.3.0
-passlib==1.7.4
-python-jose==3.5.0
-python-multipart==0.0.20
+Under min LIA så skulle jag framför allt vilja få praktisk erfarenhet av hur testning och utvecklingsarbete fungerar på en riktig arbetsplats. Jag skulle gärna vilja få lära mig mera och arbeta praktiskt med hela testprocessen. Allt ifrån planering och design av testfall, till exekvering fram till bugrapportering och utvärdering. Då vi har haft mycket teoretiskt arbete i utbildningen så känner jag verkligen att jag skulle vilja få mer praktisk erfarenhet helt enkelt. I slutet av dagen så skulle jag vilja lära mig så mycket som jag bara kan.
+
+När det gäller några specifika tekniker eller områden som jag skulle vilja fördjupa mig i så skulle jag nog vilja fördjupa mig mera i testautomatisering samt CI/CD.
