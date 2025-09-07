@@ -1,3 +1,4 @@
+from playwright.sync_api import Page, expect
 
 
 class ProductPage:
@@ -15,3 +16,9 @@ class ProductPage:
         product_row = self.page.locator(f".product-item:has(span:text('{product}'))")
         delete_button = product_row.get_by_role("button", name="Delete")
         delete_button.click()
+
+    def product_exists(self, product):
+        return self.page.locator(f".product-item:has(span:text('{product}'))").is_visible()
+    
+    def product_does_not_exists(self, product):
+        expect(self.page.locator(f".product-item:has(span:text('{product}'))")).not_to_be_visible()
