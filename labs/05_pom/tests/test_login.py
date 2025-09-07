@@ -1,45 +1,63 @@
-class Loginpage:
+from models.login import LoginPage
+from models.signup import SignupPage
+from models.home import HomePage
+from playwright.sync_api import Page, expect
+from libs import utils
+
+
+# Test valid Login with existing user
+
+def test_valid_login(page: Page):
+    home_page = HomePage(page)
+    login_page = LoginPage(page)
+
+    home_page.navigate()
+    login_page.login("test", "test123")
+
+
+
+
+    expect(page.locator("h2")).to_contain_text("test")
+
+
+# Test signup and login with new user
+
+def test_signup_new_user(page: Page):
+
+    home_page = HomePage(page)
+    login_page = LoginPage(page)
+    signup_page = SignupPage(page)
     
-    import libs.utils
+    username = utils.generate_username()
+    password = utils.generate_password()
+
+    home_page.navigate()
+    login_page.navigate_to_signup()
+    signup_page.signup(username, password)
+
+    expect(page.locator("button:has-text('Login')")).to_be_visible()
+
+
+def test_login_new_user(page: Page):
+    home_page = HomePage(page)
+    signup_page = SignupPage(page)
+    login_page = LoginPage(page)
+
+    username = utils.generate_username()
+    password = utils.generate_password()
+
+    home_page.navigate()
+    login_page.navigate_to_signup()
+    signup_page.signup(username, password)
+
+    login_page.navigate()
+    login_page.navigate_to_signup()
+    signup_page.signup(username, password)
+
+    login_page.navigate()
+    login_page.login(username, password)
+
     
-    def __init__(self, page):
-        self.page = page
-        # page_(element-type)_(descriptive-name)
-        self.login_header_main_title = page.get_by_text("Nackademin course app")
-        self.login_input_username = page.get_by_placeholder("Username")
-        self.login_input_password = page.get_by_placeholder("Password")
-        self.login_button_login = page.get_by_locator("button.button-primary") #CSS locator
-        self.login_label_have_account = page.get_by_text("Don't have an account?")
-        self.login_button_login = page.locator("button.signup") #CSS locator
+    expect(page.locator("h2")).to_contain_text(username)
 
-
-        
-    pass
-def navigate(self):
-    self.page.goto("https://localhost:5173/")
-
-def test_valid_login(page):
-    login_page = Loginpage(page)
-    page.goto("https://course-app-fe.vercel.app/login")
-    assert login_page.login_header_main_title.is_visible()
-    assert login_page.login_input_username.is_visible()
-    assert login_page.login_input_password.is_visible()
-    assert login_page.login_button_login.is_visible()
-    assert login_page.login_label_have_account.is_visible()
-    assert login_page.login_button_login.is_visible()
-    
-    login_page.login_input_username.fill("testuser")
-    login_page.login_input_password.fill("Test@123")
-    login_page.login_button_login.click()
-    
-    # Add assertion to verify successful login, e.g., check for a specific element on the landing page
-    # Example: assert page.get_by_text("Welcome, testuser!").is_visible()
-
-    # Navigate to signup
-    po_login.login_btn_signup.click()
-    # create a new user
-    username = libs.utils.generate_username()
-    password = libs.utils.generate_password()
-
-    # navigate to login
-    # login with the new user
+   

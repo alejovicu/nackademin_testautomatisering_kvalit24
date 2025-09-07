@@ -8,7 +8,7 @@ import libs.utils
 def test_valid_login(page: Page):
     po_login = LoginPage(page)
     po_login.navigate()
-    po_login.login('test','test_pass')
+    po_login.login('test','test123')
 
 
 def test_login_with_new_user(page: Page):
