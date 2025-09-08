@@ -34,6 +34,6 @@ playwright install
 ```
 pytest --browser chromium --headed --slowmo 1000 tests/e2e
 
-pytest tests/integration
+pytest test/integration
 ```
 
