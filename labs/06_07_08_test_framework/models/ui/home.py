@@ -1,5 +1,5 @@
 # Landing page where the users could either login or
-# navigate to signup
+# Navigate to signup
 
 class HomePage:
     def __init__(self, page):
@@ -22,10 +22,7 @@ class HomePage:
         self.login_input_password.fill(password)
         self.login_btn_login.click()
 
-    def login_by_api(self,username,password):
-        # Complete the code
-        # Login towards the api and get JWT
-        # Set Token to Playwright's page local storage
 
     def go_to_signup(self):
-        # complete code
+        self.login_btn_signup.click()
+    

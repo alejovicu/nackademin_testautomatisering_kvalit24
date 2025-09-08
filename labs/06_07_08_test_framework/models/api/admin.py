@@ -1,26 +1,35 @@
+import requests
 
 class AdminAPI:
     def __init__(self, base_url, token):
         self.base_url = base_url
         self.token = token
 
-
+    # RETURN LENGTH OF PRODUCT LIST
     def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
+        response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {self.token}"})
+        return len(response.json())
 
-    def get_current_product_count_by_api(self):
-        # complete logic
-        # return number of total products displayed
-
+    # CREATE PRODUCT, RETURN API RESPONSE
     def create_product(self, product_name):
-        # complete logic
+        body = {"name": product_name}
+        response = requests.post(f"{self.base_url}/products", json=body, headers={"Authorization": f"Bearer {self.token}"})
+        return response
 
-    def create_product_by_api(self, product_name):
-        # complete logic
-
+    # DELETE PRODUCT, RETURN API RESPONSE
     def delete_product_by_name(self, product_name):
-        # complete logic
 
-    def delete_product_by_name_by_api(self, product_name):
-        # complete logic
+        # Get all products currently in list
+        response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {self.token}"})
+        products = response.json()
+        product_id = None
+
+        # Search for product name and find its ID
+        for product in products:
+            if product["name"] == product_name:
+                product_id = product["id"]
+                break
+        
+        # Use the id to delete product
+        delete_response = requests.delete(f"{self.base_url}/product/{product_id}", headers={"Authorization": f"Bearer {self.token}"})
+        return delete_response
