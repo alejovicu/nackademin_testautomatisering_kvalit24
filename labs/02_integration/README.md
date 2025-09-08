@@ -1,6 +1,6 @@
 
 ## prepare each DEV and QA environment by creating each virtual environment 
-
+.
 mac
 ```shell
 rm -rf .venv
