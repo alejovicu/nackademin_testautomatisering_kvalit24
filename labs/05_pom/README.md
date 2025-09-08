@@ -30,7 +30,7 @@ pip install -r requirements.txt
     ```
 
 1. Modify the file `test_product.py` and automate the requirements but using the pattern POM.
-
+so
     ```
     Given I am an admin user​
 
