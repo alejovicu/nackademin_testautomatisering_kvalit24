@@ -52,4 +52,21 @@ def test_login_with_username_and_password(driver):
     password.send_keys("pass1234")
     login_btn.click()
 
+    add_product = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located(
+            (By.XPATH, "//input[@placeholder= 'Product Name']")
+        )
+    )
+    create_button = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located(
+            (By.XPATH, "//button[contains(text(), 'Create Product')]")
+        )
+    )
+
+    add_product.send_keys("Apple")
+    create_button.click()
+
+    add_product = driver.find_element("xpath", '//span[contains(text(),"Apple")]')
+    assert add_product.text.strip() == "Apple"
+
     WebDriverWait(driver, 10).until(EC.url_contains("/dashboard"))
