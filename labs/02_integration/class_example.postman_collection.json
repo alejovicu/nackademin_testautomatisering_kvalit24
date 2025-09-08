@@ -1,6 +1,7 @@
 {
 	"info": {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		"_postman_id": "daaa61a2-3f39-4ddf-b129-f89167a06747",
 		"name": "class",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -159,6 +160,8 @@
 			},
 			"response": []
 =======
+=======
+>>>>>>> main
 		"_postman_id": "f773c6a5-d80a-4618-a62d-0471415700e1",
 		"name": "Class App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -309,7 +312,10 @@
 		{
 			"name": "Product Catalog",
 			"item": []
+<<<<<<< HEAD
 >>>>>>> class_repo/main
+=======
+>>>>>>> main
 		}
 	]
 }
