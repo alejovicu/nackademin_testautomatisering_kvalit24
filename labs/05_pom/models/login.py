@@ -22,3 +22,7 @@ class LoginPage:
         self.input_password.fill(password)
         self.button_login.click()
 
+
+    def logout(self):
+        self.page.get_by_text("Logout").click()
+

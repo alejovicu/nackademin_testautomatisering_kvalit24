@@ -17,3 +17,4 @@ class ProductPage:
         self.page.locator(".product-item").filter(
             has=self.page.locator(f"span:text('{name}')")
         ).locator("button.product-item-button").click()
+

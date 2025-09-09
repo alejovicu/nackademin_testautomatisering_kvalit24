@@ -1,33 +1,47 @@
 from playwright.sync_api import Page, expect
 from models.login import LoginPage
-from libs import utils
 from models.home import HomePage
 from models.product import ProductPage
+import random
+import string
 
-def test_user_can_see_products(page: Page):
 
-    # PO usage example
+def random_product_name(length=8):
+    return "Product_" + "".join(random.choices(string.ascii_letters + string.digits, k=length))
+
+def test_admin_adds_products_and_user_sees_them(page: Page):
+    
     home_page = HomePage(page)
     login_page = LoginPage(page)
     product_page = ProductPage(page)
 
+    
     home_page.navigate()
-    login_page.login("test", "test123")
+    login_page.login("admin", "admin123")
 
-    expect(page.get_by_text("Test Product")).to_be_visible()
-    expect(page.get_by_text("Add Product")).to_be_visible()
-    expect(page.get_by_text("Sample Product 1")).to_be_visible()
-    expect(page.get_by_text("Sample Product 2")).to_be_visible()
+    
+    product_names = [random_product_name() for _ in range(2)]
+    for name in product_names:
+        product_page.add_product(name)
 
+    
+    for name in product_names:
+        expect(page.get_by_text(name)).to_be_visible()
 
-def test_user_cannot_see_admin_buttons(page: Page):
-    # PO usage example
-    home_page = HomePage(page)
-    login_page = LoginPage(page)
-    product_page = ProductPage(page)
+    
+    login_page.logout()
 
+    
     home_page.navigate()
-    login_page.login("test", "test123")
+    login_page.login("user", "user123")
 
-    expect(page.locator("#add-product")).not_to_be_visible()
-    expect(page.locator(".delete-product")).not_to_be_visible()
+    
+    for name in product_names:
+        expect(page.locator(f"text={name}")).not_to_be_visible()
+
+    
+    expect(product_page.button_add_product).not_to_be_visible()
+    expect(product_page.button_delete_product).not_to_be_visible()
+
+
+
