@@ -9,6 +9,11 @@ class AdminAPI:
     def get_current_product_count(self):
         response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {self.token}"})
         return len(response.json())
+    
+    # RETURN PRODUCT LIST AS IT IS
+    def get_product_list(self):
+        response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {self.token}"})
+        return response.json()
 
     # CREATE PRODUCT, RETURN API RESPONSE
     def create_product(self, product_name):

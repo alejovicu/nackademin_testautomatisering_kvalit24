@@ -1,9 +1,5 @@
 import requests
 
-# View where an user (non admin) can Choose
-# produts from the Product Catalog and/or
-# remove it
-
 class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url
@@ -25,10 +21,53 @@ class UserAPI:
         response = requests.get(f"{self.base_url}/user", headers={"Authorization": f"Bearer {token}"})
         return response
 
-    def add_product_to_user(self, product_name):
-        # complete code
-        return None
+    # ADD PRODUCT TO USER VIA PRODUCT ID
+    def add_product_to_user_via_id(self, product_id, token):
+        response = requests.post(f"{self.base_url}/user/products/{product_id}", headers={"Authorization": f"Bearer {token}"})
+        return response
+    
+    # DELETE PRODUCT FROM USER VIA PRODUCT ID
+    def remove_product_from_user_via_id(self, product_id, token):
+        response = requests.delete(f"{self.base_url}/user/product/{product_id}", headers={"Authorization": f"Bearer {token}"})
+        return response
+    
+    # ASSIGN PRODUCT TO USER VIA NAME (not used right now)
+    def add_product_to_user(self, product_name, token):
+        
+        # Get all products currently in list
+        response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {token}"})
+        products = response.json()
+        product_id = None
 
-    def remove_product_from_user(self, product_name):
-        # complete code
-        return None
+        # Search for product name and find its ID
+        for product in products:
+            if product["name"] == product_name:
+                product_id = product["id"]
+                break
+
+        if product_id is None:
+            raise ValueError("Product name not found")
+        
+        response = requests.post(f"{self.base_url}/user/products/{product_id}", headers={"Authorization": f"Bearer {token}"})
+        return response
+    
+    # DELETE PRODUCT FROM USER VIA NAME (not used right now)
+    def remove_product_from_user(self, product_name, token):
+        response = self.get_user_products(token)
+        data = response.json()
+
+        if "products" not in data:
+            raise ValueError("Products key not found in user data")
+
+        product_id = None
+        for product in data["products"]:
+            if product["name"] == product_name:
+                product_id = product["id"]
+                break
+
+        if product_id is None:
+            raise ValueError(f"Product with name '{product_name}' not found for user")
+
+        delete_response = requests.delete(f"{self.base_url}/user/product/{product_id}", headers={"Authorization": f"Bearer {token}"}
+        )
+        return delete_response

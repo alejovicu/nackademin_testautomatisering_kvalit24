@@ -26,11 +26,15 @@ def get_admin_token():
     ADMIN_USERNAME = "admin"
     ADMIN_PASSWORD = "admin123"
 
-    signup_body = {"username": ADMIN_USERNAME, "password": ADMIN_PASSWORD}
-    requests.post(f"{BASE_URL}/signup", json=signup_body) #ignore failure if admin already exists
-
     login_body = {"username": ADMIN_USERNAME, "password": ADMIN_PASSWORD}
     login_response = requests.post(f"{BASE_URL}/login", json=login_body)
 
+    if login_response.status_code == 200:
+        return login_response.json().get("access_token")
+
+    signup_body = {"username": ADMIN_USERNAME, "password": ADMIN_PASSWORD}
+    requests.post(f"{BASE_URL}/signup", json=signup_body) 
+
+    login_response = requests.post(f"{BASE_URL}/login", json=login_body)
     token = login_response.json().get("access_token")
     return token
