@@ -13,7 +13,7 @@ def test_add_product_to_catalog(page: Page):
     admin_facade = AdminFacade(page)
 
     admin_facade.signup_and_login(username, password)
-    expect(page.get_by_role("button", name="Create Product")).to_be_visible()
+    expect(admin_page.admin_btn_add_product).to_be_visible()
 
     # WHEN I ADD A PRODUCT TO THE CATALOG
     new_product = f"product_{int(time.time())}"
@@ -32,7 +32,7 @@ def test_remove_product_from_catalog(page: Page):
     admin_facade = AdminFacade(page)
 
     admin_facade.signup_and_login(username, password)
-    expect(page.get_by_role("button", name="Create Product")).to_be_visible()
+    expect(admin_page.admin_btn_add_product).to_be_visible()
 
     # WHEN I REMOVE A PRODUCT FROM THE CATALOG
 

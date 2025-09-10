@@ -5,9 +5,10 @@
 class UserPage:
     def __init__(self, page):
         self.page = page
-        #page_(element-type)_(descriptive-name)
-        # complete code
-        pass
+        self.user_headline_products = page.get_by_role("heading", name="Your Products:")
+
+    def get_welcome_message(self, username):
+        return self.page.get_by_text(f"Welcome, {username}!")
 
     def get_user_products(self):
         # complete code
