@@ -14,13 +14,13 @@ class AdminPage:
         self.admin_btn_add_product = page.get_by_role("button", name="Create Product")
 
     def get_current_product_count(self):
-        pass
+        return self.admin_grid_products.count()
 
     def create_product(self, product_name):
-        count_before_adding = self.admin_grid_products.count()
+        # count_before_adding = self.admin_grid_products.count()
         self.admin_input_product_name.fill(product_name)
         self.admin_btn_add_product.click()
-        return count_before_adding
+        # return count_before_adding
 
 
     def delete_product_by_name(self, product_name):

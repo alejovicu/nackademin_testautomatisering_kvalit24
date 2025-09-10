@@ -7,6 +7,7 @@ class UserPage:
         self.page = page
         #page_(element-type)_(descriptive-name)
         # complete code
+        pass
 
     def get_user_products(self):
         # complete code
