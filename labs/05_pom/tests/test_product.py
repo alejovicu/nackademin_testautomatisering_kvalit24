@@ -1,25 +1,34 @@
 from playwright.sync_api import Page, expect
 
-from models.home import HomePage
-from models.login import LoginPage
+from facade.auth_facade import AuthFacade
+from models.product_page import ProductPage
+import time
 
 
-def test_add_product_to_catalog(page: Page):
-
-    #PO usage example
-    home_page = HomePage(page)
-    login_page = LoginPage(page)
-    home_page.navigate()
-    login_page.navigate_to_signup()
+#SET UP
+BASE_URL = "http://localhost:5173/"
+username = "admin"
+password = "admin123"
 
 
-    # Given I am an admin user​
-    # When I add a product to the catalog​
-    # Then The product is available to be used in the app
-    pass
+def test_add__remove_product(page: Page):
 
-def test_remove_product_from_catalog(page: Page):
-    # Given I am an admin user​
-    # When I remove a product from the catalog​
-    # Then The product should not be listed in the app to be used
-    pass
+    # Skapar objekt
+    product_page = ProductPage(page)
+    auth_facade = AuthFacade(page)
+
+    # Genererar produktnamn
+    new_product = f"product_{int(time.time())}"
+
+    # Signup/Login (facade) + assert admin
+    auth_facade.signup_and_login(username, password)
+    expect(page.get_by_role("button", name="Create Product")).to_be_visible()
+
+    # Add product + assert
+    count_before_adding = product_page.add_product(new_product)
+    expect(product_page.product.nth(-1)).to_contain_text(new_product)
+    expect(product_page.product).to_have_count(count_before_adding + 1)
+
+    # Delete product + assert
+    deleted_product = product_page.delete_product(new_product)
+    expect(deleted_product).to_have_count(0)
