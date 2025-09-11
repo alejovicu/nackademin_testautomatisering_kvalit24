@@ -1,25 +1,41 @@
+import time
 from playwright.sync_api import Page, expect
-
 from models.home import HomePage
 from models.login import LoginPage
+from models.signup import SignupPage  
+
 
 
 def test_add_product_to_catalog(page: Page):
+    home = HomePage(page)
+    login = LoginPage(page)
+    product_name = "test"
 
-    #PO usage example
-    home_page = HomePage(page)
-    login_page = LoginPage(page)
-    home_page.navigate()
-    login_page.navigate_to_signup()
+    
+    home.navigate()
+    login.login_as_admin("testare_arre", "testare_123")  
 
 
-    # Given I am an admin user​
-    # When I add a product to the catalog​
-    # Then The product is available to be used in the app
-    pass
+    
+    home.add_product(product_name)
+    product_row = page.locator(".product-item", has_text=product_name).first
+    expect(product_row).to_be_visible(timeout=5000)
+
+
 
 def test_remove_product_from_catalog(page: Page):
-    # Given I am an admin user​
-    # When I remove a product from the catalog​
-    # Then The product should not be listed in the app to be used
-    pass
+    home = HomePage(page)
+    login = LoginPage(page)
+
+    product_name = "test123"
+    
+    home.navigate()
+    login.login_as_admin("testare_arre", "testare_123")
+    home.add_product(product_name)  
+    
+    
+    home.remove_product(product_name)
+    product_row = page.locator(".product-item", has_text=product_name).first
+    expect(product_row).not_to_be_visible(timeout=5000)
+
+   
