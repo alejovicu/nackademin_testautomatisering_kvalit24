@@ -1,18 +1,42 @@
-import libs.utils
-import pytest
+import requests
+from models.api.admin import AdminAPI
+from libs.utils import generate_string_with_prefix
+
+BASE_URL = "http://localhost:8000"
 
 
-# Given I am an admin user​
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
+def _admin_api():
+    api = AdminAPI(BASE_URL)
+    api.login("admin", "1234")
+    return api
+
+
 def test_add_product_to_catalog():
-    # complete code
-    pass
+    api = _admin_api()
+
+    product_name = generate_string_with_prefix("IT_course")
+
+    # Add a product to the catalog
+    api.create_product(product_name)
+
+    # The product is available
+    products = api.list_products()
+    names = list(products)
+    assert product_name in names
 
 
-# Given I am an admin user​
-# When I remove a product from the catalog​
-# Then The product should not be listed in the app to be used
 def test_remove_product_from_catalog():
-    # complete code
-    pass
+    api = _admin_api()
+
+    product_name = generate_string_with_prefix("IT_course")
+
+    # Created product name
+    api.create_product(product_name)
+
+    # Delete product
+    api.delete_product_by_name(product_name)
+
+    # The product is not available
+    products = api.list_products()
+    names = list(products)
+    assert product_name not in names

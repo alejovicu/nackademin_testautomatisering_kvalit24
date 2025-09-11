@@ -1,19 +1,21 @@
 from playwright.sync_api import Page
-from models.login import LoginPage
-# complete imports
-
+from models.ui.home import HomePage
+from models.ui.signup import SignupPage
 import libs.utils
 
 
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
 def test_signup(page: Page):
-    # complete code
+    home = HomePage(page)
+    home.navigate()
+    home.go_to_signup()
 
+    signup = SignupPage(page)
+    username = libs.utils.generate_string_with_prefix("user", 8)
+    password = libs.utils.generate_string_with_prefix("pw", 12)
+    signup.signup(username, password)
+    signup.go_to_home()
 
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
-def test_signup(page: Page):
-    # complete code
+    home.login(username, password)
+
+    page.get_by_role("button", name="Logout").wait_for(timeout=5000)
+    assert page.get_by_text("Your Products:").count() > 0
