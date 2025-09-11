@@ -48,7 +48,7 @@ def test_login():
 def test_add_product_to_user():
     username = libs.utils.generate_string_with_prefix()
     password = "1234"
-    product_name = "Banan"  # Question: Product doesn't have to be generated and added if its in the test data right?
+    product_name = "testproduct00"  # Question: Product doesn't have to be generated and added if its in the test data right?
 
     user_api = UserAPI("http://localhost:8000")
     # Create user
@@ -89,7 +89,7 @@ def test_add_product_to_user():
 def test_remove_product_from_user():
     username = libs.utils.generate_string_with_prefix()
     password = "1234"
-    product_name = "Banan"
+    product_name = "testproduct11"
 
     user_api = UserAPI("http://localhost:8000")
     # Create user
