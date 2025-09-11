@@ -8,6 +8,7 @@ class SignupPage:
         self.signup_input_password = page.get_by_placeholder('Password')
         self.signup_btn_signup = page.locator('button.button-primary')
         self.signup_btn_login = page.locator('button.btn-blue')
+        
 
 
     def signup(self,username,password):
@@ -16,4 +17,6 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
+        self.signup_btn_login.click()
         # complete code
+        
