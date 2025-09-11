@@ -4,13 +4,13 @@ class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url
 
-    # LOGIN & RETURN API RESPONSE
+    # LOGIN
     def login(self, username, password):
         body = { "username": username, "password": password }
         response = requests.post(f"{self.base_url}/login", json=body)
         return response
     
-    # SIGNUP & RETURN API RESPONSE
+    # SIGNUP
     def signup(self, username, password):
         body = { "username": username, "password": password }
         response = requests.post(f"{self.base_url}/signup", json=body)

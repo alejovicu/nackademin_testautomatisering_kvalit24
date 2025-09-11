@@ -3,16 +3,13 @@ from facade.admin import AdminFacade
 from models.ui.admin import AdminPage
 import time
 
-username = "admin"
-password = "admin123"
-
 def test_add_product_to_catalog(page: Page):
 
     # GIVEN I AM AN ADMIN USER
     admin_page = AdminPage(page)
     admin_facade = AdminFacade(page)
 
-    admin_facade.signup_and_login(username, password)
+    admin_facade.login_via_token()
     expect(admin_page.admin_btn_add_product).to_be_visible()
 
     # WHEN I ADD A PRODUCT TO THE CATALOG
@@ -31,17 +28,15 @@ def test_remove_product_from_catalog(page: Page):
     admin_page = AdminPage(page)
     admin_facade = AdminFacade(page)
 
-    admin_facade.signup_and_login(username, password)
-    expect(admin_page.admin_btn_add_product).to_be_visible()
+    admin_facade.login_via_token()
 
     # WHEN I REMOVE A PRODUCT FROM THE CATALOG
-
-    # Add product (to make test self-contained)
-    new_product = f"product_{int(time.time())}"
-    admin_page.create_product(new_product)
+    #Add product via API
+    new_product_name = f"product_{int(time.time())}"
+    new_product = admin_facade.create_product_for_test_via_api(new_product_name)
 
     # Delete product
     deleted_product = admin_page.delete_product_by_name(new_product)
 
     # THEN THE PRODUCT SHOULD NOT BE LISTED IN THE APP TO BE USED
-    expect(deleted_product).to_have_count(0) #check that product with that name does not exist anymore (in this case, product-name is uniquely generated)
+    expect(deleted_product).to_have_count(0) # Check that product with that name does not exist anymore

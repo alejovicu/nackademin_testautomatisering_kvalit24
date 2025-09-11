@@ -4,7 +4,6 @@
 class HomePage:
     def __init__(self, page):
         self.page = page
-        #page_(element-type)_(descriptive-name)
         self.login_header_main_title = page.get_by_text('Nackademin Course App')
         self.login_input_username = page.get_by_placeholder('Username')
         self.login_input_password = page.get_by_placeholder('Password')

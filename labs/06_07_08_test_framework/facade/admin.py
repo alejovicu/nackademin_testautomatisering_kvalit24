@@ -1,17 +1,22 @@
-from models.ui.home import HomePage
-from models.ui.signup import SignupPage
+from libs.utils import get_admin_token
+from models.api.admin import AdminAPI
+from models.ui.admin import AdminPage
 
 class AdminFacade:
     def __init__(self, page):
         self.page = page
-        self.signup_page = SignupPage(page)
-        self.login_page = HomePage(page)
+        self.admin_page = AdminPage(page)
+        self.token = None
 
-    # FLÖDE FÖR SIGN-UP --> LOGIN
-    def signup_and_login(self, username, password):
+    
+    def login_via_token(self):
+        self.token = get_admin_token() # Uses function from utils to log in as admin and return token
+        self.page.add_init_script(f""" window.localStorage.setItem('token', '{self.token}')""")
+        self.page.goto("http://localhost:5173/")
 
-        self.login_page.navigate()
-        self.login_page.go_to_signup()
-        self.signup_page.signup(username, password)
-        self.signup_page.go_to_home()
-        self.login_page.login(username, password)
+    def create_product_for_test_via_api(self, product_name):
+        api = AdminAPI(base_url="http://localhost:8000", token=self.token)
+        response = api.create_product(product_name)
+        assert response.status_code == 200, "Failed to create product via API"
+        self.page.goto("http://localhost:5173/")
+        return product_name

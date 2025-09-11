@@ -1,5 +1,4 @@
 from playwright.sync_api import Page, expect
-from models.ui.home import HomePage
 from models.ui.user import UserPage
 from facade.users import UsersFacade
 
@@ -24,13 +23,11 @@ def test_login(page: Page):
     password = "pass_1"
 
     # WHEN I LOG INTO THE APPLICATION
-    homepage = HomePage(page)
-    user_page = UserPage(page)
-
-    homepage.navigate()
-    homepage.login(username, password)
+    users_facade = UsersFacade(page)
+    users_facade.login_via_token(username, password)
 
     # THEN I SHOULD SEE ALL MY PRODUCTS
+    user_page = UserPage(page)
     expect(user_page.user_headline_products).to_be_visible()
 
 

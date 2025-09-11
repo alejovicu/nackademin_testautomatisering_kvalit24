@@ -1,5 +1,4 @@
 from playwright.sync_api import Page
-# complete imports
 import libs.utils
 from models.api.user import UserAPI
 import pytest
@@ -14,29 +13,33 @@ def test_signup():
     user_api = UserAPI('http://localhost:8000')
 
     # WHEN I SIGNUP IN THE APP
-    signup_api_response = user_api.signup(username,password)
+    signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
 
     # THEN I SHOULD BE ABLE TO LOG IN WITH MY NEW USER
-    login_api_response = user_api.login(username,password)
+    login_api_response = user_api.login(username, password)
     assert login_api_response.status_code == 200
 
+    login_data = login_api_response.json()
+    assert "access_token" in login_data, "API response did not include a token"
+    assert login_data["access_token"], "Access token is empty"
 
-def test_login_empty_list():
+
+def test_login():
 
     # GIVEN I AM AN AUTHENTICATHED USER
-    username = libs.utils.generate_string_with_prefix()
-    password = "test_1234?"
+    # (Assumes this user already exists in the DB)
+    username = "user_1"
+    password = "pass_1"
 
     user_api = UserAPI("http://localhost:8000")
-    user_api.signup(username, password)
 
     # WHEN I LOG INTO THE APPLICATION
     login_response = user_api.login(username, password)
     assert login_response.status_code == 200
     token = login_response.json().get("access_token")
 
-    # THEN I SHOULD SEE ALL MY PRPODUCTS
+    # THEN I SHOULD SEE ALL MY PRODUCTS
     products_response = user_api.get_user_products(token)
     assert products_response.status_code == 200
     assert "products" in products_response.json(), "Products key not found in response"

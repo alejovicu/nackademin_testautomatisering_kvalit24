@@ -6,7 +6,7 @@ import time
 def test_add_product_to_catalog():
 
     # GIVEN I AM AN ADMIN USER
-    token = libs.utils.get_admin_token() # Helper function to login as admin and get token
+    token = libs.utils.get_admin_token() # Helper function to login as admin and return token
     admin_api = AdminAPI("http://localhost:8000", token) # Create admin_api-object with token
 
     # WHEN I ADD A PRODUCT TO THE CATALOGUE
