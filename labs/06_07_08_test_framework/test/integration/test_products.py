@@ -1,5 +1,4 @@
 import libs.utils
-import pytest
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 
@@ -14,7 +13,6 @@ def test_add_product_to_catalog():
     product_name = libs.utils.generate_product_string_with_prefix()
 
     user_api = UserAPI("http://localhost:8000")
-    admin_api = AdminAPI("http://localhost:8000", token=user_api.token)
 
     user_api.login(username, password)  # Login as admin
     assert user_api.status_code == 200
@@ -54,7 +52,6 @@ def test_remove_product_from_catalog():
     product_name = libs.utils.generate_product_string_with_prefix()
 
     user_api = UserAPI("http://localhost:8000")
-    admin_api = AdminAPI("http://localhost:8000", token=user_api.token)
 
     user_api.login(username, password)  # Login as admin
     assert user_api.status_code == 200
