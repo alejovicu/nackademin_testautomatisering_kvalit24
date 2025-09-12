@@ -1,7 +1,7 @@
 import requests
 
 class AdminAPI:
-    def __init__(self, base_url, token):
+    def __init__(self, base_url, token=None):
         self.base_url = base_url
         self.token = token
 
@@ -38,3 +38,21 @@ class AdminAPI:
         # Use the id to delete product
         delete_response = requests.delete(f"{self.base_url}/product/{product_id}", headers={"Authorization": f"Bearer {self.token}"})
         return delete_response
+    
+    # LOG IN AS ADMIN AND RETURN TOKEN
+    # Works even if database is cleared and no admin exists
+    # BUT need to run test_products.py BEFORE test_users.py, otherwise a user will have id==1 and be considered admin
+    def get_admin_token(self, username="admin", password="admin123"):
+
+        login_body = {"username": username, "password": password}
+        login_response = requests.post(f"{self.base_url}/login", json=login_body)
+
+        if login_response.status_code == 200:
+            return login_response.json().get("access_token")
+
+        signup_body = {"username": username, "password": password}
+        requests.post(f"{self.base_url}/signup", json=signup_body) 
+
+        login_response = requests.post(f"{self.base_url}/login", json=login_body)
+        token = login_response.json().get("access_token")
+        return token

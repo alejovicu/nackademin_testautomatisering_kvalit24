@@ -30,5 +30,6 @@ def test_login(page: Page):
     user_page = UserPage(page)
     expect(user_page.user_headline_products).to_be_visible()
 
-
-
+    ui_products = user_page.get_user_products()
+    api_products = users_facade.get_user_products_names()
+    assert sorted(ui_products) == sorted(api_products)

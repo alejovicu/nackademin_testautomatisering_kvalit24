@@ -30,7 +30,12 @@ class UsersFacade:
     
 
     def login_via_token(self, username, password):
-        login_response = self.user_api.login(username, password)
-        token = login_response.json().get("access_token")
-        self.page.add_init_script(f""" window.localStorage.setItem('token', '{token}')""")
-        self.page.goto(self.frontend_url)
+        login_response = self.user_api.login(username, password) #call the user API-model's login function
+        self.token = login_response.json().get("access_token") # gets the value for key "access_token"
+        self.page.add_init_script(f""" window.localStorage.setItem('token', '{self.token}')""") #script that is run directly in browser local storage
+        self.page.goto(self.frontend_url) #go to start page, token is read from localstorage
+
+    
+    def get_user_products_names(self):
+        response = self.user_api.get_user_products(self.token) # GET request from API-model
+        return [p["name"] for p in response.json()["products"]] # parse to json, loop each product and extract product name

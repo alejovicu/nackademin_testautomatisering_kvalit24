@@ -1,4 +1,3 @@
-import libs.utils
 import pytest
 from models.api.admin import AdminAPI
 import time
@@ -6,8 +5,9 @@ import time
 def test_add_product_to_catalog():
 
     # GIVEN I AM AN ADMIN USER
-    token = libs.utils.get_admin_token() # Helper function to login as admin and return token
-    admin_api = AdminAPI("http://localhost:8000", token) # Create admin_api-object with token
+    admin_api = AdminAPI("http://localhost:8000")
+    token = admin_api.get_admin_token()
+    admin_api.token = token
 
     # WHEN I ADD A PRODUCT TO THE CATALOGUE
     product_name = f"product_{int(time.time())}"
@@ -27,8 +27,9 @@ def test_add_product_to_catalog():
 def test_remove_product_from_catalog():
 
     # GIVEN I AM AN ADMIN USER
-    token = libs.utils.get_admin_token() 
-    admin_api = AdminAPI("http://localhost:8000", token)
+    admin_api = AdminAPI("http://localhost:8000")
+    token = admin_api.get_admin_token()
+    admin_api.token = token
 
     # WHEN I REMOVE A PRODUCT FROM THE CATALOGUE
     # Create product to delete
