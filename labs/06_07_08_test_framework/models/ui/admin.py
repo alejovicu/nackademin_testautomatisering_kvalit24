@@ -6,25 +6,23 @@
 class AdminPage:
     def __init__(self, page):
         self.page = page
-        #page_(element-type)_(descriptive-name)
-        #complete admin view elements
+        self.admin_products = page.locator('.product-item')
+        self.input_product_name = page.get_by_placeholder("Product Name")
+        self.button_create_product = page.get_by_role('button',  name= 'Create Product' )
 
-    def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
-
-    def get_current_product_count_by_api(self):
-        # complete logic
-        # return number of total products displayed
-
+        
+    #Count existing number of products 
+    def count_products(self):
+        return self.admin_products.count()
+        
+            
+    #Create new product
     def create_product(self,product_name):
-        # complete logic
+        self.input_product_name.fill(product_name)
+        self.button_create_product.click()
+        
 
-    def create_product_by_api(self,product_name):
-        # complete logic
-
+    #Delete produkt BY NAME
     def delete_product_by_name(self,product_name):
-        # complete logic
-
-    def delete_product_by_name_by_api(self,product_name):
-        # complete logic
+        delete_product = self.admin_products.filter(has_text=product_name)
+        delete_product.get_by_role("button", name = "Delete").click()

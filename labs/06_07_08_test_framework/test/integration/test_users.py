@@ -1,8 +1,12 @@
 from playwright.sync_api import Page
-from models.home import HomePage
-from models.signup import SignupPage
-from models.admin import AdminPage
-from models.user import UserPage
+import libs.utils
+import requests
+from models.api.user import UserAPI
+
+
+BASE_URL = "http://127.0.0.1:8000/"
+
+
 
 
 
@@ -10,11 +14,56 @@ from models.user import UserPage
 # When I signup in the app​
 # Then I should be able to log in with my new user
 def test_signup():
-    # complete code
+    username = libs.utils.generate_string_with_prefix()
+    password = "test1234"
+    
+    user_api = UserAPI(BASE_URL)
+
+    signup_response = user_api.signup(username,password)
+    assert signup_response.status_code == 200
+
+    login_response = user_api.login(username,password)
+    assert login_response.status_code == 200
+
+    
 
 
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products
 def test_login():
-    # complete code
+    username = "admin"
+    password = "1234"
+    
+    user_api = UserAPI(BASE_URL)
+
+    login_response = user_api.login(username,password)
+    assert login_response.status_code == 200
+
+
+def test_add_product_to_user():
+    username_user = "user"
+    password_user = "user"
+
+    user_api = UserAPI(BASE_URL)
+    login_user = user_api.login(username_user, password_user)
+    assert login_user.status_code == 200
+
+    product_id = 5   # ID från produktkatalogen
+    add_product_response = user_api.add_product_to_user(product_id)
+    assert add_product_response.status_code == 200
+
+
+def test_remove_product_from_user():
+    username_user = "user"
+    password_user = "user"
+
+    user_api = UserAPI(BASE_URL)
+    login_user = user_api.login(username_user, password_user)
+    assert login_user.status_code == 200
+
+    product_id = 5   
+    remove_response = user_api.remove_product_from_user(product_id)
+    assert remove_response.status_code == 200
+
+
