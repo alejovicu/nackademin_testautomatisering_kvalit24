@@ -1,28 +1,51 @@
-# View where an user (non admin) can Choose
-# produts from the Product Catalog and/or
-# remove it
 import requests
 
 
 class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url
+        self.session = requests.Session()
+        self.token = None
 
     def login(self, username, password):
-        body = { "username": username, "password": password }
-        response = requests.post(f"{self.base_url}/login", json=body)
-        return response
+        resp = requests.post(
+            f"{self.base_url}/login",
+            json={"username": username, "password": password}
+        )
+        resp.raise_for_status()
+        self.token = resp.json().get("access_token")
+        if self.token:
+            self.headers = {"Authorization": f"Bearer {self.token}"}
+        return self.token
+    
 
     def signup(self, username, password):
         body = { "username": username, "password": password }
         response = requests.post(f"{self.base_url}/signup", json=body)
         return response
+    
+    
+   # def login_and_get_token(self, username, password):
+    #    resp = requests.post(f"{self.base_url}/login", json={"username": username, "password": password})
+     #   resp.raise_for_status()
+      #  return resp.json().get("access_token")
 
 
-    def add_product_to_user(self, product_name):
+    def add_product_to_user(self, product, token):
         # complete code
-        return None
+        body = { "name": product}
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.post(f"{self.base_url}/products", json=body, headers=headers)
+        return response
+    
 
-    def remove_product_from_user(self, product_name):
-        # complete code
-        return None
+    def remove_product_from_user(self, product_id, token):
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.delete(f"{self.base_url}/product/{product_id}", headers=headers)
+        return response
+        #return None
+
+    def get_products(self, token):
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get(f"{self.base_url}/products", headers=headers)
+        return response

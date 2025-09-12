@@ -1,5 +1,8 @@
 # Landing page where the users could either login or
 # navigate to signup
+import requests
+
+
 
 class HomePage:
     def __init__(self, page):
@@ -22,5 +25,7 @@ class HomePage:
         self.login_input_password.fill(password)
         self.login_btn_login.click()
 
+
     def go_to_signup(self):
-        # complete code
+        #self.page.goto("http://localhost:5173/signup")
+        self.login_btn_signup.click()

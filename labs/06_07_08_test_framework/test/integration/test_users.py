@@ -1,7 +1,10 @@
 from playwright.sync_api import Page
-# complete imports
+import pytest
 import libs.utils
+import sqlite3
 from models.api.user import UserAPI
+
+BASE_URL = 'http://localhost:8000'
 
 
 # Given I am a new potential customer​
@@ -10,9 +13,9 @@ from models.api.user import UserAPI
 def test_signup():
     # Given I am a new potential customer​
     username = libs.utils.generate_string_with_prefix()
-    password = "test_1234?"
+    password = "test_1234"
 
-    user_api = UserAPI('http://localhost:8000')
+    user_api = UserAPI(BASE_URL)
 
     # When I signup in the app​
     signup_api_response = user_api.signup(username,password)
@@ -27,5 +30,22 @@ def test_signup():
 # When I log in into the application​
 # Then I should see all my products
 def test_login():
-    # complete code
-    pass
+    
+    # Given I am an authenticated user​
+    username = "test_1234"
+    password = "test_1234"
+
+    user_api = UserAPI(BASE_URL)
+
+    # When I log in into the application​
+    login_resp = user_api.login(username, password)
+    assert login_resp.status_code == 200
+
+    # Then I should see all my products
+    # TB E
+
+    
+
+
+
+    
