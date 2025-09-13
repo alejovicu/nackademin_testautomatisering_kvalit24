@@ -1,31 +1,60 @@
 from playwright.sync_api import Page
-# complete imports
+import pytest
 import libs.utils
 from models.api.user import UserAPI
+from models.ui.user import UserPage
+from models.ui.home import HomePage
+
+FRONTEND_URL = "http://localhost:5173"
+API_URL = "http://localhost:8000"
+
 
 
 # Given I am a new potential customer​
 # When I signup in the app​
 # Then I should be able to log in with my new user
-def test_signup():
-    # Given I am a new potential customer​
-    username = libs.utils.generate_string_with_prefix()
+def test_signup_and_login(page: Page):
+
+    # Create a new user API
+    username = libs.utils.generate_string_with_prefix("user")
     password = "test_1234?"
 
-    user_api = UserAPI('http://localhost:8000')
+    user_api = UserAPI(API_URL)
+    signup_response = user_api.signup(username,password)
+    assert signup_response.status_code == 200
 
-    # When I signup in the app​
-    signup_api_response = user_api.signup(username,password)
-    assert signup_api_response.status_code == 200
+    # Login with new user UI
+    page.goto(FRONTEND_URL)
+    page.locator("text=login").click()
+    page.locator("input[placeholder='Username']").fill (username)
+    page.locator("input[placeholder='Password']").fill(password)
+    page.locator("button:has-text('Login')").click()
 
-    # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username,password)
-    assert login_api_response.status_code == 200
+    page.wait_for_selector(f"text=Welcome, {username}!")
+    assert page.locator(f"text=Welcome, {username}!").is_visible()
 
 
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products
-def test_login():
-    # complete code
-    pass
+def test_login_existing_user(page: Page):
+    username = "test"
+    password = "test123"
+
+    page.goto(FRONTEND_URL)
+    page.locator("text=login").click()
+    page.locator("input[placeholder='Username']").fill(username)
+    page.locator("input[placeholder='Password']").fill(password)
+    page.locator("button:has-text('Login')").click()
+
+    page.wait_for_selector(f"text=Welcome, {username}!")
+    assert page.locator(f"text=Welcome, {username}!").is_visible()
+
+    page.wait_for_selector("text=Your Products:")
+    product_elements = page.locator("text=Your Products: >> xpath=following-sibling::div/div")
+
+    count = product_elements.count()
+
+    assert count > 0
+
+    
