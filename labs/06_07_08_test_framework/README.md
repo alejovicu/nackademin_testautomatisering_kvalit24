@@ -32,7 +32,7 @@ playwright install
 1. Complete all missing code and run the test suites with the commands:
 
 ```
-pytest --browser chromium --headed --slowmo 1000 tests/e2e
+pytest --browser chromium --headed --slowmo 1000 test/e2e
 
 pytest test/integration
 ```

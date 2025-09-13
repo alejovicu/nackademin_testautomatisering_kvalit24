@@ -37,16 +37,51 @@ class UserAPI:
         }
         response = requests.get(f"{self.base_url}/user", headers=token)
         # {
-        # "username": "Admin_user",
+        # "username": "user",
         # "id": 1,
         # "products": []
         # }
         return response
 
-    def add_product_to_user(self, product_name):
-        # complete code
-        pass
+    def add_product_to_user(self, user_token, product_name):
+        product_id = None
+        token = {
+            "Authorization": f"Bearer {user_token}",
+            "Content-Type": "application/json",
+        }
+        find_product = product_name
+        response = requests.get(f"{self.base_url}/products", headers=token)
+        assert response.status_code == 200
+        product_list = response.json()
+        for product in product_list:
+            if product["name"] == find_product:
+                product_id = product["id"]
+                break
+        add_product = requests.post(
+            f"{self.base_url}/user/products/{product_id}", headers=token
+        )
+        return add_product
 
-    def remove_product_from_user(self, product_name):
-        # complete code
-        pass
+    def remove_product_from_user(self, user_token, product_name):
+        product_id = None
+        token = {
+            "Authorization": f"Bearer {user_token}",
+            "Content-Type": "application/json",
+        }
+        find_product = product_name
+        response = requests.get(f"{self.base_url}/products", headers=token)
+        assert response.status_code == 200
+        product_list = response.json()
+        for product in product_list:
+            if product["name"] == find_product:
+                product_id = product["id"]
+                break
+        if product_id is not None:
+            remove_product = requests.delete(
+                f"{self.base_url}/user/product/{product_id}", headers=token
+            )
+            print(f"product {product_name} removed.")
+            return remove_product
+        else:
+            print(f"product {product_name} was not found.")
+            return

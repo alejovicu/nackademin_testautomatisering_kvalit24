@@ -7,6 +7,7 @@ class AdminAPI:
         base_url,
     ):
         self.base_url = base_url
+        # self.token = None
 
     def set_token(self, token):
         self.token = token
