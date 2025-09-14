@@ -22,6 +22,6 @@ class HomePage:
         self.login_input_password.fill(password)
         self.login_btn_login.click()
 
-
+        
     def go_to_signup(self):
         self.login_btn_signup.click()

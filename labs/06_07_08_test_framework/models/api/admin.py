@@ -5,11 +5,11 @@ class AdminAPI:
         self.base_url = base_url
         self.token = None
 
-
+        
     def set_admin_token(self, token):
         self.token = token
 
-
+        
     def admin_login(self, username, password):
         
         body = {"username": username, "password": password }
@@ -37,7 +37,7 @@ class AdminAPI:
         products = product_response.json()
 
         return len(products)
-
+        
 
     def create_product(self, product_name):
 

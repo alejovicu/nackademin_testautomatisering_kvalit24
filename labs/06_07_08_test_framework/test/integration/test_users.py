@@ -7,13 +7,13 @@ USERNAME = "test_user"
 PASSWORD = "user_test321"
 
 def test_signup():
-
-    # Given I am a new potential customer​
+  
+    # Given I am a new potential customer
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234"
     print(username)
 
-    # When I signup in the app​
+    # When I signup in the app
     signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
 
@@ -24,7 +24,7 @@ def test_signup():
 
 def test_login():
 
-    # Given I am an authenticated user​
+    # Given I am an authenticated user
     login_api_response = user_api.login(USERNAME, PASSWORD)
     assert login_api_response.status_code == 200
 
@@ -35,7 +35,7 @@ def test_login():
 
 def test_add_product_to_user():
     
-    # Given I am an authenticated user​
+    # Given I am an authenticated user
     login_api_response = user_api.login(USERNAME, PASSWORD)
     assert login_api_response.status_code == 200
 
@@ -52,7 +52,7 @@ def test_add_product_to_user():
 
 def test_remove_product_from_user():
 
-    # Given I am an authenticated user​
+    # Given I am an authenticated user
     login_api_response = user_api.login(USERNAME, PASSWORD)
     assert login_api_response.status_code == 200
 
@@ -63,4 +63,3 @@ def test_remove_product_from_user():
     product_id = 9
     remove_product_response = user_api.remove_product_from_user(product_id)
     assert remove_product_response.status_code == 200
-    

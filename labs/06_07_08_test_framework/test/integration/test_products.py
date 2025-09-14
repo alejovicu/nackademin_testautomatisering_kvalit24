@@ -8,7 +8,7 @@ PASSWORD = "admin_test321"
 
 def test_add_product_to_catalog():
     
-    # Given I am an admin user​
+    # Given I am an admin user
     admin_login_response = admin_api.admin_login(USERNAME, PASSWORD)
     assert admin_login_response.status_code == 200
 
@@ -32,7 +32,7 @@ def test_add_product_to_catalog():
 
 def test_remove_product_from_catalog():
 
-    # Given I am an admin user​
+    # Given I am an admin user
     admin_login_response = admin_api.admin_login(USERNAME, PASSWORD)
     assert admin_login_response.status_code == 200
 
@@ -40,7 +40,7 @@ def test_remove_product_from_catalog():
     admin_token = admin_login_response.json()["access_token"]
     admin_api.set_admin_token(admin_token)
 
-    # When I remove a product from the catalog​
+    # When I remove a product from the catalog
     product_name = "Bag"
     product_id = None
 
