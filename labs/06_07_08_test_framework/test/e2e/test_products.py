@@ -45,7 +45,7 @@ def test_add_product_to_catalog(page: Page):
     assert count_after == count_before + 1
 
     # Product should be visible in catalog
-    assert page.locator(f".product-row:has-text('{product_name}')").is_visible()
+    assert page.locator(f".product-item:has-text('{product_name}')").is_visible()
 
 
 # Given I am an admin user​
@@ -67,7 +67,7 @@ def test_remove_product_from_catalog(page: Page):
     admin_page.create_product(product_name)
 
     # Ensure it exists
-    assert page.locator(f".product-row:has-text('{product_name}')").is_visible()
+    assert page.locator(f".product-item:has-text('{product_name}')").is_visible()
 
     # Count before
     count_before = admin_page.get_current_product_count()
@@ -80,4 +80,4 @@ def test_remove_product_from_catalog(page: Page):
     assert count_after == count_before - 1
 
     # Product should no longer exist
-    assert not page.locator(f".product-row:has-text('{product_name}')").is_visible()
+    assert not page.locator(f".product-item:has-text('{product_name}')").is_visible()
