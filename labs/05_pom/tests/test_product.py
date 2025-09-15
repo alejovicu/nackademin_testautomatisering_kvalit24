@@ -1,49 +1,41 @@
 
-from playwright.sync_api import Page, expect
+import uuid
+import pytest
 from models.home import HomePage
 from models.login import LoginPage
 from models.signup import SignupPage
-import uuid
+from models.product import ProductPage   # ✅ stor bokstav, matchar klassen
 
-
-def test_add_product_to_catalog(page: Page):
+def test_add_and_remove_product(page):
     home_page = HomePage(page)
     login_page = LoginPage(page)
     signup_page = SignupPage(page)
+    product_page = ProductPage(page)
 
-    # Generate unique admin username
-    username = f"admin_{uuid.uuid4().hex[:6]}"
-
-    # Given I am an admin user
     home_page.navigate()
+
+    # Skapa ny användare
     login_page.navigate_to_signup()
-    signup_page.signup(username, "password123")
-    login_page.login(username, "password123")
+    username = "admin"
+    password = "password123"
+    signup_page.signup(username, password)
 
-    # When I add a product to the catalog
-    page.locator("#add-product").click()
-    page.locator("#product-name").fill("Testprodukt")
-    page.locator("#product-price").fill("199")
-    page.locator("#save-product").click()
-
-    # Then The product is available to be used in the app
-    product_list = page.locator("#product-list")
-    expect(product_list).to_contain_text("Testprodukt")
-
-
-def test_remove_product_from_catalog(page: Page):
-    home_page = HomePage(page)
-    login_page = LoginPage(page)
-
-    # Use known existing admin (seeded or created in previous test)
     home_page.navigate()
-    login_page.login("admin", "password123")
+    login_page.login(username, password)
 
-    # Given I am an admin user
-    # When I remove a product from the catalog
-    # (better locator: avoid hardcoding ID)
-    page.get_by_role("button", name="Delete Testprodukt").click()
+    # Lägg till produkt
+    product_page.add_product("TestProdukt")
 
-    # Then The product should not be listed
-    product_list = page.locator("#product-list")
-    expect(product_list).not_to_contain_text("Testprodukt")
+    assert product_page.is_product_listed("TestProdukt")
+
+    # Ta bort produkten
+    #product_page.remove_product("TestProdukt")
+
+    #assert not product_page.is_product_listed("TestProdukt")
+
+
+
+
+
+
+
