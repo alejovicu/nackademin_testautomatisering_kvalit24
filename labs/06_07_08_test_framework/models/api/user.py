@@ -16,7 +16,7 @@ class UserAPI:
         self.token = resp.json().get("access_token")
         if self.token:
             self.headers = {"Authorization": f"Bearer {self.token}"}
-        return self.token
+        return resp
     
 
     def signup(self, username, password):
@@ -38,3 +38,8 @@ class UserAPI:
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.delete(f"{self.base_url}/product/{product_id}", headers=headers)
         return response
+    
+    def get_products(self):
+        resp = requests.get(f"{self.base_url}/products", headers=self.headers)
+        resp.raise_for_status()
+        return resp.json()

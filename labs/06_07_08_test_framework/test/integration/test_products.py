@@ -45,25 +45,25 @@ def test_remove_product_from_catalog():
     product = f"test_course_{uuid.uuid4()}"
 
     user_api = UserAPI(BASE_URL)
-
     # Login
     login_resp = user_api.login(username, password)
     assert login_resp.status_code == 200
+
     token = login_resp.json().get("access_token")
     assert token is not None
 
-    # Add product
-    add_product_resp = user_api.add_product_to_user(product, token)
+    admin_api = AdminAPI(BASE_URL, token)
+
+    # this adds product 
+    add_product_resp = admin_api.create_product(product)
     assert add_product_resp.status_code == 200
     response_json = add_product_resp.json()
     assert response_json.get("name") == product
-    
-    # get products
-    products_resp = user_api.get_products(token)
-    assert products_resp.status_code == 200
 
-    # count amount of products, as the delete product requires an ID , not name
-    admin_api = AdminAPI(BASE_URL, token)
+    # this delete product
     delete_resp = admin_api.delete_product_by_name(product)
     assert delete_resp.status_code == 200
-    
+
+    # this verify product no longer exists
+    products = admin_api.get_products()
+    assert product not in [p["name"] for p in products]
