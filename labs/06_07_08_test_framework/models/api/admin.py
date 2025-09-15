@@ -4,8 +4,7 @@ import requests
 class AdminAPI:
     def __init__(self, base_url, token):
         self.base_url = base_url
-        self.token = token
-        self.headers = {"Authorization": f"Bearer {self.token}"}
+        self.headers = {"Authorization": f"Bearer {token}"}
 
     def get_current_product_count(self):
         response = requests.get(f"{self.base_url}/products", headers=self.headers)
@@ -21,6 +20,10 @@ class AdminAPI:
         resp = requests.get(f"{self.base_url}/products", headers=self.headers)
         resp.raise_for_status()
         return resp.json()
+    
+    def product_exists_in_backend(self, product):
+        products = self.get_products()  # returns list of products
+        return any(p["name"] == product for p in products)
 
     def delete_product_by_name(self, product_name):
         # I did this in my test_products.py, but it seems like doing it here is more reusable,

@@ -1,6 +1,7 @@
 # View  where the admin user can manage the products
 # that are in the Product Catalog to be used
 # by all the users
+from playwright.sync_api import expect
 
 
 class AdminPage:
@@ -31,3 +32,11 @@ class AdminPage:
     def product_exists(self, product: str) -> bool:
         product_locator = self.page.locator(f".product-item:has-text('{product}')")
         return product_locator.is_visible()
+    
+    def product_is_visible(self, product):
+        product_locator = self.page.locator(f".product-item:has-text('{product}')")
+        expect(product_locator).to_be_visible()
+
+    def product_to_not_be_visible(self, product):    
+        product_locator = self.page.locator(f".product-item:has-text('{product}')")
+        expect(product_locator).not_to_be_visible()    
