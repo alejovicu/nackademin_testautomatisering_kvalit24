@@ -53,7 +53,7 @@ class AdminAPI:
             return False
 
         product_id = target["id"]
-        del_url = f"{self.base_url}/products/{product_id}"
+        del_url = f"{self.base_url}/product/{product_id}"
         del_resp = requests.delete(del_url, headers=self.headers)
         del_resp.raise_for_status()
         return True

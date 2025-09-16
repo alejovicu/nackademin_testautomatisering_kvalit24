@@ -46,7 +46,7 @@ def get_base_url() -> str:
     Return the API base URL for the backend.
     Adjust here if your backend runs on a different port.
     """
-    return "http://localhost:5173"
+    return "http://localhost:8000"
 
 
 def get_admin_credentials() -> dict:

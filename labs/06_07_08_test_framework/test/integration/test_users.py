@@ -32,7 +32,7 @@
 #     pass
 from playwright.sync_api import Page  # Not really needed here, but kept for consistency
 import libs.utils
-from api.user import UserAPI
+from models.api.user import UserAPI
 
 
 # Given I am a new potential customer​
@@ -63,7 +63,7 @@ def test_login():
     username = creds["username"]
     password = creds["password"]
 
-    user_api = UserAPI("http://localhost:5173")
+    user_api = UserAPI("http://localhost:8000")
 
     # When I log in into the application
     login_api_response = user_api.login(username, password)

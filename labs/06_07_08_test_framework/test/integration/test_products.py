@@ -18,7 +18,7 @@
 #     pass
 import libs.utils
 import pytest
-from api.admin import AdminAPI
+from models.api.admin import AdminAPI
 
 
 # Given I am an admin user​

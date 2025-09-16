@@ -6,7 +6,7 @@
 mac
 ```shell
 rm -rf .venv
-python3 -m venv .venv ; pip install --upgrade pip ; source .venv/bin/activate
+python3 -m venv .venv ; pip3 install --upgrade pip ; source .venv/bin/activate
 
 
 pip install -r requirements.txt
@@ -34,6 +34,6 @@ playwright install
 ```
 pytest --browser chromium --headed --slowmo 1000 test/e2e
 
-pytest tests/integration
+pytest test/integration
 ```
 
