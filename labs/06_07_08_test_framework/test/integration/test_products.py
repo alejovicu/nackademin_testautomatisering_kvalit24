@@ -6,8 +6,7 @@ def test_add_product_to_catalog():
 
     # GIVEN I AM AN ADMIN USER
     admin_api = AdminAPI("http://localhost:8000")
-    token = admin_api.get_admin_token()
-    admin_api.token = token
+    admin_api.get_admin_token() # token is stored in the admin-api instance
 
     # WHEN I ADD A PRODUCT TO THE CATALOGUE
     product_name = f"product_{int(time.time())}"
@@ -28,8 +27,7 @@ def test_remove_product_from_catalog():
 
     # GIVEN I AM AN ADMIN USER
     admin_api = AdminAPI("http://localhost:8000")
-    token = admin_api.get_admin_token()
-    admin_api.token = token
+    admin_api.get_admin_token()
 
     # WHEN I REMOVE A PRODUCT FROM THE CATALOGUE
     # Create product to delete
