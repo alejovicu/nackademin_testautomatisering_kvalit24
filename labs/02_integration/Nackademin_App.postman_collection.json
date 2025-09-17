@@ -44,9 +44,7 @@
 								"exec": [
 									"let token = pm.response.json().access_token;\r",
 									"pm.environment.set(\"token\", token);\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
+									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
@@ -96,9 +94,7 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript",
@@ -153,9 +149,7 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
+									"\r",
 									"let productId = pm.response.json().id;\r",
 									"pm.environment.set(\"productId\", productId);\r",
 									""
@@ -215,9 +209,7 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript",
