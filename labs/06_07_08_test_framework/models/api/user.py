@@ -11,9 +11,6 @@ class UserAPI:
         self.token = token
 
     def login(self, username, password):
-        # complete code
-        # set token to object
-        # return token
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/login", json=body)
         

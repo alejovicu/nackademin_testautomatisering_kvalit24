@@ -2,8 +2,6 @@ from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.signup import SignupPage
 from models.ui.user import UserPage
-# complete imports
-
 import libs.utils
 
 

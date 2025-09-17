@@ -43,7 +43,6 @@ def test_add_product_to_user():
     add_product = base_url.add_product_to_user(product_id)
     assert add_product.status_code == 200
 
-"""
 def test_remove_product_from_user():
     username = "användare"
     password = "Flagga_123"
@@ -57,4 +56,3 @@ def test_remove_product_from_user():
     product_id = 4
     remove_product = base_url.remove_product_from_user(product_id)
     assert remove_product.status_code == 200
-    """

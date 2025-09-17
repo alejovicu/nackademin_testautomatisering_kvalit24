@@ -56,15 +56,4 @@ class AdminAPI:
         else:
             print(f"Failed to delete product ID {product_id}: {response.status_code} - {response.text}")
 
-        return response
-"""
-    def delete_product_by_name_by_api(self, product_name):
-        products = self.get_all_products()
-        matching_products = [p for p in products if p.get("name") == product_name]
-
-        if not matching_products:
-            print(f"No product found with name '{product_name}'.")
-            return None
-"""
-        
-   
+        return response   

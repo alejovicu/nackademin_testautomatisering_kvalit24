@@ -2,7 +2,6 @@ from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 
-
 # Given I am an admin user​
 # When I add a product to the catalog​
 # Then The product is available to be used in the app
@@ -25,7 +24,6 @@ def test_add_product_to_catalog(page: Page):
 
     products_after = admin_home_page.get_current_product_count()
     assert products_after == products_before +1
-
 
 
 # Given I am an admin user​
