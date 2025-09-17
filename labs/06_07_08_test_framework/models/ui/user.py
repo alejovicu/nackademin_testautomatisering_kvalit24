@@ -8,11 +8,15 @@ class UserPage:
         #page_(element-type)_(descriptive-name)
         # complete code
 
+
     def get_user_products(self):
-        # complete code
+        items = self.page.locator("div[style*='grid-template-columns'] > div")
+        return items.all_text_contents()
 
-    def add_product_to_user(self, product_name):
-        # complete code
 
-    def remove_product_from_user(self, product_name):
-        # complete code
+    #Should not be done
+    #def add_product_to_user(self, product_name):
+       
+
+    #def remove_product_from_user(self, product_name):
+       
