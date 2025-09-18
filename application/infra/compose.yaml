@@ -1,0 +1,9 @@
+services:
+  app-backend:
+    ports:
+      - "8000:8000"
+    image: "app-backend:0.1.0"
+  app-frontend:
+    ports:
+      - "80:80"
+    image: "app-frontend:0.1.0"
