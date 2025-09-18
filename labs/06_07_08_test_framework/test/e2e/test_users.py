@@ -13,13 +13,16 @@ def test_signup(page: Page):
     # complete code
     username = libs.utils.generate_string_with_prefix("user_")
     password = libs.utils.generate_string_with_prefix("pass_")
-
     home_page = HomePage(page)
     home_page.navigate()
     home_page.go_to_signup()
+
     signup_page = SignupPage(page)
-    signup_page.signup(username, password)
+    # Wait for the signup request to finish before trying to login
+    with page.expect_response(lambda r: r.url.endswith("/signup") and r.status == 200):
+        signup_page.signup(username, password)
     signup_page.go_to_home()
+
     home_page.login(username, password)
 
     expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
@@ -35,6 +38,5 @@ def test_login(page: Page):
     home_page = HomePage(page)
     home_page.navigate()
     home_page.login(username, password)
-
     expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
     expect(page.locator('h3:has-text("Your Products")')).to_be_visible()
