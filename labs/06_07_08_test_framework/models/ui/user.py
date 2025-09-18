@@ -9,10 +9,13 @@ class UserPage:
         # complete code
 
     def get_user_products(self):
+        pass
         # complete code
 
     def add_product_to_user(self, product_name):
+        pass
         # complete code
 
     def remove_product_from_user(self, product_name):
         # complete code
+        pass
