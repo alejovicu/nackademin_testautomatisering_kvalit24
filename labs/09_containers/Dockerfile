@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir pytest pytest-playwright \
 # environment variable to point to your frontend container
 ENV APP_FRONT_URL=http://infra-app-frontend-1
 
-CMD ["pytest", "test_home.py"]
+CMD ["pytest", "test_home.py"] 
