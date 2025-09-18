@@ -1,5 +1,6 @@
 **/.venv
 .venv
+venv_test
 .vscode
 **/.vscode/
 __pycache__
@@ -13,6 +14,3 @@ __pycache__
 **/.venv*
 .pytest_cache
 **/.pytest_cache
-**/venv
-**/venv*
-*.env
