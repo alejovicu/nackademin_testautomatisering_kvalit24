@@ -17,14 +17,15 @@ class AdminPage:
     def get_current_product_count(self):
         count_products =  self.product_card.count()
         return count_products
-
     def create_product(self,product_name):
 
         self.product_name_input.fill(product_name)
         self.product_create_btn.click()
+        self.page.wait_for_load_state("networkidle")
 
     def delete_product_by_name(self,product_name):
         product_locator = self.page.locator(".product-item", has_text=product_name)
+        self.page.wait_for_load_state("networkidle")
         expect(product_locator).to_have_count(1)
         product_locator.locator("button").click()
         expect(product_locator).to_have_count(0)

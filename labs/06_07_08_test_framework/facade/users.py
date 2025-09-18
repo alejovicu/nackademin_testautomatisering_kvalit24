@@ -35,6 +35,7 @@ class UsersFacade:
         product_name = "TestProduct37"
         user_page = UserPage(self.page)
 
+
         # When I log in into the application​
         home_page.navigate()
         home_page.login(username, password)

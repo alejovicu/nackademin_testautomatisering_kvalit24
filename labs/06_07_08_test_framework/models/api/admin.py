@@ -40,6 +40,7 @@ class AdminAPI:
         response.raise_for_status()
         products = response.json()
 
+
         product_to_delete = next(
             (p for p in products if p.get("name") == product_name), None)
         if not product_to_delete:
@@ -47,5 +48,5 @@ class AdminAPI:
 
         product_id = product_to_delete.get("id")
         delete_response = requests.delete(
-            f"{self.base_url}/products/{product_id}", headers=headers)
+            f"{self.base_url}/product/{product_id}", headers=headers)
         return delete_response

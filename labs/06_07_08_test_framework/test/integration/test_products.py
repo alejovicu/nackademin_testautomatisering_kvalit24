@@ -53,6 +53,7 @@ def test_remove_product_from_catalog():
 
     last_product = products[-1]
     product_name = last_product["name"]
+     # Ensure the product exists before attempting to delete
 
     delete_response = admin_api.delete_product_by_name(product_name)
     assert delete_response is not None
