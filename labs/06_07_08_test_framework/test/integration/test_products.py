@@ -1,5 +1,6 @@
 import libs.utils
 import pytest
+<<<<<<< HEAD
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
 
@@ -64,3 +65,21 @@ def test_remove_product_from_catalog():
     products_after_delete = response_after_delete.json()
     product_names_after_delete = [p["name"] for p in products_after_delete]
     assert product_name not in product_names_after_delete
+=======
+
+
+# Given I am an admin user​
+# When I add a product to the catalog​
+# Then The product is available to be used in the app
+def test_add_product_to_catalog():
+    # complete code
+    pass
+
+
+# Given I am an admin user​
+# When I remove a product from the catalog​
+# Then The product should not be listed in the app to be used
+def test_remove_product_from_catalog():
+    # complete code
+    pass
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from playwright.sync_api import Page, expect
 from models.ui.admin import AdminPage
 from models.ui.home import HomePage
@@ -41,3 +42,24 @@ def test_remove_product_from_catalog(page: Page):
 
     # Then The product should not be listed in the app to be used
     expect(page.locator(".product-item", has_text=product_name)).to_have_count(0)
+=======
+from playwright.sync_api import Page
+from models.login import LoginPage
+# complete imports
+
+import libs.utils
+
+
+# Given I am an admin user​
+# When I add a product to the catalog​
+# Then The product is available to be used in the app
+def test_add_product_to_catalog(page: Page):
+    # complete code
+
+
+# Given I am an admin user​
+# When I remove a product from the catalog​
+# Then The product should not be listed in the app to be used
+def test_remove_product_from_catalog(page: Page):
+    # complete code
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c

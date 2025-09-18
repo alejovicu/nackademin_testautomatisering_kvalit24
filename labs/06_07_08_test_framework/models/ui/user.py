@@ -1,12 +1,16 @@
 # View where an user (non admin) can Choose
 # produts from the Product Catalog and/or
 # remove it
+<<<<<<< HEAD
 from playwright.sync_api import expect
 
+=======
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c
 
 class UserPage:
     def __init__(self, page):
         self.page = page
+<<<<<<< HEAD
         # page_(element-type)_(descriptive-name)
         self.header_title = page.get_by_text('Nackademin Course App')
         self.product_title = page.get_by_text('Your Products:')
@@ -28,3 +32,16 @@ class UserPage:
 
     # def remove_product_from_user(self, product_name):
     #     # complete code
+=======
+        #page_(element-type)_(descriptive-name)
+        # complete code
+
+    def get_user_products(self):
+        # complete code
+
+    def add_product_to_user(self, product_name):
+        # complete code
+
+    def remove_product_from_user(self, product_name):
+        # complete code
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c

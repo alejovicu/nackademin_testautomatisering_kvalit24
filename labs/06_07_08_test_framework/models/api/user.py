@@ -9,6 +9,7 @@ class UserAPI:
         self.base_url = base_url
 
     def login(self, username, password):
+<<<<<<< HEAD
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/login", json=body)
         if response.ok:
@@ -46,3 +47,22 @@ class UserAPI:
         response = requests.delete(
             f"{self.base_url}/user/products", json=body, headers=headers)
         return response
+=======
+        body = { "username": username, "password": password }
+        response = requests.post(f"{self.base_url}/login", json=body)
+        return response
+
+    def signup(self, username, password):
+        body = { "username": username, "password": password }
+        response = requests.post(f"{self.base_url}/signup", json=body)
+        return response
+
+
+    def add_product_to_user(self, product_name):
+        # complete code
+        return None
+
+    def remove_product_from_user(self, product_name):
+        # complete code
+        return None
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c

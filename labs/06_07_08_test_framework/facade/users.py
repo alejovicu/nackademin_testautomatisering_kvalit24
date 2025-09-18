@@ -1,9 +1,14 @@
 import libs.utils
 
+<<<<<<< HEAD
 from models.ui.home import HomePage
 from models.ui.signup import SignupPage
 from models.ui.user import UserPage
 
+=======
+from models.home import HomePage
+from models.signup import SignupPage
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c
 
 class UsersFacade:
     def __init__(self, page):
@@ -11,6 +16,7 @@ class UsersFacade:
 
     def login_as_new_user(self):
         # Complete code
+<<<<<<< HEAD
         home_page = HomePage(self.page)
         signup_page = SignupPage(self.page)
         # generate username
@@ -43,3 +49,11 @@ class UsersFacade:
         products = user_page.get_user_products()
         assert len(products) > 0
         assert product_name in products
+=======
+        # generate username
+        # navigate to signup
+        # create new user
+        # navigate to login
+        # login as new user
+        # return username and password
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c

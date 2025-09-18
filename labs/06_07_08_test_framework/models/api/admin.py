@@ -1,11 +1,15 @@
+<<<<<<< HEAD
 import requests
 
+=======
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c
 
 class AdminAPI:
     def __init__(self, base_url, token):
         self.base_url = base_url
         self.token = token
 
+<<<<<<< HEAD
     def get_current_product_count(self):
         # complete logic
         headers = {
@@ -14,10 +18,17 @@ class AdminAPI:
         }
         response = requests.get(f"{self.base_url}/products", headers=headers)
         return response
+=======
+
+
+    def get_current_product_count(self):
+        # complete logic
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c
         # return number of total products displayed
 
     def create_product(self, product_name):
         # complete logic
+<<<<<<< HEAD
         headers = {
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json"
@@ -49,3 +60,8 @@ class AdminAPI:
         delete_response = requests.delete(
             f"{self.base_url}/products/{product_id}", headers=headers)
         return delete_response
+=======
+
+    def delete_product_by_name(self, product_name):
+        # complete logic
+>>>>>>> 3edf30ae5023c79809e3dfcba1c96cc54596bd9c
