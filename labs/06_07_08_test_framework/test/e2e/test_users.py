@@ -13,7 +13,7 @@ def test_signup(page: Page):
     username, password = users_facade.login_as_new_user()
 
     # THEN I SHOULD BE ABLE TO LOG IN WITH MY NEW USER
-    expect(user_page.get_welcome_message(username)).to_be_visible()
+    expect(user_page.get_welcome_message(username)).to_be_visible(timeout=10000)
 
 def test_login(page: Page):
 

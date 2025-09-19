@@ -13,7 +13,15 @@ class SignupPage:
     def signup(self,username,password):
         self.signup_input_username.fill(username)
         self.signup_input_password.fill(password)
-        self.signup_btn_signup.click()
+
+        # Wait for alert to appear while clicking signup
+        # Needed to catch alert reliably, issues with slowmo/non-slowmo runs
+        with self.page.expect_event("dialog") as dialog_info:
+            self.signup_btn_signup.click()
+
+        dialog = dialog_info.value
+        dialog.accept()
+
 
     def go_to_home(self):
         self.signup_btn_login.click()
