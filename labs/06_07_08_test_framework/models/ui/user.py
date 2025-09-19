@@ -16,10 +16,9 @@ class UserPage:
         self.page.wait_for_selector(
             "p:has-text('No products assigned.'), #root > div > div div"
         )
-        # If "No products assigned." displays, return an empty list
         if self.page.locator("p:has-text('No products assigned.')").is_visible():
             return []
-        # Otherwise, fetch all product divs and return their text
+
         return [
             el.inner_text() for el in self.page.locator("#root > div > div div").all()
         ]

@@ -21,13 +21,12 @@ class AdminPage:
         self.button_create_product = page.get_by_role("button", name="Create Product")
         self.button_logout = page.get_by_role("button", name="Logout")
 
-    def create_product(self, name):
-        # type new product name and click create
-        self.input_product_name.fill(name)
+    def create_product(self, product_name):
+        self.input_product_name.fill(product_name)
         self.button_create_product.click()
 
-    def check_created_product(self, name):
-        return self.product_list.filter(has_text=name)
+    def check_created_product(self, product_name):
+        return self.product_list.filter(has_text=product_name)
 
     def delete_product(self, name):
         product_div = self.page.locator(

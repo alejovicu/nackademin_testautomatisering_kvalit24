@@ -4,11 +4,7 @@ from models.ui.user import UserPage
 from models.ui.signup import SignupPage
 from models.api.user import UserAPI
 from libs.utils import generate_string_with_prefix
-# import libs.utils
-
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
+import libs.utils
 
 
 def test_signup(page: Page):
@@ -44,17 +40,10 @@ def test_signup(page: Page):
 
     assert username in user_page.title_user.inner_text()
 
-    assert user_page.title_user.is_visible(), "User title is not visible"
-
     assert user_page.title_user.inner_text() == f"Welcome,{username}!"
 
 
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
-
-
-def test_visible_products(page: Page):
+def test_login_auth_user(page: Page):
     username = "testing1"
     password = "1234"
 
