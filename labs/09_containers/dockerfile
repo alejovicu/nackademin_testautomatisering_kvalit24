@@ -1,4 +1,4 @@
-# Use official Playwright image with Python support
+# Use official Python image
 FROM python:3.10
 
 # Set working directory inside the container
