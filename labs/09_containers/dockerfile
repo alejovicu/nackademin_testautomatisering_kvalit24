@@ -1,0 +1,18 @@
+# Use official Playwright image with Python support
+FROM python:3.10
+
+# Set working directory inside the container
+WORKDIR /tests
+
+# Install pytest and pytest-playwright
+RUN pip install --no-cache-dir pytest pytest-playwright playwright \
+    && playwright install --with-deps
+
+# Copy all project files into container
+COPY ./test_home.py /tests/
+
+# Run pytest on test_home.py by default
+CMD ["pytest", "test_home.py", "-s", "-v"]
+
+# Set environment variable for the frontend URL
+ENV APP_FRONT_URL=http://host.docker.internal:5173

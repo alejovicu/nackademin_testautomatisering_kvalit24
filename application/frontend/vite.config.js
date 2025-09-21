@@ -5,6 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    allowedHosts: [
+      'host.docker.internal', // allow Docker traffic
+      'localhost'
+    ],
     port: 5173
   }
 })
