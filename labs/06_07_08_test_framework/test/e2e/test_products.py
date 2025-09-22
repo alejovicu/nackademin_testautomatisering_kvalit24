@@ -1,14 +1,18 @@
 import pytest
+import os
 from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 from models.api.base import BaseAPI
 # complete imports
 
+BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8000")
+
+
 @pytest.fixture
 def admin_page(page: Page):
     
-    base_api = BaseAPI("http://127.0.0.1:8000")
+    base_api = BaseAPI(BASE_URL)
     base_api.login("admin", "admin")
     page.add_init_script(
         f"window.localStorage.setItem('token', '{base_api.token}');")

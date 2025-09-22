@@ -1,8 +1,9 @@
 import pytest
+import os
 
 from models.api.admin import AdminAPI
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8000")
 
 # Fixture to handle login
 @pytest.fixture
