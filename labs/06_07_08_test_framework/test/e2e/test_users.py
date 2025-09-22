@@ -22,7 +22,8 @@ def test_signup(page: Page):
     home_page.navigate()
     home_page.go_to_signup()
     signup_page = SignupPage(page)
-    signup_page.signup(username, password)
+    with page.expect_response(lambda r: r.url.endswith("/signup") and r.status == 200):
+        signup_page.signup(username, password)
     signup_page.go_to_home()
     home_page.login(username, password)
     #check so login is successfull
