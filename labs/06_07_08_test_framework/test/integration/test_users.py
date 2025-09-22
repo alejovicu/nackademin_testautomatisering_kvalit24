@@ -26,6 +26,16 @@ def test_signup():
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products
-def test_login():
-    # complete code
-    pass
+def test_login(page: Page):
+    # Given I am an authenticated user
+    facade = UsersFacade(page)
+    username, password = facade.login_as_new_user()
+
+    # When I log in into the application
+    home_page = HomePage(page)
+    home_page.login(username, password)
+
+    # Then I should see all my products
+    user_page = UserPage(page)
+    products = user_page.get_user_products()
+    assert len(products) > 0
