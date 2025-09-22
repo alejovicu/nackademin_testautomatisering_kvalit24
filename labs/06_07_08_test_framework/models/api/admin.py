@@ -1,17 +1,22 @@
+import requests
 
-class AdminAPI:
-    def __init__(self, base_url, token):
-        self.base_url = base_url
-        self.token = token
+def get_current_product_count(self):
+    response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {self.token}"})
+    response.raise_for_status()
+    return len(response.json())
 
+def create_product(self, product_name):
+    response = requests.post(
+        f"{self.base_url}/products",
+        headers={"Authorization": f"Bearer {self.token}"},
+        json={"name": product_name}
+    )
+    response.raise_for_status()
+    return response.json()
 
-
-    def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
-
-    def create_product(self, product_name):
-        # complete logic
-
-    def delete_product_by_name(self, product_name):
-        # complete logic
+def delete_product_by_name(self, product_name):
+    response = requests.delete(
+        f"{self.base_url}/products/{product_name}",
+        headers={"Authorization": f"Bearer {self.token}"}
+    )
+    response.raise_for_status()

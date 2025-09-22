@@ -20,9 +20,16 @@ class UserAPI:
 
 
     def add_product_to_user(self, product_name):
-        # complete code
-        return None
+        response = requests.post(
+        f"{self.base_url}/user/products",
+        json={"product_name": product_name}
+    )
+        response.raise_for_status()
+        return response.json()
 
     def remove_product_from_user(self, product_name):
-        # complete code
-        return None
+        response = requests.delete(
+        f"{self.base_url}/user/products/{product_name}"
+    )
+        response.raise_for_status()
+        return response.json()
