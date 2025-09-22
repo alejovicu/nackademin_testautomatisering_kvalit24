@@ -7,3 +7,12 @@ services:
     ports:
       - "80:80"
     image: "app-frontend:0.1.0"
+  jenkins:
+    ports:
+      - "8080:8080"
+    image: "jenkins-local"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+volumes:
+  jenkins_home:
