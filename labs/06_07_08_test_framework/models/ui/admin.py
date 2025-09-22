@@ -19,9 +19,12 @@ class AdminPage:
 
 
 
+
+
     def create_product(self,product_name):
         self.product_input.fill(product_name)
         self.create_p_button.click()
+
 
 
     def delete_product_by_name(self,product_name): 
@@ -29,3 +32,4 @@ class AdminPage:
         del_product.locator('.product-item-button').click()
 
     
+

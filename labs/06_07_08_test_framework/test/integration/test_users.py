@@ -7,7 +7,6 @@ user_api = UserAPI("http://127.0.0.1:8000")
 username = "test123"
 password = "test_123"
 
-
 def test_signup():
     # Given I am a new potential customer​
     username = libs.utils.generate_string_with_prefix()
@@ -21,7 +20,6 @@ def test_signup():
     # Then I should be able to log in with my new user
     login_api = user_api.login(username, password)
     assert login_api.status_code == 200
-
 
 
 def test_login():
@@ -63,3 +61,4 @@ def test_remove_product_from_user():
     product_id = 5
     remove_product = user_api.remove_product_from_user(product_id)
     assert remove_product.status_code == 200
+

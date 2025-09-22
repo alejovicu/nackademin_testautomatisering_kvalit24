@@ -21,7 +21,7 @@ class AdminAPI:
         headers = {"Authorization": f"Bearer {self.token}"}
         create_product_resp = requests.get(f"{self.base_url}/products", headers=headers)
         products = create_product_resp.json()
-
+        
         return products
 
     def product_count(self):
@@ -47,6 +47,6 @@ class AdminAPI:
         
         return delete_product
 
-
-
-    
+      
+      
+      
