@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 import pytest
 import libs.utils
+import os
 
 from models.api.user import UserAPI
 
@@ -10,7 +11,7 @@ from models.api.user import UserAPI
 # Signup user for test_login_and_get_products
 @pytest.fixture(scope="session")
 def signup_user():
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     username = libs.utils.generate_string_with_prefix()
     password = "test_4321"
     user_api.signup(username, password)
@@ -26,7 +27,7 @@ def test_signup_and_login():
     ### ARRANGE - Given I am a new potential customer​
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234"
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
 
     ### ACT - When I signup in the app​
     # Signup new customer
@@ -51,7 +52,7 @@ def test_signup_and_login():
 def test_login_and_get_products(signup_user):
     ### ARRANGE - Given I am an authenticated user​
     username, password = signup_user  # get new user
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
 
     ### ACT - When I log in into the application​
     # login user and store bearer token

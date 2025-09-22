@@ -1,6 +1,7 @@
 import pytest
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
+import os
 
 
 ### RUN 'pytest test_data_admin.py' first to register admin credentials
@@ -9,7 +10,7 @@ from models.api.user import UserAPI
 # Store admin login token
 @pytest.fixture(scope="session")
 def get_admin_token():
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     credentials = user_api.login("user_admin", "test_1234")
     token = credentials.json().get("access_token")
     return token
@@ -18,7 +19,7 @@ def get_admin_token():
 # Prepare adding product for removal
 @pytest.fixture(scope="session")
 def add_product_for_removal(get_admin_token):
-    admin_api = AdminAPI("http://localhost:8000")
+    admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     product_name = "dummy_product"
     new_product = admin_api.create_product(get_admin_token, product_name)
     return new_product
@@ -32,7 +33,7 @@ def add_product_for_removal(get_admin_token):
 def test_add_product_to_catalog(get_admin_token):
     ### ARRANGE - Given I am an admin user​
     product_name = "test_product"
-    admin_api = AdminAPI("http://localhost:8000")
+    admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
 
     ### ACT - When I add a product to the catalog​
     # get pre-addition product count
@@ -60,7 +61,7 @@ def test_add_product_to_catalog(get_admin_token):
 ###############################################################
 def test_remove_product_from_catalog(get_admin_token, add_product_for_removal):
     ### ARRANGE - Given I am an admin user​
-    admin_api = AdminAPI("http://localhost:8000")
+    admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     #  Fetch added product for removal
     new_product = add_product_for_removal
     new_product_id = new_product.json().get("id")

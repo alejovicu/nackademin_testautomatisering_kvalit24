@@ -1,3 +1,8 @@
+import os
+
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173/")
+
+
 class HomePage:
     def __init__(self, page):
         self.page = page
@@ -8,7 +13,7 @@ class HomePage:
         self.button_signup = page.locator("#signup")
 
     def navigate(self):
-        self.page.goto("http://localhost:5173/")
+        self.page.goto(frontend_url)
 
     def navigate_to_signup(self):
         self.button_signup.click()

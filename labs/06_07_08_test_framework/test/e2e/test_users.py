@@ -6,6 +6,7 @@ from models.ui.signup import SignupPage
 from models.ui.user import UserPage
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+import os
 
 
 import libs.utils
@@ -16,7 +17,7 @@ import libs.utils
 # Signup user for test_login_and_get_products
 @pytest.fixture(scope="session")
 def signup_user():
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     username = libs.utils.generate_string_with_prefix()
     password = "test_4321"
     user_api.signup(username, password)
