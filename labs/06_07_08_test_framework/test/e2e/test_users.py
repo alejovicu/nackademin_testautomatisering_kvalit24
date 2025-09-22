@@ -19,22 +19,30 @@ def test_signup(page: Page):
     home_page.navigate()
     home_page.go_to_signup()
 
+
+
     sign_up = SignupPage(page)
-    sign_up.signup(username,password)
+    #wait for  signup request to finish before login
+    with page.expect_response(lambda r: r.url.endswith("/signup") and r.status ==200):
+        sign_up.signup(username,password)
     sign_up.go_to_home()
+
 
     home_page.login(username,password)
     
-    #confirms login by checking visible main title
-    expect(home_page.login_header_main_title).to_be_visible()
+    
+    expect(page.get_by_text("Your Products:")).to_be_visible()
+
+
 
 
 
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products
-def test_login_admin(page: Page):
-    username = "admin"
+def test_login_user(page: Page):
+
+    username = "malle"
     password = "1234"
 
     
@@ -43,4 +51,9 @@ def test_login_admin(page: Page):
     home_page.login(username,password)
 
 
-    expect(home_page.login_header_main_title).to_be_visible()
+    expect(page.get_by_text("Your Products:")).to_be_visible()
+
+
+
+
+
