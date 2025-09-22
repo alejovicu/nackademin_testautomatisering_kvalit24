@@ -1,7 +1,9 @@
+import os
 import libs.utils
 from models.api.user import UserAPI
 import pytest
 
+BACKEND_URL = os.getenv("APP_BACK_URL", "http://localhost:8000")
 
 def test_signup():
     
@@ -9,7 +11,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234?"
 
-    user_api = UserAPI('http://localhost:8000')
+    user_api = UserAPI(BACKEND_URL)
 
     # WHEN I SIGNUP IN THE APP
     signup_api_response = user_api.signup(username, password)
@@ -31,7 +33,7 @@ def test_login():
     username = "user_1"
     password = "pass_1"
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
 
     # WHEN I LOG INTO THE APPLICATION
     login_response = user_api.login(username, password)
