@@ -12,7 +12,7 @@ def test_add_product_to_catalog():
     admin_api.get_admin_token() # token is stored in the admin-api instance
 
     # WHEN I ADD A PRODUCT TO THE CATALOGUE
-    product_name = f"product_{int(time.time() * 1000)}"
+    product_name = f"product_{int(time.time())}"
     count_before = admin_api.get_current_product_count()
     create_response = admin_api.create_product(product_name)
 
@@ -34,7 +34,7 @@ def test_remove_product_from_catalog():
 
     # WHEN I REMOVE A PRODUCT FROM THE CATALOGUE
     # Create product to delete
-    product_name = f"product_{int(time.time())}"
+    product_name = f"delete_product_{int(time.time())}"
     admin_api.create_product(product_name)
 
     # Delete product
