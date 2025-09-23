@@ -32,7 +32,7 @@ def test_add_product_to_catalog(admin_page):
 
     product_to_create = "Apa"
     
-    print("Token in page:", admin_page.evaluate("localStorage.getItem('token')"))
+    print("Token in page:", admin_page.page.evaluate("localStorage.getItem('token')"))
     
     print("\n=== DEBUG HTML START ===")
     print(admin_page.page.content())
