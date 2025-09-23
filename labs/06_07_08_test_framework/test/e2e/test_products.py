@@ -20,7 +20,9 @@ def admin_page(page: Page):
     print("Token injected:", base_api.token)
     home_page = HomePage(page)
     admin_page = AdminPage(page)
+    
     home_page.navigate()
+    print("Token in page:", page.evaluate("localStorage.getItem('token')"))
     # home_page.admin_login()
 
     return admin_page
@@ -31,8 +33,6 @@ def admin_page(page: Page):
 def test_add_product_to_catalog(admin_page):
 
     product_to_create = "Apa"
-    
-    print("Token in page:", admin_page.page.evaluate("localStorage.getItem('token')"))
     
     print("\n=== DEBUG HTML START ===")
     print(admin_page.page.content())
