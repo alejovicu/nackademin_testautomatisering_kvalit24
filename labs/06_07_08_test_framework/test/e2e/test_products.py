@@ -6,6 +6,7 @@ from models.ui.admin import AdminPage
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 import os
+import time
 
 ### RUN 'pytest test_data_admin.py' first to register admin credentials
 
@@ -55,6 +56,8 @@ def test_add_product_to_catalog(page: Page, get_admin_token):
     # Add product
     admin_page.add_product(product_name)
     # Fetch post-addition stock count
+    page.wait_for_load_state("networkidle")
+    admin_page.wait_for_product_list_to_load()
     post_addition_stock = admin_page.product_item_in_list.count()
 
     ### ASSERT - Then The product is available to be used in the app
@@ -84,13 +87,16 @@ def test_remove_product_from_catalog(
         f"""window.localStorage.setItem("token", "{get_admin_token}")"""
     )
     home_page.navigate()
-
     ### ACT - When I remove a product from the catalog​
     # Fetch pre-removal stock count
+    page.wait_for_load_state("networkidle")
+    admin_page.wait_for_product_list_to_load()
     pre_removal_stock_count = admin_page.product_item_in_list.count()
     # Delete product
     admin_page.delete_latest_product()
     # Fetch post-removal stock count
+    page.wait_for_load_state("networkidle")
+    admin_page.wait_for_product_list_to_load()
     post_removal_stock_count = admin_page.product_item_in_list.count()
 
     ### ASSERT - Then The product should not be listed in the app to be used

@@ -42,6 +42,9 @@ def test_signup_and_login(page: Page):
     home_page.navigate_to_signup()
     with page.expect_event("dialog") as dialog_info:
         signup_page.signup_user(username, password)
+    dialog = dialog_info.value
+    dialog.accept()  # accept the alert
+    page.wait_for_load_state("networkidle")
 
     ### ASSERT - Then I should be able to log in with my new user
     signup_page.navigate_to_login()

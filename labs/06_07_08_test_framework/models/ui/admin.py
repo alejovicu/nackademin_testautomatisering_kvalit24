@@ -25,3 +25,11 @@ class AdminPage:
             ".product-item-button", has_text="Delete"
         )
         delete_button.click()
+
+    def wait_for_product_list_to_load(self, timeout=3000):
+        # If the empty list message is visible, skip waiting for products
+        if self.empty_product_list.is_visible():
+            return
+        else:
+            # Otherwise, wait for a product to appear
+            self.product_item_in_list.first.wait_for(state="visible", timeout=timeout)
