@@ -15,6 +15,17 @@ requests.post(f"{BASE}/signup", json={
     "password": "user_pass"
 })
 
-# create 3 default products
-for name in ["Banan", "Cykel", "Telefon"]:
-    requests.post(f"{BASE}/products", json={"name": name})
+# log in as admin
+login_resp = requests.post(f"{BASE}/login", data={"username": "admin", "password": "adminpass"})
+login_resp.raise_for_status()
+token = login_resp.json()["access_token"]
+
+headers = {"Authorization": f"Bearer {token}"}
+
+# create product
+product_resp = requests.post(f"{BASE}/products", json={"name": "Banan"}, headers=headers)
+product_resp.raise_for_status()
+
+if product_resp.status_code != 201:
+    print("Product creation failed:", product_resp.text)
+    raise SystemExit(1)
