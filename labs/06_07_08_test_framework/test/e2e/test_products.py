@@ -12,6 +12,10 @@ BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8000")
 @pytest.fixture
 def admin_page(page: Page):
     
+    page.on("request",  lambda r: print("REQUEST :", r.method, r.url))
+    page.on("response", lambda r: print("RESPONSE:", r.status, r.url))
+    page.on("requestfailed", lambda r: print("FAILED  :", r.url, r.failure))
+
     base_api = BaseAPI(BASE_URL)
     base_api.login("admin", "admin")
     page.add_init_script(
@@ -24,8 +28,6 @@ def admin_page(page: Page):
     home_page.navigate()
     print("Token in page:", page.evaluate("localStorage.getItem('token')"))
 
-    page.on("response", lambda r: print("RESPONSE:", r.url, r.status))
-    page.on("requestfailed", lambda r: print("FAILED:", r.url, r.failure))
 
     # home_page.admin_login()
 
