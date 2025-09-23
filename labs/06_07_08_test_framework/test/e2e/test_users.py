@@ -40,7 +40,8 @@ def test_signup_and_login(page: Page):
     ### ACT - When I signup in the app​
     home_page.navigate()
     home_page.navigate_to_signup()
-    signup_page.signup_user(username, password)
+    with page.expect_event("dialog") as dialog_info:
+        signup_page.signup_user(username, password)
 
     ### ASSERT - Then I should be able to log in with my new user
     signup_page.navigate_to_login()
