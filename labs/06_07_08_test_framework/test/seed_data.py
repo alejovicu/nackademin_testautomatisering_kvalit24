@@ -15,7 +15,6 @@ requests.post(f"{BASE}/signup", json={
     "password": "user_pass"
 })
 
-# leaving this in case I need it later
-# # create some products
-# for name in ["Widget", "Gadget"]:
-#     requests.post(f"{BASE}/products", json={"name": name})
+# create 3 default products
+for name in ["Banan", "Äpple", "Päron"]:
+    requests.post(f"{BASE}/products", json={"name": name})
