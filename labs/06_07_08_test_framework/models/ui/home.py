@@ -2,7 +2,7 @@
 # navigate to signup
 import os
 
-BASE_URL = os.getenv("APP_URL", "http://localhost:5173/")
+BASE_URL = os.getenv("HOME_URL", "http://localhost:5173/")
 
 class HomePage:
     def __init__(self, page):
