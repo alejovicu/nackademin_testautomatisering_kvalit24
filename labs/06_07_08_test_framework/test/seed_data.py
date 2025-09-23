@@ -9,6 +9,13 @@ requests.post(f"{BASE}/signup", json={
     "password": "admin"
 })
 
+# create regular user
+requests.post(f"{BASE}/signup", json={
+    "username": "user_account",
+    "password": "user_pass"
+})
+
+# leaving this in case I need it later
 # # create some products
 # for name in ["Widget", "Gadget"]:
 #     requests.post(f"{BASE}/products", json={"name": name})
