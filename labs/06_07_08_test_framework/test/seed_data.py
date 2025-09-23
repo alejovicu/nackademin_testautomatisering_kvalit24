@@ -16,7 +16,7 @@ requests.post(f"{BASE}/signup", json={
 })
 
 # log in as admin
-login_resp = requests.post(f"{BASE}/login", data={"username": "admin", "password": "admin"})
+login_resp = requests.post(f"{BASE}/login", json={"username": "admin", "password": "admin"})
 login_resp.raise_for_status()
 token = login_resp.json()["access_token"]
 
