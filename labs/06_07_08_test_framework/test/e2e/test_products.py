@@ -30,6 +30,12 @@ def test_add_product_to_catalog(admin_page):
 
     product_to_create = "Apa"
 
+    
+    print("\n=== DEBUG HTML START ===")
+    print(admin_page.page.content())
+    print("=== DEBUG HTML END ===\n")
+    
+
     expect(admin_page.admin_products.first).to_be_visible()
     # Check how many products are in the product list
     num_of_products_before = admin_page.get_current_product_count()
