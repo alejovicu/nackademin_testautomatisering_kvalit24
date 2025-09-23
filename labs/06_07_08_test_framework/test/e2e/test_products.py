@@ -18,7 +18,6 @@ def admin_page(page: Page):
         f"window.localStorage.setItem('token', '{base_api.token}');")
     
     print("Token injected:", base_api.token)
-    print("Token in page:", page.evaluate("localStorage.getItem('token')"))
     home_page = HomePage(page)
     admin_page = AdminPage(page)
     home_page.navigate()
@@ -32,7 +31,8 @@ def admin_page(page: Page):
 def test_add_product_to_catalog(admin_page):
 
     product_to_create = "Apa"
-
+    
+    print("Token in page:", admin_page.evaluate("localStorage.getItem('token')"))
     
     print("\n=== DEBUG HTML START ===")
     print(admin_page.page.content())
@@ -44,11 +44,6 @@ def test_add_product_to_catalog(admin_page):
     num_of_products_before = admin_page.get_current_product_count()
     # Add product
     admin_page.create_product(product_to_create)
-
-
-    print("\n=== DEBUG HTML START ===")
-    print(admin_page.page.content())
-    print("=== DEBUG HTML END ===\n")
 
     # Product has been added (list of products has gotten longer)
     expect(admin_page.admin_products).to_have_count(num_of_products_before + 1)
