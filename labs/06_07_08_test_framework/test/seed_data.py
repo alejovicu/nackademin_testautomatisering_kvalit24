@@ -16,5 +16,5 @@ requests.post(f"{BASE}/signup", json={
 })
 
 # create 3 default products
-for name in ["Banan", "Äpple", "Päron"]:
-    requests.post(f"{BASE}/user/products", json={"name": name})
+for name in ["Banan", "Cykel", "Telefon"]:
+    requests.post(f"{BASE}/products", json={"name": name})
