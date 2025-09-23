@@ -11,24 +11,15 @@ BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8000")
 
 @pytest.fixture
 def admin_page(page: Page):
-    
-    page.on("request",  lambda r: print("REQUEST :", r.method, r.url))
-    page.on("response", lambda r: print("RESPONSE:", r.status, r.url))
-    page.on("requestfailed", lambda r: print("FAILED  :", r.url, r.failure))
 
     base_api = BaseAPI(BASE_URL)
     base_api.login("admin", "admin")
     page.add_init_script(
         f"window.localStorage.setItem('token', '{base_api.token}');")
-    
-    print("Token injected:", base_api.token)
     home_page = HomePage(page)
     admin_page = AdminPage(page)
     
     home_page.navigate()
-    print("Token in page:", page.evaluate("localStorage.getItem('token')"))
-
-
     # home_page.admin_login()
 
     return admin_page
@@ -39,11 +30,6 @@ def admin_page(page: Page):
 def test_add_product_to_catalog(admin_page):
 
     product_to_create = "Apa"
-    
-    print("\n=== DEBUG HTML START ===")
-    print(admin_page.page.content())
-    print("=== DEBUG HTML END ===\n")
-    
 
     expect(admin_page.admin_products.first).to_be_visible()
     # Check how many products are in the product list
