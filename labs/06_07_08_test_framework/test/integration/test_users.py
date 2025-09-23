@@ -74,6 +74,6 @@ def test_remove_product_from_user(user_api):
     # Check if correct status code is returned
     assert unassign_product_response.status_code == 200
     # Check if any product in productlist matches product_to_unassign 
-    assert any(product.get("name") != product_to_unassign for product in user_api.user_products())
+    assert all(product.get("name") != product_to_unassign for product in user_api.user_products())
     # Check if number of products has dencreased
     assert user_api.num_of_user_products() == num_of_products_before - 1
