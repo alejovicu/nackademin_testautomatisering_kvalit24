@@ -16,6 +16,9 @@ def admin_page(page: Page):
     base_api.login("admin", "admin")
     page.add_init_script(
         f"window.localStorage.setItem('token', '{base_api.token}');")
+    
+    print("Token injected:", base_api.token)
+    print("Token in page:", page.evaluate("localStorage.getItem('token')"))
     home_page = HomePage(page)
     admin_page = AdminPage(page)
     home_page.navigate()
