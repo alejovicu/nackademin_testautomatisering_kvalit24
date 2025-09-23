@@ -3,15 +3,18 @@ from libs.utils import generate_string_with_prefix
 from models.ui.home import HomePage
 from models.ui.signup import SignupPage
 from models.api.user import UserAPI
+import os
 
 
 class UsersFacade:
-    def __init__(self, page, base_url="http://localhost:8000", frontend_url="http://localhost:5173/"):
+    def __init__(self, page):
         self.page = page
         self.signup_page = SignupPage(page)
         self.login_page = HomePage(page)
-        self.user_api = UserAPI(base_url)
-        self.frontend_url = frontend_url
+
+        self.base_url = os.getenv("APP_BACK_URL", "http://localhost:8000")
+        self.frontend_url = os.getenv("APP_FRONT_URL", "http://localhost:5173/")
+        self.user_api = UserAPI(self.base_url)
 
 
     def login_as_new_user(self):
