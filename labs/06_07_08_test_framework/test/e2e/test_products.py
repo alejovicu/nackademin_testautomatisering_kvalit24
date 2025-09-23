@@ -23,6 +23,10 @@ def admin_page(page: Page):
     
     home_page.navigate()
     print("Token in page:", page.evaluate("localStorage.getItem('token')"))
+
+    page.on("response", lambda r: print("RESPONSE:", r.url, r.status))
+    page.on("requestfailed", lambda r: print("FAILED:", r.url, r.failure))
+
     # home_page.admin_login()
 
     return admin_page
