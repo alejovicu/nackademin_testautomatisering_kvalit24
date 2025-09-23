@@ -23,7 +23,8 @@ class HomePage:
     def login(self,username,password):
         self.login_input_username.fill(username)
         self.login_input_password.fill(password)
-        self.login_btn_login.click()
+        with self.page.expect_response(lambda r: r.url.endswith("/login") and r.status == 200):
+            self.login_btn_login.click()
 
     def admin_login(self):
         username = "admin"
