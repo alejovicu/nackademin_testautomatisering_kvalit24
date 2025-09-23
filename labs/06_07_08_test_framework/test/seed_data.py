@@ -26,6 +26,6 @@ headers = {"Authorization": f"Bearer {token}"}
 product_resp = requests.post(f"{BASE}/products", json={"name": "Banan"}, headers=headers)
 product_resp.raise_for_status()
 
-if product_resp.status_code != 201:
+if product_resp.status_code != 200:
     print("Product creation failed:", product_resp.text)
     raise SystemExit(1)
