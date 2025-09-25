@@ -58,7 +58,6 @@ def test_add_product_to_catalog(page: Page, get_admin_token):
     # Fetch post-addition stock count
     page.wait_for_load_state("networkidle")
     admin_page.wait_for_product_list_to_load()
-    time.sleep(2)
     post_addition_stock = admin_page.product_item_in_list.count()
 
     ### ASSERT - Then The product is available to be used in the app
@@ -98,6 +97,7 @@ def test_remove_product_from_catalog(
     # Fetch post-removal stock count
     page.wait_for_load_state("networkidle")
     admin_page.wait_for_product_list_to_load()
+    time.sleep(2)
     post_removal_stock_count = admin_page.product_item_in_list.count()
 
     ### ASSERT - Then The product should not be listed in the app to be used
