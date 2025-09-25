@@ -31,7 +31,7 @@ def test_login():
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234?"
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BASE_URL)
 
     # When I log in into the app​
     user_api.signup(username, password)
@@ -41,7 +41,7 @@ def test_login():
     user_api.token = token
 
     # Create a product as admin
-    admin_api = AdminAPI("http://localhost:8000")
+    admin_api = AdminAPI(BASE_URL)
     admin_api.login("admin", "1234")
     product_name = libs.utils.generate_string_with_prefix("IT_course")
     admin_api.create_product(product_name)
@@ -53,7 +53,7 @@ def test_login():
 
     # Then I should see all my products
     headers = {"Authorization": f"Bearer {token}"}
-    r = requests.get("http://localhost:8000/user", headers=headers)
+    r = requests.get(f"{BASE_URL}/user", headers=headers)
     assert r.status_code == 200
     data = r.json()
     products = data.get("products", [])
