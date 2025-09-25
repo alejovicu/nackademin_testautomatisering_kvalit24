@@ -58,6 +58,7 @@ def test_add_product_to_catalog(page: Page, get_admin_token):
     # Fetch post-addition stock count
     page.wait_for_load_state("networkidle")
     admin_page.wait_for_product_list_to_load()
+    time.sleep(2)
     post_addition_stock = admin_page.product_item_in_list.count()
 
     ### ASSERT - Then The product is available to be used in the app
