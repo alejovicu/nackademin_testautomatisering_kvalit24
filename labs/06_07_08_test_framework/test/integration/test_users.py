@@ -12,8 +12,8 @@ def test_signup():
 
     print(username, password)
 
-    user_api = os.getenv("http://infra-app-backend-1:8000/",
-                         "http://localhost:8000")
+    BASE_URL = os.getenv("http://localhost:8000")
+    user_api = os.getenv("http://infra-app-backend-1:8000/", BASE_URL)
     # When I signup in the app​
     signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
@@ -28,9 +28,9 @@ def test_login():
     username = "testuser"
     password = "testpassword"
 
-    user_api = os.getenv("http://infra-app-backend-1:8000/",
-                         "http://localhost:8000")
-    # When I log in into the application​
+    BASE_URL = os.getenv("http://localhost:8000")
+    user_api = os.getenv("http://infra-app-backend-1:8000/", BASE_URL)
+
     login_api_response = user_api.login(username, password)
     assert login_api_response.status_code == 200
 
