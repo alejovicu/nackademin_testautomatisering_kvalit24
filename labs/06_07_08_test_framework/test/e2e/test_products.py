@@ -90,7 +90,6 @@ def test_remove_product_from_catalog(
     ### ACT - When I remove a product from the catalog​
     # Fetch pre-removal stock count
     page.wait_for_load_state("networkidle")
-    # admin_page.wait_for_product_list_to_load()
     pre_removal_stock_count = admin_page.product_item_in_list.count()
     # Delete product
     admin_page.delete_latest_product()

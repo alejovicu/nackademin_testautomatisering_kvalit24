@@ -42,9 +42,3 @@ class AdminPage:
             arg=stock_count + count_value,
             timeout=5000,
         )
-
-    # page.wait_for_function(
-    #     "count => document.querySelectorAll('.product-item').length === count",
-    #     arg=pre_removal_stock_count - 1,
-    #     timeout=5000,  # optional, but recommended to avoid infinite wait
-    # )
