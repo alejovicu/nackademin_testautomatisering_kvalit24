@@ -32,4 +32,5 @@ class AdminPage:
             return
         else:
             # Otherwise, wait for a product to appear
-            self.product_item_in_list.first.wait_for(state="visible", timeout=timeout)
+            latest_product = self.page.locator(".product-item").last
+            latest_product.wait_for(state="visible", timeout=timeout)
