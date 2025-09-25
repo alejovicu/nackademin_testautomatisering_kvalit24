@@ -1,5 +1,3 @@
-# Page where the users could either create a new user or
-# navigate to Home
 class SignupPage:
     def __init__(self, page):
         self.page = page
@@ -16,4 +14,4 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
-        # complete code
+        self.page.goto("http://localhost:5173")
