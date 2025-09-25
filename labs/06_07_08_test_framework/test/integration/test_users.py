@@ -4,13 +4,18 @@ import libs.utils
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 
+import os
+
+BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+user_api = UserAPI(BASE_URL)
+
 
 def test_signup():
     # Given I am a new potential customer​
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234?"
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BASE_URL)
 
     # When I signup in the app​
     signup_api_response = user_api.signup(username, password)
