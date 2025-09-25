@@ -4,6 +4,8 @@ from libs.utils import generate_string_with_prefix
 from models.api.user import UserAPI
 import os
 
+BACKEND_URL = os.getenv("BACKEND_URL")
+
 
 def test_signup():
     # Given I am a new potential customer​
@@ -12,8 +14,7 @@ def test_signup():
 
     print(username, password)
 
-    base_url = UserAPI("http://localhost:8000")
-    user_api = os.getenv("http://infra-app-backend-1:8000/", base_url)
+    user_api = UserAPI(BACKEND_URL)
     # When I signup in the app​
     signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
@@ -28,8 +29,8 @@ def test_login():
     username = "testuser"
     password = "testpassword"
 
-    base_url = UserAPI("http://localhost:8000")
-    user_api = os.getenv("http://infra-app-backend-1:8000/", base_url)
+    user_api = UserAPI(BACKEND_URL)
+
 
     login_api_response = user_api.login(username, password)
     assert login_api_response.status_code == 200
