@@ -2,12 +2,14 @@ import libs.utils
 import pytest
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
+import os
 
 
 def test_add_product_to_catalog():
 
     # Given I am an admin user​
-    base_url = "http://localhost:8000"
+    base_url = os.getenv("http://localhost:8000",
+                         "http://infra-app-backend-1:8000/")
     admin_username = "testuser"
     admin_password = "testpassword"
 
@@ -34,7 +36,8 @@ def test_add_product_to_catalog():
 
 def test_remove_product_from_catalog():
     # Given I am an admin user​
-    base_url = "http://localhost:8000"
+    base_url = os.getenv("http://localhost:8000",
+                         "http://infra-app-backend-1:8000/")
     admin_username = "testuser"
     admin_password = "testpassword"
 
@@ -53,7 +56,7 @@ def test_remove_product_from_catalog():
 
     last_product = products[-1]
     product_name = last_product["name"]
-     # Ensure the product exists before attempting to delete
+    # Ensure the product exists before attempting to delete
 
     delete_response = admin_api.delete_product_by_name(product_name)
     assert delete_response is not None
