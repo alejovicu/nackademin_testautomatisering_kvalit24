@@ -9,12 +9,16 @@ class AdminAPI:
 
     def login(self, username, password):
         body = {"username": username, "password": password}
-        r = self.session.post(
-            f"{self.base_url}/login", data=body
-        )  # form-data вместо JSON
+        r = self.session.post(f"{self.base_url}/login", json=body)
+        if r.status_code != 200:
+            # На чистой БД может не быть пользователя admin — создадим и повторим логин
+            self.session.post(f"{self.base_url}/signup", json=body)
+            r = self.session.post(f"{self.base_url}/login", json=body)
+
         assert r.status_code == 200, f"Admin login failed: {r.status_code} {r.text}"
-        token = r.json().get("access_token")
-        assert token, f"No token in login response: {r.text}"
+        data = r.json()
+        token = data.get("access_token") or data.get("token")
+        assert token, f"No token in login response: {data}"
         self.session.headers["Authorization"] = f"Bearer {token}"
 
     def list_products(self):
