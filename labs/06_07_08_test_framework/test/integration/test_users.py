@@ -4,7 +4,7 @@ from libs.utils import generate_string_with_prefix
 from models.api.user import UserAPI
 import os
 
-BACKEND_URL = os.getenv("BACKEND_URL")
+BACKEND_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 
 def test_signup():
@@ -30,7 +30,6 @@ def test_login():
     password = "testpassword"
 
     user_api = UserAPI(BACKEND_URL)
-
 
     login_api_response = user_api.login(username, password)
     assert login_api_response.status_code == 200
