@@ -13,8 +13,8 @@ requests.post(f"{BACKEND_URL}/signup", json={
 
 # Skapa vanlig användare
 requests.post(f"{BACKEND_URL}/signup", json={
-    "username": "user",
-    "password": "user",
+    "username": "malle",
+    "password": "1234",
 })
 
 
