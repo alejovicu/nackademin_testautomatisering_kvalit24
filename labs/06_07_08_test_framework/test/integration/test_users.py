@@ -52,7 +52,7 @@ def test_login():
 def test_assign_product_to_user():
     username = "mimmi"
     password = "1234"
-    product_id = 4
+    product_id = 1
 
     user_api = UserAPI(BACKEND_URL)
     api_response = user_api.login(username, password)
@@ -81,7 +81,7 @@ def test_assign_product_to_user():
 def test_remove_product_from_user():
     username = "mimmi"
     password = "1234"
-    product_id = 4
+    product_id = 1
 
     user_api = UserAPI(BACKEND_URL)
     api_response = user_api.login(username, password)
