@@ -14,7 +14,7 @@ BACKEND_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000")
 def test_add_product_to_catalog():
     username = "admin1"
     password = "1234"
-    product_name = "Testprodukt"
+    product_name = "Testprodukt_2"
 
     # logg in via user login
     user_api = UserAPI(BACKEND_URL)
@@ -45,7 +45,7 @@ def test_add_product_to_catalog():
 def test_remove_product_from_catalog():
     username = "admin1"
     password = "1234"
-    product_delete_id = 1
+    product_delete_id = 2
 
     # logg in via user login
     user_api = UserAPI(BACKEND_URL)
