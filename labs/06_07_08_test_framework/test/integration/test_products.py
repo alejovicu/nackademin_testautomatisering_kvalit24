@@ -3,6 +3,9 @@ import pytest
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
 
+import os
+
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000")
 
 # Given I am an admin user​
 # When I add a product to the catalog​
@@ -13,7 +16,7 @@ def test_add_product_to_catalog():
     product_name = "Testprodukt"
 
     #logg in via user login 
-    user_api = UserAPI("http://127.0.0.1:8000")
+    user_api = UserAPI(BACKEND_URL)
     api_response = user_api.login(username, password)
     assert api_response.status_code == 200
     #get the access token and check its there
@@ -43,7 +46,7 @@ def test_remove_product_from_catalog():
     product_delete_id = 6
 
     #logg in via user login 
-    user_api = UserAPI("http://127.0.0.1:8000")
+    user_api = UserAPI(BACKEND_URL)
     api_response = user_api.login(username, password)
     assert api_response.status_code == 200
     #get the access token and check its there
