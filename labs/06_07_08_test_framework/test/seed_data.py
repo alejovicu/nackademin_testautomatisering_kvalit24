@@ -4,11 +4,20 @@ import requests
 
 BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
 
+#Skapa admin login
+create_admin = requests.post(f"{BACKEND_URL}/signup", json={
+    "username": "admin",
+    "password": "1234"
+})
+
+
 # Skapa vanlig användare
 create_user = requests.post(f"{BACKEND_URL}/signup", json={
     "username": "user",
     "password": "user",
 })
+
+
 
 #Admin login
 admin_login = requests.post(f"{BACKEND_URL}/login", json={
