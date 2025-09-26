@@ -1,10 +1,11 @@
+import os
 from playwright.sync_api import Page
 from models.api.user import UserAPI
 # INTEGRATIONSTESTNING (BACKEND,API)
 
 import libs.utils
 
-BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL = os.getenv("BACKEND","http://127.0.0.1:8000")
 
 def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix()

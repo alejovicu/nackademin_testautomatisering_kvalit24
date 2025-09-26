@@ -3,8 +3,9 @@ from playwright.sync_api import Page, expect
 from models.ui.admin import AdminPage
 from models.ui.home import HomePage
 from models.api.admin import AdminAPI
+import os
 
-BASE_URL = "http://localhost:8000/"
+BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
 
 @pytest.fixture(scope="function")
 def admin_api():
@@ -55,7 +56,7 @@ def test_add_product_to_catalog(page: Page, ensure_no_keyboard):
     product_name = "keyboard"
     admin_page.create_product(product_name)
     
-    # Vänta på att produkten dyker upp
+    
     expect(page.get_by_text(product_name).first).to_be_visible()
     assert admin_page.get_current_product_count() == initial_count + 1
 
