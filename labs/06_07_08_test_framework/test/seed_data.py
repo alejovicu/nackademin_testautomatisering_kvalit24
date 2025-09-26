@@ -7,7 +7,7 @@ BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
 #Skapa admin login
 requests.post(f"{BACKEND_URL}/signup", json={
     "username": "admin",
-    "password": "admin"
+    "password": "1234"
 })
 
 
@@ -22,7 +22,7 @@ requests.post(f"{BACKEND_URL}/signup", json={
 #Admin login
 admin_login = requests.post(f"{BACKEND_URL}/login", json={
     "username": "admin",
-    "password": "admin"
+    "password": "1234"
 })
 admin_login.raise_for_status()
 token = admin_login.json()["access_token"]

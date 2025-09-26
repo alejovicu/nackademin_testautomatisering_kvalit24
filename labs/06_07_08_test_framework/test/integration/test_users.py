@@ -33,8 +33,8 @@ def test_signup():
 # When I log in into the application​
 # Then I should see all my products
 def test_login():
-    username = "admin"
-    password = "1234"
+    username = "user"
+    password = "user"
     
     user_api = UserAPI(BACKEND_URL)
 
