@@ -3,8 +3,9 @@ import libs.utils
 import requests
 from models.api.user import UserAPI
 
+import os
 
-BASE_URL = "http://127.0.0.1:8000/"
+BACKEND_URL = os.environ.get("BACKEND_URL" , "http://localhost:8000")
 
 
 
@@ -17,7 +18,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "test1234"
     
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     signup_response = user_api.signup(username,password)
     assert signup_response.status_code == 200
@@ -35,7 +36,7 @@ def test_login():
     username = "admin"
     password = "1234"
     
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     login_response = user_api.login(username,password)
     assert login_response.status_code == 200
@@ -45,7 +46,7 @@ def test_add_product_to_user():
     username_user = "user"
     password_user = "user"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
     login_user = user_api.login(username_user, password_user)
     assert login_user.status_code == 200
 
@@ -58,7 +59,7 @@ def test_remove_product_from_user():
     username_user = "user"
     password_user = "user"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
     login_user = user_api.login(username_user, password_user)
     assert login_user.status_code == 200
 

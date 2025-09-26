@@ -5,13 +5,15 @@ from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 import requests
 
-BASE_URL = "http://127.0.0.1:8000/"
+import os
+
+BACKEND_URL = os.environ.get("BACKEND_URL" , "http://localhost:8000")
 
 # Given I am an admin user​
 # When I add a product to the catalog​
 # Then The product is available to be used in the app
 def test_add_product_to_catalog():
-    admin_user = UserAPI(BASE_URL)
+    admin_user = UserAPI(BACKEND_URL)
 
     
     login_response = admin_user.login("admin", "1234")
@@ -21,7 +23,7 @@ def test_add_product_to_catalog():
     token = login_response.json().get("access_token")
     admin_user.token = token  
 
-    admin_api = AdminAPI(BASE_URL, admin_user.token)
+    admin_api = AdminAPI(BACKEND_URL, admin_user.token)
 
     
     product_name = "Test3"
@@ -40,7 +42,7 @@ def test_add_product_to_catalog():
 # Then The product should not be listed in the app to be used
 def test_remove_product_from_catalog():
 
-    admin_user = UserAPI(BASE_URL)
+    admin_user = UserAPI(BACKEND_URL)
 
     login_response = admin_user.login("admin", "1234")
     assert login_response.status_code == 200
@@ -48,7 +50,7 @@ def test_remove_product_from_catalog():
     
     token = login_response.json().get("access_token")
     admin_user.token = token 
-    admin_api = AdminAPI(BASE_URL, admin_user.token)
+    admin_api = AdminAPI(BACKEND_URL, admin_user.token)
 
     # Ta bort produkt
     product_name = "Test3"
@@ -58,7 +60,7 @@ def test_remove_product_from_catalog():
 
     
     products = requests.get(
-        f"{BASE_URL}/products",
+        f"{BACKEND_URL}/products",
         headers={"Authorization": f"Bearer {token}"}
         ).json()
     

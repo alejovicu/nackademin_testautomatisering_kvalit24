@@ -2,12 +2,15 @@ from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 import requests
+import os
 
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
 
 #Helpfunction login via API and set token in localStorage
 def login_and_set_token(page: Page, username: str, password: str):
     
-    url_login = "http://localhost:8000/login"
+    url_login = f"{BACKEND_URL}/login"
     response = requests.post(url_login, json={
         "username": username,
         "password": password
@@ -27,12 +30,13 @@ def test_add_product_to_catalog(page: Page):
     password = "1234"
     product = "Chips"
 
-    home_page = HomePage(page)
+    
     admin_page = AdminPage(page)
 
     login_and_set_token(page, username, password)
 
-    home_page.navigate()
+    page.goto(FRONTEND_URL)
+
 
     admin_page.create_product(product)
 
@@ -48,12 +52,12 @@ def test_remove_product_from_catalog(page: Page):
     password = "1234"
     product = "Chips"
 
-    home_page = HomePage(page)
+    
     admin_page = AdminPage(page)
 
     login_and_set_token(page, username, password)
 
-    home_page.navigate()
+    page.goto(FRONTEND_URL)
 
 
     admin_page.delete_product_by_name(product)

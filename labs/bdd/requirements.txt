@@ -1,0 +1,3 @@
+pytest-bdd==8.1.0
+pytest-playwright==0.7.0
+requests==2.32.5
