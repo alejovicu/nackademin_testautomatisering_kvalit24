@@ -31,7 +31,7 @@ headers = {"Authorization" : f"Bearer {token}"}
 
 #Create product
 
-product_create = requests.post(f"{BACKEND_URL}/products", json={"name": "Monkey"})
+product_create = requests.post(f"{BACKEND_URL}/products", json={"name": "Monkey"}, headers=headers)
 product_create.raise_for_status()
 
 if product_create.status_code == 200:
