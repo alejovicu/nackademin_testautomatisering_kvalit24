@@ -50,7 +50,7 @@ def test_add_product_to_user():
     login_user = user_api.login(username_user, password_user)
     assert login_user.status_code == 200
 
-    product_id = 5   # ID från produktkatalogen
+    product_id = 1   # ID från produktkatalogen
     add_product_response = user_api.add_product_to_user(product_id)
     assert add_product_response.status_code == 200
 
@@ -63,7 +63,7 @@ def test_remove_product_from_user():
     login_user = user_api.login(username_user, password_user)
     assert login_user.status_code == 200
 
-    product_id = 5   
+    product_id = 1   
     remove_response = user_api.remove_product_from_user(product_id)
     assert remove_response.status_code == 200
 
