@@ -24,8 +24,6 @@ def test_signup(page: Page):
     home_page.login(username, password)
     expect(page.get_by_text("Your Products:")).to_be_visible()
 
-
-
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products

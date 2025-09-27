@@ -8,7 +8,6 @@ class UserPage:
         #page_(element-type)_(descriptive-name)
         # complete code
 
-
     def get_user_products(self):
         items = self.page.locator("div[style*='grid-template-columns'] > div")
         return items.all_text_contents()

@@ -9,7 +9,6 @@ class SignupPage:
         self.signup_btn_signup = page.locator('button.button-primary')
         self.signup_btn_login = page.locator('button.btn-blue')
 
-
     def signup(self,username,password):
         self.signup_input_username.fill(username)
         self.signup_input_password.fill(password)

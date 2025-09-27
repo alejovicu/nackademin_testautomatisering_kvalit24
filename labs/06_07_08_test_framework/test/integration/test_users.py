@@ -1,9 +1,12 @@
 from playwright.sync_api import Page
 from models.api.user import UserAPI
 import libs.utils
+import os 
+
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000/")
 
 #BaseUrl
-user_api = UserAPI("http://127.0.0.1:8000")
+user_api = UserAPI(BACKEND_URL)
 username = "test123"
 password = "test_123"
 
@@ -46,7 +49,7 @@ def test_add_product_to_user():
     user_api.user_token(token)
 
     
-    product_id = 4
+    product_id = 5
     new_product = user_api.add_product_to_user(product_id)
     assert new_product.status_code == 200
     assert new_product is not None
@@ -60,6 +63,7 @@ def test_remove_product_from_user():
     token = login_api_response.json()["access_token"]
     user_api.user_token(token)
 
-    product_id = 5
+    product_id = 1
     remove_product = user_api.remove_product_from_user(product_id)
     assert remove_product.status_code == 200
+    

@@ -1,15 +1,15 @@
 
 from playwright.sync_api import Page
 from models.api.admin import AdminAPI
+import os
 
-
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000/")
 
 def test_add_product_to_catalog():
-    api = AdminAPI("http://127.0.0.1:8000")
+    api = AdminAPI(BACKEND_URL)
     username = "nermin123"
     password = "nermin_123"
     product_name = "Jacket"
-
 
     admin_login = api.admin_login(username, password)
     assert admin_login.status_code == 200
@@ -25,16 +25,12 @@ def test_add_product_to_catalog():
     assert after_count == before_count +1
 
 
-
-
-
 def test_remove_product_from_catalog():
-    api = AdminAPI("http://127.0.0.1:8000")
+    api = AdminAPI(BACKEND_URL)
     username = "nermin123"
     password = "nermin_123"
     product_name = "Jacket"
     product_id = None
-
 
     admin_login = api.admin_login(username, password)
     assert admin_login.status_code == 200

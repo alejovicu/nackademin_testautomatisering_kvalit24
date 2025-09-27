@@ -16,7 +16,6 @@ class AdminAPI:
             self.auth_token(login_response.json().get("access_token"))
             return login_response
     
-
     def get_all_products(self):
         headers = {"Authorization": f"Bearer {self.token}"}
         create_product_resp = requests.get(f"{self.base_url}/products", headers=headers)
@@ -38,8 +37,6 @@ class AdminAPI:
         create_product_resp = requests.post(f"{self.base_url}/products", json=data, headers=headers)
         
         return create_product_resp
-        
-
 
     def delete_product_by_name(self, product_id):
         headers = {"Authorization": f"Bearer {self.token}"}
