@@ -16,4 +16,5 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
+        self.signup_btn_login.click()
         # complete code
