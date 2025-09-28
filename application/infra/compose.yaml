@@ -2,15 +2,17 @@ services:
   app-backend:
     ports:
       - "8000:8000"
-    image: "app-backend:0.1.0"
+    image: "alejovicu/app-backend:1.0.3"
   app-frontend:
     ports:
-      - "80:80"
-    image: "app-frontend:0.1.0"
+      - "80:5173"
+    environment:
+      - VITE_BACKEND_URL=http://localhost:8000
+    image: "alejovicu/app-frontend:1.0.2"
   jenkins:
     ports:
       - "8080:8080"
-    image: "jenkins-local"
+    image: "alejovicu/app-jenkins:0.1.0"
     volumes:
       - jenkins_home:/var/jenkins_home
   mailhog:
