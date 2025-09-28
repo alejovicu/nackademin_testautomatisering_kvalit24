@@ -18,6 +18,7 @@
 import random
 import string
 import requests
+import os
 
 
 def generate_string_with_prefix(prefix: str = "user", length: int = 8) -> str:
@@ -46,7 +47,7 @@ def get_base_url() -> str:
     Return the API base URL for the backend.
     Adjust here if your backend runs on a different port.
     """
-    return "http://localhost:8000"
+    return os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 def get_admin_credentials() -> dict:

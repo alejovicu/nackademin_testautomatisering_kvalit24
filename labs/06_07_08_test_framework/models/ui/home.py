@@ -25,6 +25,7 @@
 #     def go_to_signup(self):
 #         # complete code
 from playwright.sync_api import Page
+import os
 
 
 class HomePage:
@@ -39,7 +40,7 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        self.page.goto("http://localhost:5173/")
+        self.page.goto(os.getenv("FRONTEND_URL", "http://localhost:5173"))
 
     def login(self, username: str, password: str):
         self.login_input_username.fill(username)

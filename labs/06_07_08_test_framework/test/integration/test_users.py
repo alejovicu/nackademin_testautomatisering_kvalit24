@@ -43,7 +43,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234?"
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(libs.utils.get_base_url())
 
     # When I signup in the app​
     signup_api_response = user_api.signup(username, password)
@@ -63,7 +63,7 @@ def test_login():
     username = creds["username"]
     password = creds["password"]
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(libs.utils.get_base_url())
 
     # When I log in into the application
     login_api_response = user_api.login(username, password)
