@@ -1,26 +1,57 @@
-import React, { useState } from "react"
-import { signup } from "../api/auth.js"
+import React, { useState } from "react";
+import { signup } from "../api/auth.js";
 
 export default function Signup() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = async () => {
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     try {
-      const user = await signup(username, password)
-      alert("User registered OK.");
+      await signup(username, password);
+      alert("User registered successfully!");
+      setUsername("");
+      setPassword("");
     } catch (err) {
-      console.error(err.message)
-      alert("Signup failed: " + err.message)
+      console.error(err.message);
+      alert("Signup failed: " + err.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
       <h2>Signup</h2>
-      <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-      <button className="button-primary" onClick={handleSignup}>Sign Up</button>
+      <form onSubmit={handleSignup}>
+        <input
+          id="inp-username"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+          required
+        />
+        <input
+          id="inp-password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <button
+          id="btn-signup"
+          type="submit"
+          className="button-primary"
+          disabled={loading}
+        >
+          {loading ? "Signing up..." : "Sign Up"}
+        </button>
+      </form>
     </div>
-  )
+  );
 }

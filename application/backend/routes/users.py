@@ -11,7 +11,7 @@ router = APIRouter()
 def get_profile(current_user: User = Depends(get_current_user)):
     return current_user
 
-@router.post("/user/products/{product_id}", response_model=UserResponse)
+@router.post("/user/product/{product_id}", response_model=UserResponse)
 def assign_product(product_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:

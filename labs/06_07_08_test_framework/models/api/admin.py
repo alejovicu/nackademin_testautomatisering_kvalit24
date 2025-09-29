@@ -8,6 +8,7 @@ class AdminAPI:
 
 
 
+
     def get_current_product_count(self):
         url = f"{self.base_url}/products"
         headers = {
