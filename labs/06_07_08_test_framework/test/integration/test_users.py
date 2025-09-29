@@ -29,11 +29,12 @@ def test_signup():
 def test_login():
 
     # GIVEN I AM AN AUTHENTICATHED USER
-    # (Assumes this user already exists in the DB)
     username = "user_1"
     password = "pass_1"
 
     user_api = UserAPI(BACKEND_URL)
+
+    user_api.signup(username, password)
 
     # WHEN I LOG INTO THE APPLICATION
     login_response = user_api.login(username, password)
