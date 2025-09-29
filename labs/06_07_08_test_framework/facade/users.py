@@ -12,8 +12,8 @@ class UsersFacade:
         self.signup_page = SignupPage(page)
         self.login_page = HomePage(page)
 
-        self.base_url = os.getenv("APP_BACK_URL", "http://localhost:8000")
-        self.frontend_url = os.getenv("APP_FRONT_URL", "http://localhost:80/")
+        self.base_url = os.getenv("APP_BACK_URL", "http://app-frontend:8000/")
+        self.frontend_url = os.getenv("APP_FRONT_URL", "http://app-frontend:80/")
         self.user_api = UserAPI(self.base_url)
 
 
