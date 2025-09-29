@@ -56,4 +56,4 @@ def test_login():
     r = requests.get(f"{BASE_URL}/user", headers=headers)
     assert r.status_code == 200
     data = r.json()
-    products = data.get("products", [])
+    product = data.get("product", [])
