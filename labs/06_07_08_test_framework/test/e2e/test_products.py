@@ -14,7 +14,7 @@ import os
 # Store admin login token
 @pytest.fixture(scope="session")
 def get_admin_token():
-    user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
+    user_api = UserAPI(os.getenv("BACKEND_URL_TEST", "http://localhost:8000"))
     credentials = user_api.login("user_admin", "test_1234")
     token = credentials.json().get("access_token")
     return token
@@ -23,7 +23,7 @@ def get_admin_token():
 # Prepare adding product for removal
 @pytest.fixture(scope="session")
 def add_product_for_removal(get_admin_token):
-    admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
+    admin_api = AdminAPI(os.getenv("BACKEND_URL_TEST", "http://localhost:8000"))
     product_name = libs.utils.generate_string_with_prefix()
     create_product = admin_api.create_product(get_admin_token, product_name)
     product_name = create_product.json().get("name")
