@@ -1,7 +1,9 @@
 from playwright.sync_api import Page
-# complete imports
-import libs.utils
+from libs.utils import generate_string_with_prefix
 from models.api.user import UserAPI
+from facade.users import UsersFacade
+from models.ui.home import HomePage
+from models.ui.user import UserPage
 
 
 # Given I am a new potential customer​
@@ -9,17 +11,17 @@ from models.api.user import UserAPI
 # Then I should be able to log in with my new user
 def test_signup():
     # Given I am a new potential customer​
-    username = libs.utils.generate_string_with_prefix()
+    username = generate_string_with_prefix()
     password = "test_1234?"
 
     user_api = UserAPI('http://localhost:8000')
 
     # When I signup in the app​
-    signup_api_response = user_api.signup(username,password)
+    signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
 
     # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username,password)
+    login_api_response = user_api.login(username, password)
     assert login_api_response.status_code == 200
 
 
