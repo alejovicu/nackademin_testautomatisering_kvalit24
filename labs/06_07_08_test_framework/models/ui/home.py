@@ -17,7 +17,7 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        self.page.goto("VITE_FRONTEND_URL")
+        self.page.goto(VITE_FRONTEND_URL)
 
     def login(self, username, password):
         self.login_input_username.fill(username)
