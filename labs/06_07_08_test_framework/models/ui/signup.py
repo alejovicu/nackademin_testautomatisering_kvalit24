@@ -1,5 +1,10 @@
 # Page where the users could either create a new user or
 # navigate to Home
+import os
+
+VITE_FRONTEND_URL = os.getenv("VITE_FRONTEND_URL", "http://localhost:5173")
+
+
 class SignupPage:
     def __init__(self, page):
         self.page = page
@@ -14,4 +19,4 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
-        self.page.goto("http://localhost:5173/")
+        self.page.goto(VITE_FRONTEND_URL)

@@ -1,6 +1,9 @@
 # View where an user (non admin) can Choose
 # produts from the Product Catalog and/or
 # remove it
+import os
+
+VITE_FRONTEND_URL = os.getenv("VITE_FRONTEND_URL", "http://localhost:5173")
 
 
 class UserPage:
