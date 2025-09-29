@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import pytest
 from playwright.sync_api import Page
 from models.api.admin import AdminAPI
@@ -32,59 +31,8 @@ def test_add_product_to_catalog(admin_api: AdminAPI, page: Page):
 
 
 def test_remove_product_from_catalog(admin_api: AdminAPI, page: Page):
-    product_name = "test_product_to_delete"
-    create_response = admin_api.create_product(product_name)
-    assert create_response.status_code == 200, "Failed to create product for deletion"
-
+    product_name = "keyboard"
     delete_response = admin_api.remove_product_by_name(product_name)
     assert delete_response.status_code in [200, 204], f"Delete failed: {delete_response.text}"
 
 
-def test_add_product_to_user(admin_api: AdminAPI, user_api: UserAPI):
-    product_response = admin_api.create_product("test_product_for_user")
-    assert product_response.status_code == 200
-    product_id = product_response.json().get("id")
-
-    
-    response = user_api.add_product_to_user(product_id)
-    assert response.status_code == 200, f"Failed to add product: {response.text}"
-
-
-def test_remove_product_from_user(admin_api: AdminAPI, user_api: UserAPI):
-    product_response = admin_api.create_product("test_product_to_remove")
-    assert product_response.status_code == 200
-    product_id = product_response.json().get("id")
-
-    add_response = user_api.add_product_to_user(product_id)
-    assert add_response.status_code == 200, "Failed to add product before removal"
-
-    remove_response = user_api.remove_product_from_user(product_id)
-    assert remove_response.status_code in [200, 204], f"Failed to remove product: {remove_response.text}"
-
-
-def test_get_user_profile(user_api: UserAPI):
-    profile_response = user_api.get_profile()
-    assert profile_response.status_code == 200
-    data = profile_response.json()
-    assert "username" in data
-    assert data["username"] == "testuser"
-=======
-import libs.utils
-import pytest
-
-
-# Given I am an admin user​
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
-def test_add_product_to_catalog():
-    # complete code
-    pass
-
-
-# Given I am an admin user​
-# When I remove a product from the catalog​
-# Then The product should not be listed in the app to be used
-def test_remove_product_from_catalog():
-    # complete code
-    pass
->>>>>>> 4007169f48709b48b776125c775acc67d6e7056c

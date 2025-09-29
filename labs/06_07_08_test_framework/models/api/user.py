@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 import requests
-=======
 # View where an user (non admin) can Choose
 # produts from the Product Catalog and/or
 # remove it
-import requests
-
->>>>>>> 4007169f48709b48b776125c775acc67d6e7056c
 
 class UserAPI:
     def __init__(self, base_url):
@@ -14,7 +9,6 @@ class UserAPI:
         self.token = None
     
     def login(self, username, password):
-<<<<<<< HEAD
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/login", json=body)
         if response.status_code == 200:
@@ -34,26 +28,11 @@ class UserAPI:
         return requests.get(f"{self.base_url}/user", headers=self._headers())
 
     def add_product_to_user(self, product_id):
-        return requests.post(f"{self.base_url}/user/products/{product_id}", headers=self._headers())
+        return requests.post(f"{self.base_url}/user/product/{product_id}", headers=self._headers())
     
     def remove_product_from_user(self, product_id):
         return requests.delete(f"{self.base_url}/user/product/{product_id}", headers=self._headers())
-=======
-        body = { "username": username, "password": password }
-        response = requests.post(f"{self.base_url}/login", json=body)
-        return response
 
-    def signup(self, username, password):
-        body = { "username": username, "password": password }
-        response = requests.post(f"{self.base_url}/signup", json=body)
-        return response
+    
 
 
-    def add_product_to_user(self, product_name):
-        # complete code
-        return None
-
-    def remove_product_from_user(self, product_name):
-        # complete code
-        return None
->>>>>>> 4007169f48709b48b776125c775acc67d6e7056c

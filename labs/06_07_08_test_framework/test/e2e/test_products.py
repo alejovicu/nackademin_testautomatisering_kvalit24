@@ -8,39 +8,7 @@ import os
 BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
 
 
-
-@pytest.fixture(scope="function")
-def admin_api():
-    api = AdminAPI(BASE_URL)
-    response = api.login("admin", "admin1234")
-    assert response.status_code == 200, f"Login failed: {response.text}"
-    assert api.token is not None, "Token not set after login"
-    return api
-
-@pytest.fixture(scope="function")
-def ensure_no_keyboard(admin_api):
-    try:
-        admin_api.remove_product_by_name("keyboard")
-    except ValueError:
-        pass
-    yield
-    try:
-        admin_api.remove_product_by_name("keyboard")
-    except ValueError:
-        pass
-
-@pytest.fixture(scope="function")
-def ensure_keyboard_exists(admin_api):
-    products = admin_api.list_products().json()
-    if not any(p["name"] == "keyboard" for p in products):
-        admin_api.create_product("keyboard")
-    yield
-    try:
-        admin_api.remove_product_by_name("keyboard")
-    except ValueError:
-        pass
-
-def test_add_product_to_catalog(page: Page, ensure_no_keyboard):
+def test_add_product_to_catalog(page):
     home_page = HomePage(page)
     admin_page = AdminPage(page)
 
@@ -60,25 +28,25 @@ def test_add_product_to_catalog(page: Page, ensure_no_keyboard):
     expect(page.get_by_text(product_name).first).to_be_visible()
     assert admin_page.get_current_product_count() == initial_count + 1
 
-# def test_remove_existing_product(page: Page, ensure_keyboard_exists):
-#     home_page = HomePage(page)
-#     admin_page = AdminPage(page)
 
-#     home_page.navigate()
-#     home_page.login("admin", "admin1234")
+def test_remove_existing_product(page: Page):
+    home_page = HomePage(page)
+    admin_page = AdminPage(page)
+
+    home_page.navigate()
+    home_page.login("admin", "admin1234")
     
     
-#     page.wait_for_load_state("networkidle")
+    page.wait_for_load_state("networkidle")
     
 
-#     product_name = "keyboard"
-#     expect(page.get_by_text(product_name).first).to_be_visible()
+    product_name = "keyboard"
+    expect(page.get_by_text(product_name).first).to_be_visible()
     
-#     initial_count = admin_page.get_current_product_count()
-#     admin_page.delete_product_by_name(product_name)
-    
-    
-#     page.wait_for_timeout(1000)
+    initial_count = admin_page.get_current_product_count()
+    admin_page.delete_product_by_name(product_name)
     
     
-#     assert admin_page.get_current_product_count() == initial_count - 1
+    page.wait_for_timeout(1000)
+    
+    assert admin_page.get_current_product_count() == initial_count - 1

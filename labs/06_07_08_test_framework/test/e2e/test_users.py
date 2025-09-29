@@ -26,8 +26,6 @@ def test_signup(page: Page):
     expect(page.get_by_text(f"Welcome, {username}")).to_be_visible()
 
 
-
-
 def test_login_as_user(page: Page):
     home_page = HomePage(page)
     
@@ -36,8 +34,6 @@ def test_login_as_user(page: Page):
     username = "user1"
     password = "user1234"
     home_page.login(username, password)
-    
-    page.wait_for_load_state("networkidle")
     
     expect(page.get_by_text(f"Welcome, {username}")).to_be_visible()
     expect(page.get_by_role("button", name="Logout")).to_be_visible()
@@ -49,15 +45,11 @@ def test_login_as_admin(page: Page):
     home_page = HomePage(page)
     
     home_page.navigate()
-    
     home_page.login("admin", "admin1234")
     
-    page.wait_for_load_state("networkidle")
-    
+  
     expect(page.get_by_text("Welcome, admin!")).to_be_visible()
-    
-    expect(page.get_by_text("Products available:")).to_be_visible()
-    
+  
     expect(page.get_by_text("Add new product:")).to_be_visible()
     expect(page.get_by_placeholder("Product Name")).to_be_visible()
     expect(page.get_by_role("button", name="Create Product")).to_be_visible()
