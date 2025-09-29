@@ -19,6 +19,7 @@ class AdminAPI:
             raise ValueError("Token missing!")
         return {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
 
+<<<<<<< HEAD
     def list_products(self):
         return requests.get(f"{self.base_url}/products", headers=self._headers())
     
@@ -34,3 +35,16 @@ class AdminAPI:
             raise ValueError(f"Product '{product_name}' not found")
         product_id = product.get("id")
         return requests.delete(f"{self.base_url}/product/{product_id}", headers=self._headers())
+=======
+
+
+    def get_current_product_count(self):
+        # complete logic
+        # return number of total products displayed
+
+    def create_product(self, product_name):
+        # complete logic
+
+    def delete_product_by_name(self, product_name):
+        # complete logic
+>>>>>>> 4007169f48709b48b776125c775acc67d6e7056c

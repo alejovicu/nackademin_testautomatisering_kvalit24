@@ -1,6 +1,5 @@
 # Landing page where the users could either login or
 # navigate to signup
-
 import os
 
 BASE_URL = os.getenv("APP_URL","http://localhost:5173/")
