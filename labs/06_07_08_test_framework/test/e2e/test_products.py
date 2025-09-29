@@ -19,18 +19,11 @@ def test_add_product_to_catalog(page:Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI(APP_BACKEND_URL)
-    response = user_api.login(username, password)
-    token = response.json().get("access_token")
 
-    # Setting token through local storage to avoid logging in through the UI every time
-    page.add_init_script(
-        f"""
-    window.localStorage.setItem("token", "{token}");
-    """
-    )
 
     home_page.navigate()
+    home_page.login(username, password)
+
     expect(admin_page.products.first).to_be_visible()
     
     num_of_products_before = admin_page.get_current_product_count()
