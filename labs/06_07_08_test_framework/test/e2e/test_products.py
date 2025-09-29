@@ -3,8 +3,11 @@ from playwright.sync_api import Page, expect
 from models.ui.admin import AdminPage
 from models.ui.home import HomePage
 from models.api.admin import AdminAPI
+import os
 
-BASE_URL = "http://localhost:8000/"
+BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
+
+
 
 @pytest.fixture(scope="function")
 def admin_api():

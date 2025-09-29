@@ -3,7 +3,7 @@ from playwright.sync_api import Page, expect
 from models.ui.signup import SignupPage
 from models.ui.home import HomePage
 
-base_url = "http://localhost:5173/"
+
 
 def test_signup(page: Page):
     username = f"user{uuid.uuid4().hex}"

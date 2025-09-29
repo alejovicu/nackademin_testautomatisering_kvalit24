@@ -2,8 +2,9 @@ import pytest
 from playwright.sync_api import Page
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
+import os
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
 
 
 @pytest.fixture
