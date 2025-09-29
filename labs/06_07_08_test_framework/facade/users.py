@@ -13,7 +13,7 @@ class UsersFacade:
         self.login_page = HomePage(page)
 
         self.base_url = os.getenv("APP_BACK_URL", "http://app-frontend:8000/")
-        self.frontend_url = os.getenv("APP_FRONT_URL", "http://app-frontend:80/")
+        self.frontend_url = os.getenv("APP_FRONT_URL", "http://app-frontend:5173/")
         self.user_api = UserAPI(self.base_url)
 
 
