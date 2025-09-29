@@ -7,7 +7,6 @@ from models.api.admin import AdminAPI
 import os
 
 BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
-user_api = UserAPI(BASE_URL)
 
 
 def test_signup():
@@ -56,4 +55,4 @@ def test_login():
     r = requests.get(f"{BASE_URL}/user", headers=headers)
     assert r.status_code == 200
     data = r.json()
-    product = data.get("product", [])
+    products = data.get("products", [])
