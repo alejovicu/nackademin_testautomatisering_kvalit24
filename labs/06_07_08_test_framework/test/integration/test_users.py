@@ -33,8 +33,8 @@ def test_signup():
 # When I log in into the application​
 # Then I should see all my products
 def test_login():
-    username = "user"
-    password = "user"
+    username = "malle"
+    password = "1234"
     
     user_api = UserAPI(BACKEND_URL)
 
@@ -43,8 +43,8 @@ def test_login():
 
 
 def test_add_product_to_user():
-    username_user = "user"
-    password_user = "user"
+    username_user = "malle"
+    password_user = "1234"
 
     user_api = UserAPI(BACKEND_URL)
     login_user = user_api.login(username_user, password_user)
@@ -56,8 +56,8 @@ def test_add_product_to_user():
 
 
 def test_remove_product_from_user():
-    username_user = "user"
-    password_user = "user"
+    username_user = "malle"
+    password_user = "1234"
 
     user_api = UserAPI(BACKEND_URL)
     login_user = user_api.login(username_user, password_user)
