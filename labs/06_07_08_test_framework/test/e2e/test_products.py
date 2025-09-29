@@ -35,13 +35,17 @@ def test_remove_product_from_catalog(page: Page):
 
     # WHEN I REMOVE A PRODUCT FROM THE CATALOG
     #Add product via API
-    new_product_name = f"product_{int(time.time())}"
+    new_product_name = f"deleted_product_{int(time.time())}"
     new_product = admin_facade.create_product_for_test_via_api(new_product_name)
+
+    expect(admin_page.admin_grid_products.filter(has_text=new_product)).to_be_visible(timeout=5000)
+
     count_before_removing = admin_page.get_current_product_count()
 
     # Delete product
     deleted_product = admin_page.delete_product_by_name(new_product)
+    expect(deleted_product).to_have_count(0, timeout=10000)
 
     # THEN THE PRODUCT SHOULD NOT BE LISTED IN THE APP TO BE USED
-    expect(deleted_product).to_have_count(0) # Check that product with that name does not exist anymore
+    expect(deleted_product).to_have_count(0, timeout=10000) # Check that product with that name does not exist anymore
     expect(admin_page.admin_grid_products).to_have_count(count_before_removing - 1, timeout=10000)
