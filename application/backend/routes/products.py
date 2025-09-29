@@ -8,7 +8,7 @@ from typing import List
 
 router = APIRouter()
 
-@router.post("/products", response_model=ProductResponse)
+@router.post("/product", response_model=ProductResponse)
 def create_product(
     product: ProductCreate,
     db: Session = Depends(get_db),

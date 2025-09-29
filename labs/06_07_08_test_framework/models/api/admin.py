@@ -24,7 +24,7 @@ class AdminAPI:
     
     def create_product(self, product_name):
         body = {"name": product_name}
-        return requests.post(f"{self.base_url}/products", json=body, headers=self._headers())
+        return requests.post(f"{self.base_url}/product", json=body, headers=self._headers())
     
     def remove_product_by_name(self, product_name):
         list_response = self.list_products()
