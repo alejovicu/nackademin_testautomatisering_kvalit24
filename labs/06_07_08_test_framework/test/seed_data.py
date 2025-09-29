@@ -40,10 +40,10 @@ requests.post(f"{BACKEND_URL}/signup", json={
 
 # check if product already exists
 products = requests.get(f"{BACKEND_URL}/products", headers=headers).json()
-if any(p["name"] == "Monkey" for p in products):
-    print("Product 'Monkey' already exists, skipping.")
+if any(p["name"] == "Tomato" for p in products):
+    print("Product 'Tomato' already exists, skipping.")
     #if product don't exists ,then post as new product
 else:
-    product_create = requests.post(f"{BACKEND_URL}/product", json={"name": "Monkey"}, headers=headers)
+    product_create = requests.post(f"{BACKEND_URL}/product", json={"name": "Tomato"}, headers=headers)
     product_create.raise_for_status()
-    print("Product 'Monkey' added")
+    print("Product 'Tomato' added")
