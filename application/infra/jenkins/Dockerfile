@@ -66,6 +66,10 @@ RUN . /var/jenkins_home/.venv/bin/activate && pip install \
         python-jose==3.5.0 \
         python-multipart==0.0.20 \
         pytest-playwright==0.7.0 \
-        requests==2.32.5 && \
+        pytest-html==4.1.1 && \
+        requests==2.32.5
+
+# Install browsers
+RUN . /var/jenkins_home/.venv/bin/activate  && \
     playwright install chromium && \
     playwright install firefox
