@@ -28,10 +28,10 @@ class AdminAPI:
 
     def create_product(self, product_name):
         body = {"name": product_name}
-        return self.session.post(f"{self.base_url}/products", json=body)
+        return self.session.post(f"{self.base_url}/product", json=body)
 
     def delete_product_by_name(self, product_name):
-        products = self.session.get(f"{self.base_url}/products").json()
+        products = self.session.get(f"{self.base_url}/product").json()
         for product in products:
             if product["name"] == product_name:
                 return self.session.delete(f"{self.base_url}/product/{product['id']}")
