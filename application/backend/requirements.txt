@@ -1,8 +1,19 @@
-fastapi==0.116.1
-SQLAlchemy==2.0.43
-passlib==1.7.4
-uvicorn==0.35.0
-bcrypt==4.3.0
-passlib==1.7.4
-python-jose==3.5.0
-python-multipart==0.0.20
+>Kör skalprogram
+>Klona ner din repo git clone --depth=1
+>Skriv in din path till nackademin_testautomatisering_kvalit_24 #cd
+>Skriv in din path till testerna #cd
+>Aktivera venv
+>pip install pytest-html
+>Lägg in din venv ifrån Dockerfilen
+>Skriv Pytest --junitxml=report.xml unit_test
+>Postbuild action junit report
+
+
+
+BACKEND_URL = os.environ
+
+3 jobs 
+1 för integration
+2 för e2e, en för chromium och en annan för firefox
+skicka screenshot på jobben på discord
+skriv xml report

@@ -1,31 +1,61 @@
 from playwright.sync_api import Page
-# complete imports
-import libs.utils
 from models.api.user import UserAPI
+import libs.utils
+import os
 
+BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
 
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
-def test_signup():
-    # Given I am a new potential customer​
+def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234?"
+    
+    user_api = UserAPI(BASE_URL)
+           
+    sign_up_api_response = user_api.signup(username,password)
+    assert sign_up_api_response.status_code == 200
+    
+    api_response = user_api.login(username,password)
+    assert api_response.status_code == 200
+    
 
-    user_api = UserAPI('http://localhost:8000')
-
-    # When I signup in the app​
-    signup_api_response = user_api.signup(username,password)
-    assert signup_api_response.status_code == 200
-
-    # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username,password)
-    assert login_api_response.status_code == 200
-
-
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
 def test_login():
-    # complete code
-    pass
+    username = "user1"
+    password = "user1234"
+    
+    user_api = UserAPI(BASE_URL)
+            
+    login_response = user_api.login(username, password)
+    assert login_response.status_code == 200
+
+
+
+def test_assign_product_to_user():
+    product_to_assign = 1
+    
+    username = "user1"
+    password = "user1234"
+    user_api = UserAPI(BASE_URL)
+            
+    login_response = user_api.login(username, password)
+    assert login_response.status_code == 200
+
+
+    assign_product_response = user_api.add_product_to_user(product_to_assign)
+
+    # Check if correct status code is returned
+    assert assign_product_response.status_code == 200
+    
+def test_remove_product_from_user():
+    product_to_unassign = 1
+
+    username = "user1"
+    password = "user1234"
+    user_api = UserAPI(BASE_URL)
+            
+    login_response = user_api.login(username, password)
+    assert login_response.status_code == 200
+
+    unassign_product_response = user_api.remove_product_from_user(product_to_unassign)
+
+    # Check if correct status code is returned
+    assert unassign_product_response.status_code == 200
