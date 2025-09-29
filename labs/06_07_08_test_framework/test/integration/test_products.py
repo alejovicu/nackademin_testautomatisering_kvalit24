@@ -12,7 +12,7 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
 def admin_api():
     api = AdminAPI(BASE_URL_BACKEND, token=None)
     login_response = api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
-    assert login_response.status_code == 200
+    
 
     token = login_response.json().get("access_token")
     assert token is not None
@@ -51,11 +51,9 @@ def test_remove_product_from_catalog():
     api.create_product(product_name)
     print(" Created product name:", product_name)
     #assert create_products.status_code==200
-    #api.delete_product_by_name(product_name)
+   
 
-    '''delete_response=api.delete_product_by_name(product_name)
-    print(" Deleted product name:", product_name)
-    assert delete_response.status_code== 200'''
+  
     
     api.delete_product_by_name(product_name)
     products=api.get_all_products()

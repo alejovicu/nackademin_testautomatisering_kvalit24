@@ -40,24 +40,13 @@ def test_login():
     login_api_response = user_api.login(username,password)
     assert login_api_response.status_code == 200
 
-    
-# Then I should see all my products
-def test_user_products():
-    username = libs.utils.generate_string_with_prefix()
-    password = "1234"
-
-    #signup
-    user_api = UserAPI('http://localhost:8000')
-    signup_api_response=user_api.signup(username,password)
-    assert signup_api_response.status_code == 200
-
-    #login
-    login_api_response = user_api.login(username,password)
-    assert login_api_response.status_code == 200
-
-    #then i can see all my products
     products = login_api_response.json().get("products", [])
+    #assert len(products) ==[]
     assert len(products) == 0
+
+    
+
+
 
 
 

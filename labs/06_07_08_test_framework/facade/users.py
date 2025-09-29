@@ -25,7 +25,7 @@ class UsersFacade:
         home_page.navigate()
         home_page.login(username, password)
         return username, password
-        # return username and password
-        return username, password
+        
+        
     
     

@@ -27,3 +27,7 @@ def generate_product_with_prefix(prefix: str = "product", length: int = 8) -> st
         str: A product name like "product_ab12cd34"."""
     random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
     return f"{prefix}_{random_part}"
+
+'''def get_admin_credentials():
+   
+    return {"username": "admin", "password": "admin123"}'''
