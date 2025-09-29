@@ -18,7 +18,7 @@ class AdminAPI:
     # CREATE PRODUCT, RETURN API RESPONSE
     def create_product(self, product_name):
         body = {"name": product_name}
-        response = requests.post(f"{self.base_url}/products", json=body, headers={"Authorization": f"Bearer {self.token}"})
+        response = requests.post(f"{self.base_url}/product", json=body, headers={"Authorization": f"Bearer {self.token}"})
         return response
 
     # DELETE PRODUCT, RETURN API RESPONSE
