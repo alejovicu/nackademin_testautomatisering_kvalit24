@@ -9,7 +9,7 @@ def test_add_product_to_catalog():
 
     # Given I am an admin user​
     base_url = os.getenv("http://localhost:8000",
-                         "http://alejovicu/infra-app-backend-1.0.3:8000/")
+                         "http://infra-app-backend-1:8000/")
     admin_username = "testuser"
     admin_password = "testpassword"
 
@@ -38,7 +38,7 @@ def test_remove_product_from_catalog():
     # Given I am an admin user​
     
     base_url = os.getenv("http://localhost:8000",
-                         "http://alejovicu/infra-app-backend-1.0.3:8000/")
+                         "http://infra-app-backend-1:8000/")
     admin_username = "testuser"
     admin_password = "testpassword"
 
