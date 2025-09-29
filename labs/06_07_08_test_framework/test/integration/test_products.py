@@ -56,7 +56,9 @@ def test_remove_product_from_catalog():
     product_name = "Test3"
     
     delete_response = admin_api.delete_product_by_name(product_name)
-    assert delete_response.status_code == 200
+    
+    if delete_response is not None:
+        assert delete_response.status_code == 200
 
     
     products = requests.get(

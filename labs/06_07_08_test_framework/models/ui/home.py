@@ -3,7 +3,7 @@
 
 import os
 
-FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173/")
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
 
 class HomePage:
     def __init__(self, page):

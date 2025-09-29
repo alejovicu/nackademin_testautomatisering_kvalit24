@@ -25,7 +25,7 @@ class AdminAPI:
 
     def create_product(self, product_name):
         
-        url = f"{self.base_url}/products"
+        url = f"{self.base_url}/product"
         headers = {
         "Authorization": f"Bearer {self.token}",
          "Content-Type": "application/json"
@@ -43,7 +43,8 @@ class AdminAPI:
 
         response = requests.get(url, headers=headers)
         if response.status_code != 200:
-            return None
+            raise Exception(f"Failed to fetch products. Status: {response.status_code}")
+
 
         products = response.json()
         for product in products:
