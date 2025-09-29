@@ -12,7 +12,7 @@ class HomePage:
         self.login_btn_login = page.locator('button.button-primary')
         self.login_label_have_account = page.get_by_text("Don't have an account?")
         self.login_btn_signup = page.locator('#signup')
-        self.front_url = os.getenv("APP_FRONT_URL", "http://localhost:5173/")
+        self.front_url = os.getenv("APP_FRONT_URL", "http://localhost:80/")
 
 
     def navigate(self):
