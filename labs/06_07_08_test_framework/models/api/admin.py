@@ -24,7 +24,7 @@ class AdminAPI:
         }
         body = {"name": product_name}
         response = requests.post(
-            f"{self.base_url}/products", json=body, headers=headers)
+            f"{self.base_url}/product", json=body, headers=headers)
 
         product_id = response.json().get("id")
         return response, product_id

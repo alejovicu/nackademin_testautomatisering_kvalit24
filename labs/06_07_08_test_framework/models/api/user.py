@@ -34,7 +34,7 @@ class UserAPI:
         }
         body = {"product": product_name}
         response = requests.post(
-            f"{self.base_url}/user/products", json=body, headers=headers)
+            f"{self.base_url}/user/product", json=body, headers=headers)
         return response
 
     def remove_product_from_user(self, product_name):
