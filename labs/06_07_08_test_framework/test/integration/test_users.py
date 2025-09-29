@@ -1,10 +1,11 @@
 from playwright.sync_api import Page
 import libs.utils
 from models.api.user import UserAPI
+import os
 
 
 def test_signup():
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BASE_URL"))
     # Given I am a new potential customer​
     username = libs.utils.generate_string_with_prefix()
     password = "test1234!"
@@ -19,7 +20,7 @@ def test_signup():
 
 
 def test_login():  # use -s in the pytest command to show the print.
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BASE_URL"))
     # Given I am an authenticated user​
     username = "user83"
     password = "pass83"

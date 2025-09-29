@@ -3,12 +3,13 @@ import libs.utils
 import pytest
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+import os
 # from dotenv import load_dotenv
 
 
 def test_add_product_to_catalog():  # complete code
-    user_api = UserAPI("http://localhost:8000")
-    admin_api = AdminAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BASE_URL"))
+    admin_api = AdminAPI(os.getenv("BASE_URL"))
     username = "Admin_user"
     password = "Automation53"
     # Given I am an admin user​
@@ -23,8 +24,8 @@ def test_add_product_to_catalog():  # complete code
 
 
 def test_remove_product_from_catalog():  # complete code
-    user_api = UserAPI("http://localhost:8000")
-    admin_api = AdminAPI("http://localhost:8000")
+    user_api = UserAPI(os.getenv("BASE_URL"))
+    admin_api = AdminAPI(os.getenv("BASE_URL"))
     username = "Admin_user"
     password = "Automation53"
     # Given I am an admin user​
