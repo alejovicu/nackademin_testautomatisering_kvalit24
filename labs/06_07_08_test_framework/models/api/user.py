@@ -25,7 +25,7 @@ class UserAPI:
 
     # ADD PRODUCT TO USER VIA PRODUCT ID (not used right now)
     def add_product_to_user_via_id(self, product_id):
-        response = requests.post(f"{self.base_url}/user/products/{product_id}", headers={"Authorization": f"Bearer {self.token}"})
+        response = requests.post(f"{self.base_url}/user/product/{product_id}", headers={"Authorization": f"Bearer {self.token}"})
         return response
     
     # DELETE PRODUCT FROM USER VIA PRODUCT ID (not used right now)
@@ -37,7 +37,7 @@ class UserAPI:
     def add_product_to_user(self, product_name):
         
         # Get all products currently in list
-        response = requests.get(f"{self.base_url}/products", headers={"Authorization": f"Bearer {self.token}"})
+        response = requests.get(f"{self.base_url}/product", headers={"Authorization": f"Bearer {self.token}"})
         products = response.json()
         product_id = None
 
