@@ -35,7 +35,7 @@ class UserAPI:
             if product.get("name") == product_name:
                 return product.get("id")
 
-        raise Exception("Product not found")
+        raise Exception(f"Product {product_name} not found")
 
     def add_product_to_user(self, product_name):
         # Search product id
@@ -43,7 +43,7 @@ class UserAPI:
 
         headers = {"Authorization": f"Bearer {self.token}"}
         response = requests.post(
-            f"{self.base_url}/user/products/{product_id}", headers=headers
+            f"{self.base_url}/user/product/{product_id}", headers=headers
         )
         return response.json()
 

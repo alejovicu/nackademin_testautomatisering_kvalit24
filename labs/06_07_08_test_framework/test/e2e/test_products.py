@@ -4,6 +4,9 @@ from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 from models.api.user import UserAPI
 from libs.utils import generate_product_string_with_prefix
+import os
+
+VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am an admin user​
@@ -15,7 +18,7 @@ def test_add_product_to_catalog(page: Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
     product = generate_product_string_with_prefix()
     token = user_api.login(username, password)
 
@@ -45,7 +48,7 @@ def test_remove_product_from_catalog(page: Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
     product = generate_product_string_with_prefix()
     token = user_api.login(username, password)
 

@@ -4,6 +4,9 @@ from models.ui.user import UserPage
 from models.ui.signup import SignupPage
 from models.api.user import UserAPI
 from libs.utils import generate_string_with_prefix
+import os
+
+VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am a new potential customer​
@@ -59,7 +62,7 @@ def test_cart_when_user_have_selected_products(page: Page):
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
     token = user_api.login(username, password)
 
     # Setting token through local storage to avoid logging in through the UI every time
@@ -82,7 +85,7 @@ def test_cart_when_user_has_not_selected_products(page: Page):
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
     token = user_api.login(username, password)
 
     # Setting token through local storage to avoid logging in through the UI every time

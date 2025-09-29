@@ -1,8 +1,11 @@
 def pytest_sessionstart(session):
     from models.api.user import UserAPI
     from models.api.admin import AdminAPI
+    import os
 
-    api_base = "http://localhost:8000"
+    VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
+
+    api_base = VITE_BACKEND_URL
     user_api = UserAPI(api_base)
 
     # Create users
