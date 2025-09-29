@@ -25,7 +25,7 @@ class UserAPI(BaseAPI):
 
     def assign_product_to_user(self, product_name: str):
         product_id = self.get_product_id(product_name)
-        response = requests.post(f"{self.base_url}/user/products/{product_id}", headers=self.headers)
+        response = requests.post(f"{self.base_url}/user/product/{product_id}", headers=self.headers)
         return response
 
     def unassign_product_from_user(self, product_name: str):

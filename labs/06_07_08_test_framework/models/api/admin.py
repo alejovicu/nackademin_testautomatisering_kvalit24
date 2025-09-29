@@ -10,7 +10,7 @@ class AdminAPI(BaseAPI):
 
     def create_product(self, product_name: str):
         body = {"name": product_name}
-        response = requests.post(f"{self.base_url}/products", json=body, headers=self.headers)
+        response = requests.post(f"{self.base_url}/product", json=body, headers=self.headers)
         return response 
 
     def delete_product_by_name(self, product_name: str):

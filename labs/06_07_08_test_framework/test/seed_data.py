@@ -8,6 +8,7 @@ login_resp = requests.post(f"{BASE}/login", json={"username": "admin", "password
 
 # If login succeeds
 if login_resp.ok:
+    print("Admin account already exists, proceeding with product creation")
     token = login_resp.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
@@ -22,7 +23,7 @@ if login_resp.ok:
     else:
         # create the product
         product_resp = requests.post(
-            f"{BASE}/products",
+            f"{BASE}/product",
             json={"name": "Banan"},
             headers=headers,
         )
@@ -45,5 +46,20 @@ else:
         "password": "user_pass"
     })
     user_creation_resp.raise_for_status()
+
+    # login as admin
+    login_resp = requests.post(f"{BASE}/login", json={"username": "admin", "password": "admin"})
+    login_resp.raise_for_status()
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+   
+    # create the product
+    product_resp = requests.post(
+        f"{BASE}/product",
+        json={"name": "Banan"},
+        headers=headers,
+    )
+    product_resp.raise_for_status()
+    print('Created product "Banan"')
 
 
