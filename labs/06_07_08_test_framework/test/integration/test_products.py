@@ -1,6 +1,7 @@
 import pytest
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
+import libs.utils
 import os
 
 
@@ -20,7 +21,7 @@ def get_admin_token():
 @pytest.fixture(scope="session")
 def add_product_for_removal(get_admin_token):
     admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
-    product_name = "dummy_product"
+    product_name = libs.utils.generate_string_with_prefix()
     new_product = admin_api.create_product(get_admin_token, product_name)
     return new_product
 
@@ -32,7 +33,7 @@ def add_product_for_removal(get_admin_token):
 #####################################################
 def test_add_product_to_catalog(get_admin_token):
     ### ARRANGE - Given I am an admin user​
-    product_name = "test_product"
+    product_name = libs.utils.generate_string_with_prefix()
     admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
 
     ### ACT - When I add a product to the catalog​

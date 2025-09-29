@@ -5,8 +5,8 @@ from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+import libs.utils
 import os
-import time
 
 ### RUN 'pytest test_data_admin.py' first to register admin credentials
 
@@ -24,7 +24,7 @@ def get_admin_token():
 @pytest.fixture(scope="session")
 def add_product_for_removal(get_admin_token):
     admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
-    product_name = "Bildäck"
+    product_name = libs.utils.generate_string_with_prefix()
     create_product = admin_api.create_product(get_admin_token, product_name)
     product_name = create_product.json().get("name")
     return product_name
@@ -39,7 +39,7 @@ def test_add_product_to_catalog(page: Page, get_admin_token):
     ### ARRANGE - Given I am an admin user​
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    product_name = "Cykelstyre"
+    product_name = libs.utils.generate_string_with_prefix()
 
     # Assign admintoken to browser
     page.add_init_script(
