@@ -15,7 +15,7 @@ class AdminAPI:
     def create_product(self, access_token, product_name):
         token = {"Authorization": f"Bearer {access_token}"}
         body = {"name": product_name}
-        response = requests.post(f"{self.base_url}/products", headers=token, json=body)
+        response = requests.post(f"{self.base_url}/product", headers=token, json=body)
         return response
 
     def delete_product_by_id(self, access_token, product_id):
