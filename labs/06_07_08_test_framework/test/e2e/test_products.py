@@ -5,6 +5,8 @@ from models.ui.admin import AdminPage
 from models.api.user import UserAPI
 from libs.utils import generate_string_with_prefix
 
+import os
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 # Given I am an admin user​
 # When I add a product to the catalog​
@@ -17,7 +19,7 @@ def test_add_product_to_catalog(page:Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(APP_BACKEND_URL)
     response = user_api.login(username, password)
     token = response.json().get("access_token")
 
@@ -48,7 +50,7 @@ def test_remove_product_from_catalog(page: Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(APP_BACKEND_URL)
     response = user_api.login(username, password)
     token = response.json().get("access_token")
 
