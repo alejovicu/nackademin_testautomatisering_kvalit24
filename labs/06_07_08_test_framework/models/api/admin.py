@@ -46,7 +46,7 @@ class AdminAPI:
             "Content-Type": "application/json",
         }
         body = {"name": product_name}
-        response = requests.post(f"{self.base_url}/products", json=body, headers=token)
+        response = requests.post(f"{self.base_url}/product", json=body, headers=token)
         return response
 
     def delete_product_by_name(self, product_name):  # complete logic

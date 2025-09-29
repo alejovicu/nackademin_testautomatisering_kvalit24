@@ -58,7 +58,7 @@ class UserAPI:
                 product_id = product["id"]
                 break
         add_product = requests.post(
-            f"{self.base_url}/user/products/{product_id}", headers=token
+            f"{self.base_url}/user/product/{product_id}", headers=token
         )
         return add_product
 
