@@ -31,10 +31,11 @@ class AdminAPI:
         return self.session.post(f"{self.base_url}/product", json=body)
 
     def delete_product_by_name(self, product_name):
-        products = self.session.get(f"{self.base_url}/product").json()
+        products = self.session.get(f"{self.base_url}/products").json()
         for product in products:
             if product["name"] == product_name:
-                return self.session.delete(f"{self.base_url}/product/{product['id']}")
+                self.session.delete(f"{self.base_url}/product/{product['id']}")
+                return
         return None
 
     def get_current_product_count(self):
