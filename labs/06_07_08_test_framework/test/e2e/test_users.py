@@ -5,8 +5,7 @@ from models.ui.user import UserPage
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 import libs.utils
-
-# complete imports
+import pytest
 import sys
 import os
 from dotenv import load_dotenv
@@ -15,6 +14,7 @@ env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "
 load_dotenv(dotenv_path=env_path)
 
 
+@pytest.mark.order(5)
 def test_setup_user():
     user_api = UserAPI(os.getenv("BASE_URL"))
     admin_api = AdminAPI(os.getenv("BASE_URL"))
@@ -38,6 +38,7 @@ def test_setup_user():
     user_api.add_product_to_user(token, course03)
 
 
+@pytest.mark.order(6)
 def test_signup(page: Page):
     home_page = HomePage(page)
     user_page = UserPage(page)
@@ -55,6 +56,7 @@ def test_signup(page: Page):
     user_page.logout_user()
 
 
+@pytest.mark.order(7)
 def test_login(page: Page):
     home_page = HomePage(page)
     user_page = UserPage(page)
@@ -72,6 +74,7 @@ def test_login(page: Page):
     user_page.logout_user()
 
 
+@pytest.mark.order(8)
 def test_reset_data_user():
     user_api = UserAPI(os.getenv("BASE_URL"))
     admin_api = AdminAPI(os.getenv("BASE_URL"))
