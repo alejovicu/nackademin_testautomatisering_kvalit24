@@ -12,6 +12,7 @@ def test_add_product_to_catalog(page: Page):
 
     login_home_page = HomePage (page)
     login_home_page.navigate()
+    #Skapar ett objekt för hemsidan och navigerar till den
 
     login_home_page.login(username, password)
     expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
