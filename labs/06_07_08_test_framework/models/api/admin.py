@@ -16,7 +16,7 @@ class AdminAPI:
     def create_product(self, product_name):
         # complete logic
         body = {"name":product_name}
-        response = requests.post(f"{self.base_url}/products", json=body, headers = self.headers)
+        response = requests.post(f"{self.base_url}/product", json=body, headers = self.headers)
         return response
     
     def get_product_id(self, product_name: str) -> int | None:

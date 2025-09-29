@@ -14,10 +14,12 @@ def test_signup(page: Page):
 
     #check for the alert that a singup is successful
     def handle_dialog(dialog):
-        assert "User registered OK." in dialog.message
+        assert "User registered successfully!" in dialog.message
         dialog.accept()
     page.on("dialog", handle_dialog)
+    page.wait_for_timeout(1000)
 
+    
     home_page = HomePage(page)
     home_page.navigate()
     home_page.go_to_signup()
