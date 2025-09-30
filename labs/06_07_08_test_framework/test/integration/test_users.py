@@ -8,6 +8,10 @@ base_url = UserAPI (BACKEND_URL)
 username = "användare"
 password = "Flagga_123"
 
+# complete imports
+import libs.utils
+from models.api.user import UserAPI
+
 def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "Tomat_123"
@@ -18,6 +22,19 @@ def test_signup():
 
     login_page = base_url.login(username,password)
     assert login_page.status_code == 200
+    # Given I am a new potential customer​
+    username = libs.utils.generate_string_with_prefix()
+    password = "test_1234?"
+
+    user_api = UserAPI('http://localhost:8000')
+
+    # When I signup in the app​
+    signup_api_response = user_api.signup(username,password)
+    assert signup_api_response.status_code == 200
+
+    # Then I should be able to log in with my new user
+    login_api_response = user_api.login(username,password)
+    assert login_api_response.status_code == 200
 
 
 # Given I am an authenticated user​
@@ -58,4 +75,3 @@ def test_remove_product_from_user():
     product_id = 4
     remove_product = base_url.remove_product_from_user(product_id)
     assert remove_product.status_code == 200
-    
