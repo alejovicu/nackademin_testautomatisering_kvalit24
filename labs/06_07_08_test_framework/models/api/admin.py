@@ -36,7 +36,7 @@ class AdminAPI:
         return len(products)
 
     def create_product_by_api(self, product_name):
-        url = f"{self.base_url}/products"
+        url = f"{self.base_url}/product"
         payload = {"name": product_name}
         response = requests.post(url, json=payload, headers=self.get_headers())
         

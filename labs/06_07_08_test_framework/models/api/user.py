@@ -27,7 +27,7 @@ class UserAPI:
 
     def add_product_to_user(self, product_id):
         headers = {"Authorization": f"Bearer {self.token}"}
-        response_add_product = requests.post(f"{self.base_url}/user/products/{product_id}", headers=headers)
+        response_add_product = requests.post(f"{self.base_url}/user/product/{product_id}", headers=headers)
 
         return response_add_product
         

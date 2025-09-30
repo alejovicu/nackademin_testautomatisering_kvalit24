@@ -1,15 +1,14 @@
 from playwright.sync_api import Page, expect
 from models.api.admin import AdminAPI
+import os
 
-# Given I am an admin user​ 
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
+BACKEND_URL = os.environ.get("BACKEND_URL","http://127.0.0.1:8000")
+admin_page = AdminAPI(BACKEND_URL)
+product_name = "Pasta"
+username = "admin"
+password = "test123" 
+
 def test_add_product_to_catalog():
-    admin_page = AdminAPI("http://127.0.0.1:8000")
-
-    product_name = "Pasta"
-    username = "admin"
-    password = "test123" 
 
     admin_page.admin_login(username, password)
 
@@ -25,7 +24,7 @@ def test_add_product_to_catalog():
 # Then The product is available to be used in the app
 
 def test_remove_product_from_catalog():
-    product_name = 5
+    product_name = 2
     username = "admin"
     password = "test123" 
     admin_page = AdminAPI("http://127.0.0.1:8000")
