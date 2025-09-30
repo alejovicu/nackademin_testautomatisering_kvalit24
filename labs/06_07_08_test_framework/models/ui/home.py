@@ -1,5 +1,6 @@
 # Landing page where the users could either login or
 # navigate to signup
+import os
 
 
 class HomePage:
@@ -14,7 +15,8 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        self.page.goto("http://localhost:5173/")
+        url = os.getenv("APP_FRONTEND_URL", "http://localhost:5173/")
+        self.page.goto(url)
 
     def login(self, username, password):
         self.login_input_username.fill(username)
