@@ -18,7 +18,7 @@ def test_signup(page: Page):
 def test_login(page: Page):
 
     # GIVEN I AM AN AUTHENTICATED USER
-    # Assumes this user already exists in DB and has three products assigned
+    # Assumes this user already exists in DB
     username = "user_1"
     password = "pass_1"
 
