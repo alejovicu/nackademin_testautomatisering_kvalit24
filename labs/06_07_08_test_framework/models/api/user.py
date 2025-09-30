@@ -2,6 +2,7 @@
 # produts from the Product Catalog and/or
 # remove it
 import requests
+
 class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url

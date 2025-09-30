@@ -25,7 +25,6 @@ def test_signup():
 # Then I should see all my products
 def test_login():
    
-   
     login_page = base_url.login(username,password)
     assert login_page.status_code == 200
 
