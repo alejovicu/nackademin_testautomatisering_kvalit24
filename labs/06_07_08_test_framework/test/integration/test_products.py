@@ -29,7 +29,7 @@ def test_add_product_to_catalog():
 
 
 def test_remove_product_from_catalog():
-    api = AdminAPI("http://127.0.0.1:8000")
+    api = AdminAPI(BACKEND_URL)
     username = "nermin123"
     password = "nermin_123"
     product_name = "Jacket"
