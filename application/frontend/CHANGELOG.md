@@ -6,9 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
  
 
+## [1.0.3] - 2025-09-29  
+
+### Added
+
+### Changed
+
+### Fixed
+- Fix issue that didn't allow jenkins job to reach the frontend app.
+- Fix permission issue to execute the entrypoint script in unix systems.
+
+
 ## [1.0.2] - 2025-09-28
-  
-Here we would have the update steps for 1.2.4 for people to follow.
  
 ### Added
 - Required environment variable: VITE_BACKEND_URL
