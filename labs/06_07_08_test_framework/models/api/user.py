@@ -9,7 +9,8 @@ class UserAPI:
     def login(self, username, password):
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/login", json=body)
-        self.token = response.json()["access_token"]
+        if response.status_code == 200:
+            self.token = response.json()["access_token"]
         return response
 
     def signup(self, username, password):
@@ -19,9 +20,12 @@ class UserAPI:
 
     def add_product_to_user(self, product_name):
         headers = {"Authorization": f"Bearer {self.token}"}
-        products = requests.get(f"{self.base_url}/products", headers=headers).json()
+        r = requests.get(f"{self.base_url}/products", headers=headers)
+        if r.status_code != 200:
+            return r
+        products = r.json() or []
         for product in products:
-            if product["name"] == product_name:
+            if product.get("name") == product_name:
                 return requests.post(
                     f"{self.base_url}/user/products/{product['id']}", headers=headers
                 )

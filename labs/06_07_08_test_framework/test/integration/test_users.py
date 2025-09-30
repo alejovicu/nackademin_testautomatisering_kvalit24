@@ -1,4 +1,3 @@
-from playwright.sync_api import Page
 import requests
 import libs.utils
 from models.api.user import UserAPI

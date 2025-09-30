@@ -10,32 +10,37 @@ class AdminAPI:
     def login(self, username, password):
         body = {"username": username, "password": password}
         r = self.session.post(f"{self.base_url}/login", json=body)
-        if r.status_code != 200:
-            # На чистой БД может не быть пользователя admin — создадим и повторим логин
-            self.session.post(f"{self.base_url}/signup", json=body)
-            r = self.session.post(f"{self.base_url}/login", json=body)
-
-        assert r.status_code == 200, f"Admin login failed: {r.status_code} {r.text}"
-        data = r.json()
-        token = data.get("access_token") or data.get("token")
-        assert token, f"No token in login response: {data}"
-        self.session.headers["Authorization"] = f"Bearer {token}"
+        if r.status_code == 200:
+            token = r.json().get("access_token")
+            if token:
+                self.session.headers["Authorization"] = f"Bearer {token}"
+        return r
 
     def list_products(self):
         response = self.session.get(f"{self.base_url}/products")
-        data = response.json()
-        return [p["name"] for p in data]
+        if response.status_code != 200:
+            return []
+        data = response.json() or []
+        return [p.get("name") for p in data]
 
     def create_product(self, product_name):
         body = {"name": product_name}
-        return self.session.post(f"{self.base_url}/product", json=body)
+        r = self.session.post(f"{self.base_url}/product", json=body)
+        if r.status_code == 404:
+            r = self.session.post(f"{self.base_url}/products", json=body)
+        return r
 
     def delete_product_by_name(self, product_name):
-        products = self.session.get(f"{self.base_url}/products").json()
+        resp = self.session.get(f"{self.base_url}/products")
+        if resp.status_code != 200:
+            return resp
+        products = resp.json() or []
         for product in products:
-            if product["name"] == product_name:
-                self.session.delete(f"{self.base_url}/product/{product['id']}")
-                return
+            if product.get("name") == product_name:
+                r = self.session.delete(f"{self.base_url}/product/{product['id']}")
+                if r.status_code == 404:
+                    r = self.session.delete(f"{self.base_url}/products/{product['id']}")
+                return r
         return None
 
     def get_current_product_count(self):

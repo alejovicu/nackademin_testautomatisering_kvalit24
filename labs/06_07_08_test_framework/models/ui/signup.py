@@ -1,5 +1,6 @@
-# Page where the users could either create a new user or
-# navigate to Home
+import re
+
+
 class SignupPage:
     def __init__(self, page):
         self.page = page
