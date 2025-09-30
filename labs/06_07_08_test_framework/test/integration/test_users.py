@@ -45,3 +45,4 @@ def test_login():
     products_response = user_api.get_user_products()
     assert products_response.status_code == 200
     assert "products" in products_response.json(), "Products key not found in response"
+

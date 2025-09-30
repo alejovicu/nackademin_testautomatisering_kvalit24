@@ -25,3 +25,5 @@ class SignupPage:
 
     def go_to_home(self):
         self.signup_btn_login.click()
+
+        

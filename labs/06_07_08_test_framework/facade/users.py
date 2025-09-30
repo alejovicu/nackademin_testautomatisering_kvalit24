@@ -5,7 +5,6 @@ from models.ui.signup import SignupPage
 from models.api.user import UserAPI
 import os
 
-
 class UsersFacade:
     def __init__(self, page):
         self.page = page

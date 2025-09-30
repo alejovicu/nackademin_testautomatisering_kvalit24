@@ -22,3 +22,4 @@ class AdminFacade:
         assert response.status_code == 200, "Failed to create product via API"
         self.page.goto(self.frontend_url) # update page to see new product
         return product_name
+    

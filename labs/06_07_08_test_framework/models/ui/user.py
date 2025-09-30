@@ -13,7 +13,7 @@ class UserPage:
         return self.page.get_by_text(f"Welcome, {username}!")
 
     def get_user_products(self):
-        # loop through list of items and return list pf product names
+        # loop through list of items and return list of product names
         # strip removes whitespaces in the names
         return [p.strip() for p in self.product_items.all_inner_texts()]
 
@@ -24,3 +24,5 @@ class UserPage:
     def remove_product_from_user(self, product_name):
         # complete code
         pass
+
+    

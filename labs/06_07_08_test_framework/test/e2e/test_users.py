@@ -33,3 +33,4 @@ def test_login(page: Page):
     ui_products = user_page.get_user_products()
     api_products = users_facade.get_user_products_names()
     assert sorted(ui_products) == sorted(api_products)
+

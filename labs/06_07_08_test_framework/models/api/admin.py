@@ -57,3 +57,4 @@ class AdminAPI:
 
         self.token = login_response.json().get("access_token")
         return self.token
+

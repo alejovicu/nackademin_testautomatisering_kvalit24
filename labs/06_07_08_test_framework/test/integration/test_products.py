@@ -52,3 +52,4 @@ def test_remove_product_from_catalog():
         assert last_product["name"] != product_name, "Deleted product still appears"
 
 
+

@@ -18,3 +18,4 @@ class AdminPage:
         self.page.locator(".product-item", has_text=product_name).get_by_role("button", name="Delete").click()
         deleted_product = self.page.locator(".product-grid .product-item").filter(has_text=product_name)
         return deleted_product
+    
