@@ -2,23 +2,20 @@ from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 
+username = "nermin123"
+password = "nermin_123"
 
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
 def test_add_product_to_catalog(page: Page):
-    # Given I am an admin user​
-    username = "nermin123"
-    password = "nermin_123"
  
     home_page = HomePage(page)
     home_page.navigate()
 
     home_page.login(username, password)
-    expect(page.get_by_text("Products available:")).to_be_visible()
+    expect(page.get_by_text("Product Catalog:")).to_be_visible()
 
     #Add product
 
-    new_product = "Jumper"
+    new_product = "class item 8"
     admin_home = AdminPage(page)
     
     prev_count = admin_home.get_current_product_count()
@@ -33,16 +30,14 @@ def test_add_product_to_catalog(page: Page):
 # When I remove a product from the catalog​
 # Then The product should not be listed in the app to be used
 def test_remove_product_from_catalog(page: Page):
-    username = "nermin123"
-    password = "nermin_123"
  
     home_page = HomePage(page)
     home_page.navigate()
 
     home_page.login(username, password)
-    expect(page.get_by_text("Products available:")).to_be_visible()
+    expect(page.get_by_text("Product Catalog:")).to_be_visible()
 
-    new_product = "Jumper"
+    new_product = "class item 8"
     admin_home = AdminPage(page)
     
     # remove product

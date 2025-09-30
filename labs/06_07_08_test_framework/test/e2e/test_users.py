@@ -30,8 +30,8 @@ def test_signup(page: Page):
 # When I log in into the application​
 # Then I should see all my products
 def test_login(page: Page):
-    username = "test_123"
-    password = "pass_123"
+    username = "test123"
+    password = "test_123"
  
     
     #login
