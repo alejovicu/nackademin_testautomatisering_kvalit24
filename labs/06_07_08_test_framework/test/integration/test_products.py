@@ -6,7 +6,7 @@ from playwright.sync_api import Page
 import libs.utils
 
 API_URL = "http://localhost:8000"
-FRONTEND_URL = "http://localhost"
+FRONTEND_URL = "http://localhost:5173"
 
 
 @pytest.fixture

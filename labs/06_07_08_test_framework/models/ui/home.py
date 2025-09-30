@@ -15,7 +15,7 @@ class HomePage:
 
 
     def navigate(self):
-        self.page.goto("http://localhost")
+        self.page.goto("http://localhost:5173")
 
 
     def login(self,username,password):
