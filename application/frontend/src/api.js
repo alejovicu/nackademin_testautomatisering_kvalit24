@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:8000"
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
 export async function api(path, method = 'GET', body = null, token = null) {
-  const headers = { 'Content-Type': 'application/json' }
+  const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`
 
   const res = await fetch(`${API_URL}${path}`, {
