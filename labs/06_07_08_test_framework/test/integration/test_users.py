@@ -5,6 +5,8 @@ from models.api.user import UserAPI
 
 
 APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
+USER_USERNAME = os.getenv("USER_USERNAME", "user_1")
+USER_PASSWORD = os.getenv("USER_PASSWORD", "pass1234")
 
 
 # Given I am a new potential customer​
@@ -30,8 +32,8 @@ def test_signup():
 # When I log in into the application​
 # Then I should see all my products
 def test_login():
-    username = "user_1"
-    password = "pass1234"
+    username = USER_USERNAME
+    password = USER_PASSWORD
     user_api = UserAPI(APP_BACKEND_URL)
 
     # When I log in into the application​
