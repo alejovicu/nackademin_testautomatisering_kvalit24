@@ -35,7 +35,7 @@ class AdminAPI:
 
     def create_product(self, product_name):
         """Create a new product and return the created product JSON."""
-        url = f"{self.base_url}/products"
+        url = f"{self.base_url}/product"
         payload = {"name": product_name}
         resp = requests.post(url, headers=self.headers, json=payload)
         resp.raise_for_status()
