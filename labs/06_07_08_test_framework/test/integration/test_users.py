@@ -11,16 +11,14 @@ PASSWORD = "user_test321"
 def test_signup():
     # Given I am a new potential customer
     username = libs.utils.generate_string_with_prefix()
-    password = "test_1234?"
-
-    user_api = UserAPI('http://localhost:8000')
+    password = "test_1234"
 
     # When I signup in the app​
-    signup_api_response = user_api.signup(username,password)
+    signup_api_response = user_api.signup(USERNAME, PASSWORD)
     assert signup_api_response.status_code == 200
 
     # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username,password)
+    login_api_response = user_api.login(USERNAME, PASSWORD)
     assert login_api_response.status_code == 200
   
 
