@@ -1,7 +1,9 @@
 from playwright.sync_api import Page
 from models.api.admin import AdminAPI
+import os
 
-admin_api = AdminAPI("http://127.0.0.1:8000")
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000")
+admin_api = AdminAPI(BACKEND_URL)
 USERNAME = "test_admin"
 PASSWORD = "admin_test321"
 

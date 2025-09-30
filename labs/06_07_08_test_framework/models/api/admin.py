@@ -43,7 +43,7 @@ class AdminAPI:
 
         body = {"name": product_name}
         headers = {"Authorization": f"Bearer {self.token}"}
-        product_response = requests.post(f"{self.base_url}/products", json=body, headers=headers)
+        product_response = requests.post(f"{self.base_url}/product", json=body, headers=headers)
         
         return product_response
 
