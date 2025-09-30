@@ -8,6 +8,8 @@ import os
 BACKEND_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000")
 
 
+
+
 # Given I am an admin user​
 # When I add a product to the catalog​
 # Then The product is available to be used in the app
