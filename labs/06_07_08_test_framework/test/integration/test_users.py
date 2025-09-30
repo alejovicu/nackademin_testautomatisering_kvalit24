@@ -14,7 +14,7 @@ def test_signup():
     password = "test_1234"
 
     # When I signup in the app​
-    signup_api_response = user_api.signup(USERNAME, PASSWORD)
+    signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
 
     # Then I should be able to log in with my new user
