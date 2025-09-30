@@ -4,7 +4,7 @@ import libs.utils
 from models.api.user import UserAPI
 
 
-BASE_URL_BACKEND = os.getenv("BASE_URL_BACKEND", "http://localhost:8000")
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am a new potential customer​
@@ -15,7 +15,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix("user", 8)
     password = "pass1234"
 
-    user_api = UserAPI(BASE_URL_BACKEND)
+    user_api = UserAPI(APP_BACKEND_URL)
 
     # When I signup in the app​
     signup_api_response = user_api.signup(username, password)
@@ -32,7 +32,7 @@ def test_signup():
 def test_login():
     username = "user_1"
     password = "pass1234"
-    user_api = UserAPI(BASE_URL_BACKEND)
+    user_api = UserAPI(APP_BACKEND_URL)
 
     # When I log in into the application​
     login_api_response = user_api.login(username, password)

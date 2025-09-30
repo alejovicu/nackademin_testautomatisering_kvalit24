@@ -6,7 +6,7 @@ from models.ui.user import UserPage
 from models.api.user import UserAPI
 import libs.utils
 
-BASE_URL_BACKEND = os.getenv("BASE_URL_BACKEND", "http://localhost:8000")
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am a new potential customer​
@@ -58,7 +58,7 @@ def test_signup_auth_user(page: Page):
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)
-    user_api = UserAPI(BASE_URL_BACKEND)
+    user_api = UserAPI(APP_BACKEND_URL)
 
     # Get token from API
     response = user_api.login(username, password)
