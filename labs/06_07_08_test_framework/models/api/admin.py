@@ -28,7 +28,7 @@ class AdminAPI:
 
     def create_product(self, product_name):
         body = {"name": product_name}
-        response = requests.post(f"{self.base_url}/products", json=body, headers=self._headers())
+        response = requests.post(f"{self.base_url}/product", json=body, headers=self._headers())
         response.raise_for_status()
         return response.json()
 

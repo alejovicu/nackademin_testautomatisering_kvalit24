@@ -27,7 +27,7 @@ class UserAPI:
 
 
     def add_product_to_user(self, product_id):
-        url = f"{self.base_url}/user/products/{product_id}"
+        url = f"{self.base_url}/user/product/{product_id}"
         response = requests.post(url, headers=self._headers())
         response.raise_for_status()
         return response.status_code == 200

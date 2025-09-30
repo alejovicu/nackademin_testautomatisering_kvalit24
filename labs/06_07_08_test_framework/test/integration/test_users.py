@@ -5,23 +5,26 @@ from models.api.user import UserAPI
 from models.ui.user import UserPage
 from models.ui.home import HomePage
 
-FRONTEND_URL = "http://localhost:5173"
+FRONTEND_URL = "http://localhost"
 API_URL = "http://localhost:8000"
 
+
+@pytest.fixture
+def user_api():
+    return UserAPI(API_URL)
 
 
 # Given I am a new potential customer​
 # When I signup in the app​
 # Then I should be able to log in with my new user
-def test_signup_and_login(page: Page):
+def test_signup_and_login(page: Page, user_api):
 
     # Create a new user API
     username = libs.utils.generate_string_with_prefix("user")
     password = "test_1234?"
 
-    user_api = UserAPI(API_URL)
-    signup_response = user_api.signup(username,password)
-    assert signup_response.status_code == 200
+    sigup_response = user_api.signup(username, password)
+    assert sigup_response.status_code == 200
 
     # Login with new user UI
     page.goto(FRONTEND_URL)
@@ -53,8 +56,6 @@ def test_login_existing_user(page: Page):
     page.wait_for_selector("text=Your Products:")
     product_elements = page.locator("text=Your Products: >> xpath=following-sibling::div/div")
 
-    count = product_elements.count()
-
-    assert count > 0
+    assert product_elements.count() > 0
 
     
