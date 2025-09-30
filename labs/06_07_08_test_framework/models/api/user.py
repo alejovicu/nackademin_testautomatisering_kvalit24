@@ -5,6 +5,7 @@ class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url
         self.token = None
+        self.status_code = None
 
     def set_token(self, token: str):
         self.token = token
@@ -17,15 +18,27 @@ class UserAPI:
     def signup(self, username, password):
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/signup", json=body)
+        self.status_code = response.status_code
         return response.json()
 
     def login(self, username, password):
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/login", json=body)
+        self.status_code = response.status_code 
         response.raise_for_status()
-        self.token = response.json()["token"]
-        return response.json()
+        data = response.json()
+        # <-- FIX: don't KeyError if token missing / named differently
+        self.token = data.get("token") or data.get("access_token") or data.get("jwt")
+        return data
 
     def get_user_products(self):
-        headers = self._auth_headers()
-        return requests.get(f"{self.base_url}/user", headers=headers)
+        headers = {"Authorization": f"Bearer {self.token}"} if self.token else {}
+        response = requests.get(f"{self.base_url}/user", headers=headers)
+        self.status_code = response.status_code
+        data = response.json()
+
+        if isinstance(data, list):
+            return data
+        if isinstance(data, dict) and isinstance(data.get("products"), list):
+            return data["products"]
+        return []

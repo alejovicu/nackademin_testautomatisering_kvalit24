@@ -5,11 +5,14 @@ from models.ui.signup import SignupPage
 from models.api.user import UserAPI
 from libs.utils import generate_string_with_prefix
 import libs.utils
+import os
 
+VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
 
 def test_signup(page: Page):
     username = generate_string_with_prefix()
     password = "1234"
+
     home_page = HomePage(page)
     signup_page = SignupPage(page)
     user_page = UserPage(username, page)
@@ -49,7 +52,7 @@ def test_login_auth_user(page: Page):
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
 
     response = user_api.login(username, password)
     assert response.status_code == 200

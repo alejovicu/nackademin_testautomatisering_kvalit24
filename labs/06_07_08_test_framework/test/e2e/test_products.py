@@ -1,13 +1,9 @@
 from libs.utils import generate_product_string_with_prefix
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 from models.api.user import UserAPI
-
-
-# Given I am an admin user​
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
+import os
 
 
 def test_add_product_to_catalog(page: Page):
@@ -17,8 +13,9 @@ def test_add_product_to_catalog(page: Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
     product = generate_product_string_with_prefix("apple", 4)
+    token = user_api.login(username, password)
 
     # Get token from the API and verify that login is successful
     response = user_api.login(username, password)
@@ -47,11 +44,9 @@ def test_add_product_to_catalog(page: Page):
         f"Expected product text '{product}', got '{product_locator.first.inner_text()}'"
     )
 
-
-# Given I am an admin user​
-# When I remove a product from the catalog​
+# Given I am an admin user
+# When I remove a product from the catalog
 # Then The product should not be listed in the app to be used
-
 
 def test_remove_product_from_catalog(page: Page):
     username = "admin"
@@ -59,8 +54,9 @@ def test_remove_product_from_catalog(page: Page):
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(VITE_BACKEND_URL)
     product = generate_product_string_with_prefix("apple", 4)
+    token = user_api.login(username, password)
 
     # Get token from the API and verify that login is successful
     response = user_api.login(username, password)

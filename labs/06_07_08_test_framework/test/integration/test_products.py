@@ -33,8 +33,14 @@ def test_remove_product_from_catalog():
 
     api.create_product(product_name)
 
+    products = api.list_products()
+    print('LIST BEFORE')
+    print(products)
+
     api.delete_product_by_name(product_name)
 
     products = api.list_products()
+    print('LIST AFTER')
+    print(products)
     names = list(products)
     assert product_name not in names

@@ -1,6 +1,8 @@
 # Landing page where the users could either login or
 # navigate to signup
+import os
 
+VITE_FRONTEND_URL = os.getenv("VITE_FRONTEND_URL", "http://localhost:5173")
 
 class HomePage:
     def __init__(self, page):
