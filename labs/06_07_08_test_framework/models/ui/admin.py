@@ -18,7 +18,7 @@ class AdminPage:
         return len(items)
 
 
-
+    
     def create_product(self,product_name):
         self.product_input.fill(product_name)
         self.create_p_button.click()
@@ -27,5 +27,3 @@ class AdminPage:
     def delete_product_by_name(self,product_name): 
         del_product = self.page.locator('.product-item', has_text=product_name)
         del_product.locator('.product-item-button').click()
-
-    

@@ -34,6 +34,16 @@ uvicorn main:app --reload
 To Stop the application type `ctrl + C` in the terminal that was started.
 
 
+Compile Docker image and run:
+```
+docker build . -t app-backend:0.1.0
+
+docker network create app-network
+
+docker run --rm --name app-backend --network app-network -p 8000:8000 app-backend:0.1.0
+```
+
+
 # APIs
 ## 
 

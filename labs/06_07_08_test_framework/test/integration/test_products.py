@@ -51,7 +51,3 @@ def test_remove_product_from_catalog():
 
     delete_product = api.delete_product_by_name(product_id)
     assert delete_product.status_code == 200 
-
-
-
-

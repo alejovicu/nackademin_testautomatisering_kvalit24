@@ -10,7 +10,7 @@ password = "test_123"
 
 
 def test_signup():
-    # Given I am a new potential customer​
+    # Given I am a new potential customer
     test_username = libs.utils.generate_string_with_prefix()
     test_password = "pass_test"
     print(test_username)
@@ -24,7 +24,7 @@ def test_signup():
     assert login_api.status_code == 200
 
 
-
+    
 def test_login():
 
     # Given I am an authenticated user

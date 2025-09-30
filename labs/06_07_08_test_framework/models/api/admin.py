@@ -47,6 +47,3 @@ class AdminAPI:
         
         return delete_product
 
-
-
-    
