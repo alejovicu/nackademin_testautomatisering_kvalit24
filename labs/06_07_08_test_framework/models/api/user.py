@@ -45,4 +45,4 @@ class UserAPI:
         headers = {"Authorization": f"Bearer {self.token}"}
         remove_product_response = requests.delete(f"{self.base_url}/user/product/{product_id}", headers=headers)
 
-        return remove_product_response 
+        return remove_product_response

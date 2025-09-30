@@ -9,9 +9,19 @@ router = APIRouter()
 
 @router.post("/signup", response_model=UserResponse)
 def signup(user: UserCreate, db: Session = Depends(get_db)):
+
+    # Validate non empty
+    if (user.username is None) or (user.username == ""):
+       raise HTTPException(status_code=400, detail="Empty username is not allowed")
+    if (user.password is None) or (user.password == ""):
+       raise HTTPException(status_code=400, detail="Empty password is not allowed")
+
+    # Validate if the user already exist
     db_user = db.query(User).filter(User.username == user.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
+
+
     hashed_pw = get_password_hash(user.password)
     new_user = User(username=user.username, hashed_password=hashed_pw)
     db.add(new_user)
