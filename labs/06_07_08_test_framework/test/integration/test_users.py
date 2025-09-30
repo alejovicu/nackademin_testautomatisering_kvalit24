@@ -5,7 +5,7 @@ from models.api.user import UserAPI
 from models.ui.user import UserPage
 from models.ui.home import HomePage
 
-FRONTEND_URL = "http://localhost"
+FRONTEND_URL = "http://localhost:5173"
 API_URL = "http://localhost:8000"
 
 
