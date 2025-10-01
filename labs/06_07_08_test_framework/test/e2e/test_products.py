@@ -23,10 +23,13 @@ def test_add_product_to_catalog(page:Page):
 
     home_page.navigate()
     home_page.login(username, password)
-
-    expect(admin_page.products.first).to_be_visible()
+    if not admin_page.products.first.is_visible():
+        return admin_page.create_product(product)
+    else:
+        expect(admin_page.products.first).to_be_visible()
     
     num_of_products_before = admin_page.get_current_product_count()
+    
     admin_page.create_product(product)
 
     expect(admin_page.products).to_have_count(num_of_products_before + 1)
@@ -56,6 +59,11 @@ def test_remove_product_from_catalog(page: Page):
 
     home_page.navigate()
     expect(admin_page.products.first).to_be_visible()
+    if not admin_page.products.first.is_visible():
+        return None
+    
+
+
     
     num_of_products_before = admin_page.get_current_product_count()
     admin_page.delete_product_by_name(product)

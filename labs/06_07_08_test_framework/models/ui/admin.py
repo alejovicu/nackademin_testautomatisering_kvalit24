@@ -9,6 +9,8 @@ class AdminPage:
         self.button_create_product = page.get_by_role("button", name="Create Product")
 
     def get_current_product_count(self):
+        if self.products.count is None:
+            return 0
         # complete logic
         # return number of total products displayed
         return self.products.count()
