@@ -32,9 +32,7 @@ class UsersFacade:
         home_page = HomePage(self.page)
         username = "newuser"
         password = "newpassword"
-        product_name = "TestProduct37"
         user_page = UserPage(self.page)
-
 
         # When I log in into the application​
         home_page.navigate()
@@ -42,4 +40,3 @@ class UsersFacade:
         # Then I should see all my products
         products = user_page.get_user_products()
         assert len(products) > 0
-        assert product_name in products

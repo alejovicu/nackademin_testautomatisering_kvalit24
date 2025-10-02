@@ -32,10 +32,25 @@ class UserAPI:
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json"
         }
-        body = {"product": product_name}
-        response = requests.post(
-            f"{self.base_url}/user/product", json=body, headers=headers)
-        return response
+
+        # Hämta alla produkter
+        response = requests.get(f"{self.base_url}/products", headers=headers)
+        response.raise_for_status()
+        products = response.json()
+
+        # Hitta produkten med rätt namn
+        product_to_assign = next(
+            (p for p in products if p.get("name") == product_name), None)
+        if not product_to_assign:
+            raise ValueError(f"Product '{product_name}' not found")
+
+        product_id = product_to_assign.get("id")
+
+        # Tilldela produkten till användaren
+        assign_response = requests.post(
+            f"{self.base_url}/user/product/{product_id}", headers=headers
+        )
+        return assign_response
 
     def remove_product_from_user(self, product_name):
         headers = {

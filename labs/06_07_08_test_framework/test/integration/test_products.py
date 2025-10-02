@@ -8,8 +8,8 @@ import os
 def test_add_product_to_catalog():
 
     # Given I am an admin user​
-    BACKEND_URL = os.getenv("http://localhost:8000",
-                         "http://infra-app-backend-1:8000/")
+    BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000/"
+                            )
     admin_username = "testuser"
     admin_password = "testpassword"
 
@@ -36,18 +36,18 @@ def test_add_product_to_catalog():
 
 def test_remove_product_from_catalog():
     # Given I am an admin user​
-    
-    base_url = os.getenv("http://localhost:8000",
-                         "http://infra-app-backend-1:8000/")
+
+    BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000/"
+                            )
     admin_username = "testuser"
     admin_password = "testpassword"
 
-    user_api = UserAPI(base_url)
+    user_api = UserAPI(BACKEND_URL)
     login_response = user_api.login(admin_username, admin_password)
     assert login_response.status_code == 200
     admin_token = user_api.token
 
-    admin_api = AdminAPI(base_url, admin_token)
+    admin_api = AdminAPI(BACKEND_URL, admin_token)
 
     # When I remove a product from the catalog​
     response = admin_api.get_current_product_count()
