@@ -3,10 +3,6 @@
 # remove it
 import requests
 
-<<<<<<< HEAD
-=======
-
->>>>>>> da11751d96e39da06c56da21da6f3d32c2bd0602
 class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url
@@ -35,15 +31,6 @@ class UserAPI:
         response_add_product = requests.post(f"{self.base_url}/user/product/{product_id}", headers=headers)
 
         return response_add_product
-        
-        body = { "username": username, "password": password }
-        response = requests.post(f"{self.base_url}/login", json=body)
-        return response
-
-    def signup(self, username, password):
-        body = { "username": username, "password": password }
-        response = requests.post(f"{self.base_url}/signup", json=body)
-        return response
 
 
     def remove_product_from_user(self, product_id):
@@ -52,4 +39,3 @@ class UserAPI:
         response_remove_product = requests.delete(f"{self.base_url}/user/product/{product_id}", headers=headers)
 
         return response_remove_product
-        return None

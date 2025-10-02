@@ -19,11 +19,6 @@ class AdminAPI:
 
         return response
 
-
-    def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
-
     def get_headers(self):
         return {"Authorization": f"Bearer {self.token}"} if self.token else {}
 
