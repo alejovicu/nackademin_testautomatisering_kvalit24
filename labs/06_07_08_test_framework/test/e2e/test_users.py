@@ -8,7 +8,7 @@ import libs.utils
 import os
 import pytest
 
-BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8000")
+BASE_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
 @pytest.fixture
 def user_page(page: Page):

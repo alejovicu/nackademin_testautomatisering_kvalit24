@@ -6,7 +6,7 @@ from models.ui.admin import AdminPage
 from models.api.base import BaseAPI
 # complete imports
 
-BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8000")
+BASE_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
 
 @pytest.fixture
