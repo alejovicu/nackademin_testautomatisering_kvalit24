@@ -30,14 +30,14 @@ def test_setup_user():
     course04 = os.getenv("product04")
     user_api.signup(username, password)
     user_api.signup(normal_user, normal_password)
-    admin_token = user_api.login_token(username_admin, password_admin)
+    admin_token = user_api.login_token(username, password)
     admin_api.set_token(admin_token)
     admin_api.create_product(course01)
     admin_api.create_product(course02)
     admin_api.create_product(course03)
     admin_api.create_product(course04)
 
-    token = user_api.login_token(username, password)
+    token = user_api.login_token(normal_user, normal_password)
     user_api.add_product_to_user(token, course02)
     user_api.add_product_to_user(token, course03)
 
