@@ -7,19 +7,21 @@ from models.ui.signup import SignupPage
 import time
 import libs.utils
 import pytest
+import os
 
-BASE_URL = "http://127.0.0.1:8000"
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 @pytest.fixture
 def admin_api():
     username = "admin"
     password = "admin123"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(API_URL)
     login_response = user_api.login(username, password)
     login_response.raise_for_status()
     token = login_response.json()["access_token"]
-    return AdminAPI(BASE_URL, token=token)
+    return AdminAPI(API_URL, token=token)
 
 # Given I am a new potential customer​
 # When I signup in the app​
