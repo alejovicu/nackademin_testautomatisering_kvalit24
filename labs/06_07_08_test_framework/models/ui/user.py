@@ -15,7 +15,8 @@ class UserPage:
     def get_user_products(self):
         # loop through list of items and return list of product names
         # strip removes whitespaces in the names
-        return [p.strip() for p in self.product_items.all_inner_texts()]
+        # remove delete-text from locator
+        return [p.replace("Delete", "").strip() for p in self.product_items.all_inner_texts()]
 
     def add_product_to_user(self, product_name):
         # complete code

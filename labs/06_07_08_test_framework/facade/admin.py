@@ -6,8 +6,8 @@ class AdminFacade:
     def __init__(self, page):
         self.page = page
         self.admin_page = AdminPage(page)
-        self.base_url = os.getenv("APP_BACK_URL", "http://localhost:8000")
-        self.frontend_url = os.getenv("APP_FRONT_URL", "http://localhost:5173/")
+        self.base_url = os.getenv("BACKEND_URL", "http://localhost:8000")
+        self.frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173/")
         self.api = AdminAPI(base_url=self.base_url)
 
     def login_via_token(self):

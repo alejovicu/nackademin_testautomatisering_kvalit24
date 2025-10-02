@@ -2,13 +2,15 @@ import requests
 import os
 import time
 
-BASE_URL = os.environ.get("APP_BACK_URL", "http://localhost:8000")
+BASE_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
 
 # CREATE ADMIN
 login_response = requests.post(f"{BASE_URL}/login", json= {"username": "admin", "password": "admin123"})
+
 if login_response.status_code != 200:
     requests.post(f"{BASE_URL}/signup", json={"username": "admin", "password": "admin123"})
     login_response = requests.post(f"{BASE_URL}/login", json={"username": "admin", "password": "admin123"})
+
 admin_token = login_response.json()["access_token"]
 
 # CREATE PRODUCTS
@@ -49,8 +51,8 @@ for product_name in product_names:
             break
 
     if product_id is None:
-        raise ValueError(f"Product {product_name} not found")
+        raise ValueError("Product not found")
 
     # Assign product to user
-    assign_resp = requests.post(f"{BASE_URL}/user/product/{product_id}", headers=headers_user)
-    assign_resp.raise_for_status()
+    assign_response = requests.post(f"{BASE_URL}/user/product/{product_id}", headers=headers_user)
+    assign_response.raise_for_status()

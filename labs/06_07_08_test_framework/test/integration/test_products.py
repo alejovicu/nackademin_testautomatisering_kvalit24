@@ -3,7 +3,7 @@ import pytest
 from models.api.admin import AdminAPI
 import time
 
-BACKEND_URL = os.getenv("APP_BACK_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def test_add_product_to_catalog():
 
