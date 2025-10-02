@@ -1,5 +1,7 @@
 # admin_username=Admin_user
 # admin_password=Admin53
+# normal_user=user83
+# normal_password=pass83
 # BACKEND_URL=http://localhost:8000
 # FRONTEND_URL=http://localhost/
 

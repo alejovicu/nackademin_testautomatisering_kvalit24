@@ -20,12 +20,16 @@ def test_setup_user():
     admin_api = AdminAPI(os.getenv("BACKEND_URL"))
     username_admin = os.getenv("admin_username")
     password_admin = os.getenv("admin_password")
-    username = "user83"
-    password = "pass83"
+    username = os.getenv("admin_username")
+    password = os.getenv("admin_password")
+    normal_user = "user83"
+    normal_password = "pass83"
     course01 = os.getenv("product01")
     course02 = os.getenv("product02")
     course03 = os.getenv("product03")
     course04 = os.getenv("product04")
+    user_api.signup(username, password)
+    user_api.signup(normal_user, normal_password)
     admin_token = user_api.login_token(username_admin, password_admin)
     admin_api.set_token(admin_token)
     admin_api.create_product(course01)
