@@ -34,8 +34,6 @@ def test_login():
 
     user_api = UserAPI(BACKEND_URL)
 
-    user_api.signup(username, password)
-
     # WHEN I LOG INTO THE APPLICATION
     login_response = user_api.login(username, password)
     assert login_response.status_code == 200
