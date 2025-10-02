@@ -3,7 +3,7 @@ def pytest_sessionstart(session):
     from models.api.admin import AdminAPI
     import os
 
-    VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
+    BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
     api_base = VITE_BACKEND_URL
     user_api = UserAPI(api_base)
