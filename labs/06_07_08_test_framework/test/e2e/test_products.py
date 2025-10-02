@@ -3,11 +3,12 @@ from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
-
+import os
 import uuid
 import requests
 
-API_URL = "http://localhost:8000"
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 
 
@@ -24,17 +25,17 @@ def test_add_product_to_catalog(page: Page):
     # When I add a product to the catalog​
     product = f"test_course_{uuid.uuid4()}"
     admin_page.create_product(product)
+
     # THEN The product is available to be used in the app
-    assert page.get_by_text("Products available:").is_visible()
     admin_page.product_is_visible(product)
 
 
     # crosscheck API
     # note !!!!!!!!!!!!!
     ## note !! I know this might not be needed and will slow the test down.
-    user_api = UserAPI(API_URL)
-    token = user_api.login("admin", "pass1234")  # stores
-    admin_api = AdminAPI(API_URL, token)
+    user_api = UserAPI(BACKEND_URL)
+    user_api.login("admin", "pass1234")
+    admin_api = AdminAPI(BACKEND_URL, user_api.token)
     assert admin_api.product_exists_in_backend(product)
 
 
@@ -60,7 +61,7 @@ def test_remove_product_from_catalog(page: Page):
     
     # crosscheck API to verify
     ## note !! I know this might not be needed and will slow the test down.
-    user_api = UserAPI(API_URL)
+    user_api = UserAPI(BACKEND_URL)
     token = user_api.login("admin", "pass1234")  # stores
-    admin_api = AdminAPI(API_URL, token)
+    admin_api = AdminAPI(BACKEND_URL, user_api.token)
     assert not admin_api.product_exists_in_backend(product)

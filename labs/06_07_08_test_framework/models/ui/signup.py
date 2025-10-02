@@ -14,4 +14,4 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
-        self.page.goto("http://localhost:5173")
+        self.page.goto("http://localhost")

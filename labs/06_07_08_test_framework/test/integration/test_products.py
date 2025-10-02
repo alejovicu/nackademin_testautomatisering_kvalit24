@@ -8,7 +8,7 @@ from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:80")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 
 # Given I am an admin user​
@@ -26,8 +26,8 @@ def test_add_product_to_catalog():
     login_resp = user_api.login(username, password)
     assert login_resp.status_code == 200
 
-    token = login_resp.json().get("access_token")
-    assert token is not None
+    token = user_api.token
+    assert token is not None    
 
     admin_api = AdminAPI(BACKEND_URL, token)
 
@@ -53,7 +53,7 @@ def test_remove_product_from_catalog():
     login_resp = user_api.login(username, password)
     assert login_resp.status_code == 200
 
-    token = login_resp.json().get("access_token")
+    token = user_api.token
     assert token is not None
 
     admin_api = AdminAPI(BACKEND_URL, token)

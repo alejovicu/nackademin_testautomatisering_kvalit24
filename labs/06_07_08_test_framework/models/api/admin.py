@@ -3,6 +3,8 @@ import requests
 
 class AdminAPI:
     def __init__(self, base_url, token):
+        if not token:
+            raise ValueError("Token must not be None")
         self.base_url = base_url
         self.headers = {"Authorization": f"Bearer {token}"}
 
@@ -13,7 +15,7 @@ class AdminAPI:
 
     def create_product(self, product):
         body = { "name": product}
-        response = requests.post(f"{self.base_url}/products", json=body, headers=self.headers)
+        response = requests.post(f"{self.base_url}/product", json=body, headers=self.headers)
         return response
     
     def get_products(self):
