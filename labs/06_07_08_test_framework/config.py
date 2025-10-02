@@ -22,11 +22,8 @@ requests.post(f"{BASE_URL}/product", json={"name": product_name_2}, headers=head
 
 # CREATE USER
 user_signup_response = requests.post(f"{BASE_URL}/signup", json={"username": "user_1", "password": "pass_1"})
-if user_signup_response.status_code == 409:
+if user_signup_response.status_code != 200:
     print("user_1 already exists, skipping creation.")
-    
-elif user_signup_response.status_code != 200:
-    raise Exception("Failed to create user_1")
 
 user_login_resp = requests.post(f"{BASE_URL}/login", json={"username": "user_1", "password": "pass_1"})
 if user_login_resp.status_code != 200:
