@@ -3,7 +3,7 @@ import libs.utils
 from models.api.user import UserAPI
 import os
 
-VITE_BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am a new potential customer​
@@ -14,7 +14,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "1234"
 
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     # When I signup in the app​
     user_api.signup(username, password)
@@ -33,7 +33,7 @@ def test_login():
     username = libs.utils.generate_string_with_prefix()
     password = "1234"
 
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     user_api.signup(username, password)
     assert user_api.status_code == 200
 
@@ -53,7 +53,7 @@ def test_add_product_to_user():
     password = "1234"
     product_name = "testproduct00"  # Question: Product doesn't have to be generated and added if its in the test data right?
 
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     # Create user
     user_api.signup(username, password)
 
@@ -94,7 +94,7 @@ def test_remove_product_from_user():
     password = "1234"
     product_name = "testproduct11"
 
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     # Create user
     user_api.signup(username, password)
 

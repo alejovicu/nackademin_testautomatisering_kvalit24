@@ -3,7 +3,7 @@ from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 import os
 
-VITE_BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am an admin user​
@@ -15,13 +15,13 @@ def test_add_product_to_catalog():
     password = "1234"
     product_name = libs.utils.generate_product_string_with_prefix()
 
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     user_api.login(username, password)  # Login as admin
     assert user_api.status_code == 200
 
     admin_api = AdminAPI(
-        VITE_BACKEND_URL, token=user_api.token
+        BACKEND_URL, token=user_api.token
     )  # Passing the token to the admin api
 
     count_before = (
@@ -54,13 +54,13 @@ def test_remove_product_from_catalog():
     password = "1234"
     product_name = libs.utils.generate_product_string_with_prefix()
 
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     user_api.login(username, password)  # Login as admin
     assert user_api.status_code == 200
 
     admin_api = AdminAPI(
-        VITE_BACKEND_URL, token=user_api.token
+        BACKEND_URL, token=user_api.token
     )  # Passing the token to the admin api
 
     admin_api.create_product(product_name)
