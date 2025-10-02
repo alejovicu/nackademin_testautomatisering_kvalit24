@@ -10,7 +10,6 @@ password = "Flagga_123" #testdata/användare
 
 def test_signup():
     username = libs.utils.generate_string_with_prefix() #Skapar ett unikt användarnamn automatiskt med prefix (för att undvika dubbletter)
-
     password = "Tomat_123"
     print(username)
 
@@ -20,18 +19,6 @@ def test_signup():
     login_page = base_url.login(username,password) #loga in me den nya användaren
     assert login_page.status_code == 200
     # Given I am a new potential customer​
-    username = libs.utils.generate_string_with_prefix()
-    password = "test_1234?"
-
-    user_api = UserAPI('http://localhost:8000')
-
-    # When I signup in the app​
-    signup_api_response = user_api.signup(username,password)
-    assert signup_api_response.status_code == 200
-
-    # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username,password)
-    assert login_api_response.status_code == 200
 
 
 # Given I am an authenticated user​
