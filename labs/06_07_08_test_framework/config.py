@@ -52,5 +52,5 @@ for product_name in product_names:
         raise ValueError(f"Product {product_name} not found")
 
     # Assign product to user
-    assign_resp = requests.post(f"{BASE_URL}/user/products/{product_id}", headers=headers_user)
+    assign_resp = requests.post(f"{BASE_URL}/user/product/{product_id}", headers=headers_user)
     assign_resp.raise_for_status()
