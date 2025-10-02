@@ -39,9 +39,7 @@ def test_add_product_to_catalog(get_admin_token):
     ### ACT - When I add a product to the catalog​
     # get pre-addition product count
     pre_addition_product_count = admin_api.get_current_product_count(get_admin_token)
-    # add product
     add_product = admin_api.create_product(get_admin_token, product_name)
-    # get product list
     product_list = admin_api.get_current_products(get_admin_token)
     # get post-addition product count
     post_addition_product_count = admin_api.get_current_product_count(get_admin_token)
@@ -71,9 +69,7 @@ def test_remove_product_from_catalog(get_admin_token, add_product_for_removal):
     pre_removal_product_count = admin_api.get_current_product_count(get_admin_token)
 
     ### ACT - When I remove a product from the catalog​
-    # Delete recently added product
     delete_product = admin_api.delete_product_by_id(get_admin_token, new_product_id)
-    # get product list post-deletion
     product_list = admin_api.get_current_products(get_admin_token)
     # get post-removal product count
     post_removal_product_count = admin_api.get_current_product_count(get_admin_token)

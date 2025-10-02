@@ -1,3 +1,7 @@
+from playwright.sync_api import TimeoutError
+import time
+
+
 class AdminPage:
     def __init__(self, page):
         self.page = page
@@ -37,8 +41,12 @@ class AdminPage:
 
     # Added function to await product change
     def wait_for_product_count_change(self, stock_count, count_value):
-        self.page.wait_for_function(
-            "count => document.querySelectorAll('.product-item').length === count",
-            arg=stock_count + count_value,
-            timeout=5000,
-        )
+        try:
+            self.page.wait_for_function(
+                "count => document.querySelectorAll('.product-item').length === count",
+                arg=stock_count + count_value,
+                timeout=3000,
+            )
+        except TimeoutError:
+            # If query fails on timeout, revert to wait for 2 seconds(appereant wait_for_locator issue specific to firefox)
+            time.sleep(2)

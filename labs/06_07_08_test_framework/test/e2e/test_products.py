@@ -53,10 +53,9 @@ def test_add_product_to_catalog(page: Page, get_admin_token):
     ### ACT - When I add a product to the catalog​
     # Fetch pre-addition stock count
     pre_addition_stock_count = admin_page.product_item_in_list.count()
-    # Add product
     admin_page.add_product(product_name)
-    # Fetch post-addition stock count
     page.wait_for_load_state("networkidle")
+    # Fetch post-addition stock count
     admin_page.wait_for_product_count_change(pre_addition_stock_count, 1)
     post_addition_stock = admin_page.product_item_in_list.count()
 
@@ -88,10 +87,9 @@ def test_remove_product_from_catalog(
     )
     home_page.navigate()
     ### ACT - When I remove a product from the catalog​
-    # Fetch pre-removal stock count
     page.wait_for_load_state("networkidle")
+    # Fetch pre-removal stock count
     pre_removal_stock_count = admin_page.product_item_in_list.count()
-    # Delete product
     admin_page.delete_latest_product()
     # Fetch post-removal stock count
     page.wait_for_load_state("networkidle")

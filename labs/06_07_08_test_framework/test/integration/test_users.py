@@ -30,7 +30,6 @@ def test_signup_and_login():
     user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
 
     ### ACT - When I signup in the app​
-    # Signup new customer
     signup_api_response = user_api.signup(username, password)
     # Validate signup
     assert signup_api_response.status_code == 200
@@ -55,8 +54,8 @@ def test_login_and_get_products(signup_user):
     user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
 
     ### ACT - When I log in into the application​
-    # login user and store bearer token
     login_user = user_api.login(username, password)
+    # get user token
     access_token = login_user.json().get("access_token")
 
     # get user profile with products
