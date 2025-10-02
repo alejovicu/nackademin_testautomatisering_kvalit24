@@ -21,12 +21,18 @@ requests.post(f"{BASE_URL}/product", json={"name": product_name_1}, headers=head
 requests.post(f"{BASE_URL}/product", json={"name": product_name_2}, headers=headers)
 
 # CREATE USER
-user_response_signup = requests.post(f"{BASE_URL}/signup", json={"username": "user_1", "password": "pass_1"})
-if user_response_signup.status_code not in (200, 409):
+user_signup_response = requests.post(f"{BASE_URL}/signup", json={"username": "user_1", "password": "pass_1"})
+if user_signup_response.status_code == 409:
+    print("user_1 already exists, skipping creation.")
+    
+elif user_signup_response.status_code != 200:
     raise Exception("Failed to create user_1")
 
-user_response_login = requests.post(f"{BASE_URL}/login", json={"username": "user_1", "password": "pass_1"})
-user_token = user_response_login.json()["access_token"]
+user_login_resp = requests.post(f"{BASE_URL}/login", json={"username": "user_1", "password": "pass_1"})
+if user_login_resp.status_code != 200:
+    raise Exception("Failed to login user_1")
+
+user_token = user_login_resp.json()["access_token"]
 
 # ASSIGN PRODUCTS TO USER
 headers_user = {"Authorization": f"Bearer {user_token}"}
