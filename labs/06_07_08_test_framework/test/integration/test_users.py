@@ -4,6 +4,10 @@ from playwright.sync_api import Page
 import libs.utils
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+import os
+
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am a new potential customer​
@@ -14,7 +18,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234?"
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
 
     # When I signup in the app​
     signup_api_response = user_api.signup(username, password)
@@ -35,7 +39,7 @@ def test_login():
     username = "admin"
     password = "admin"
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
 
     # When I log in into the application
     login_response = user_api.login(username, password)
@@ -45,7 +49,7 @@ def test_login():
     token = login_response.json()["access_token"]
 
     # Then I should see all my products
-    admin_api = AdminAPI("http://localhost:8000", token=token)
+    admin_api = AdminAPI(BACKEND_URL, token=token)
     product_count = admin_api.get_current_product_count()
 
     assert product_count >= 0

@@ -2,7 +2,10 @@ import libs.utils
 import pytest
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+import os
 
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Given I am an admin user​
 # When I add a product to the catalog​
@@ -11,13 +14,13 @@ from models.api.admin import AdminAPI
 
 def test_add_product_to_catalog():
     # Login as admin
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
     login_response = user_api.login("admin", "admin")
     assert login_response.status_code == 200
 
     token = login_response.json()["access_token"]
 
-    admin_api = AdminAPI("http://localhost:8000", token=token)
+    admin_api = AdminAPI(BACKEND_URL, token=token)
 
     # Create a unique product name
     product_name = libs.utils.generate_string_with_prefix("test_product")
@@ -38,12 +41,12 @@ def test_add_product_to_catalog():
 
 def test_remove_product_from_catalog():
     # Login as admin
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
     login_response = user_api.login("admin", "admin")
     assert login_response.status_code == 200
 
     token = login_response.json()["access_token"]
-    admin_api = AdminAPI("http://localhost:8000", token=token)
+    admin_api = AdminAPI(BACKEND_URL, token=token)
 
     # Create a unique product
     product_name = libs.utils.generate_string_with_prefix("test_product")
