@@ -1,6 +1,7 @@
 import requests
+import os
 
-BACKEND_URL = "http://localhost:8000"
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 def create_test_user(username="admin", password="admin"):
