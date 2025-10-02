@@ -3,10 +3,12 @@ import libs.utils
 import sqlite3
 import pytest
 import uuid
+import os
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 
-BASE_URL = 'http://localhost:8000'
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:80")
 
 
 # Given I am an admin user​
@@ -18,7 +20,7 @@ def test_add_product_to_catalog():
     password = "pass1234"
     product = f"test_course_{uuid.uuid4()}"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     # Login
     login_resp = user_api.login(username, password)
@@ -27,7 +29,9 @@ def test_add_product_to_catalog():
     token = login_resp.json().get("access_token")
     assert token is not None
 
-    add_product_resp = user_api.add_product_to_user(product, token)
+    admin_api = AdminAPI(BACKEND_URL, token)
+
+    add_product_resp = admin_api.create_product(product)
     assert add_product_resp.status_code == 200
     
     response_json = add_product_resp.json()
@@ -44,7 +48,7 @@ def test_remove_product_from_catalog():
     password = "pass1234"
     product = f"test_course_{uuid.uuid4()}"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
     # Login
     login_resp = user_api.login(username, password)
     assert login_resp.status_code == 200
@@ -52,7 +56,7 @@ def test_remove_product_from_catalog():
     token = login_resp.json().get("access_token")
     assert token is not None
 
-    admin_api = AdminAPI(BASE_URL, token)
+    admin_api = AdminAPI(BACKEND_URL, token)
 
     # this adds product 
     add_product_resp = admin_api.create_product(product)

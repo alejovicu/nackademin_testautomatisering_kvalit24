@@ -2,9 +2,10 @@ from playwright.sync_api import Page
 import pytest
 import libs.utils
 import sqlite3
+import os
 from models.api.user import UserAPI
 
-BASE_URL = 'http://localhost:8000'
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 
@@ -13,7 +14,7 @@ def test_signup():
     username = libs.utils.generate_string_with_prefix()
     password = "test_1234"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     # When I signup in the app​
     signup_api_response = user_api.signup(username,password)
@@ -33,7 +34,7 @@ def test_login():
     username = "test_1234"
     password = "test_1234"
 
-    user_api = UserAPI(BASE_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     # When I log in into the application​
     login_api_response = user_api.login(username, password)
