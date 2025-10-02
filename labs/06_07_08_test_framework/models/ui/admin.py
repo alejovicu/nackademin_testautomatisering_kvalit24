@@ -45,7 +45,7 @@ class AdminPage:
             self.page.wait_for_function(
                 "count => document.querySelectorAll('.product-item').length === count",
                 arg=stock_count + count_value,
-                timeout=3000,
+                timeout=8000,
             )
         except TimeoutError:
             # If query fails on timeout, revert to wait for 5 seconds(apperent wait_for_locator issue specific to firefox)
