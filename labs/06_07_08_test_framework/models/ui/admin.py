@@ -42,19 +42,6 @@ class AdminPage:
             latest_product.wait_for(state="visible", timeout=timeout)
 
     # Added function to await product change
-    # def wait_for_product_count_change(self, stock_count, count_value):
-    #     try:
-    #         self.page.wait_for_function(
-    #             "count => document.querySelectorAll('.product-item').length === count",
-    #             arg=stock_count + count_value,
-    #             timeout=8000,
-    #         )
-    #     except TimeoutError:
-    #         # If query fails on timeout, revert to wait for 5 seconds(apperent wait_for_locator issue specific to firefox)
-    #         time.sleep(8)
-
-    # Added function to await product change
-
     def wait_for_product_count_change(self, stock_count, count_value, timeout=15):
         expected_count = stock_count + count_value
         end_time = time.time() + timeout
