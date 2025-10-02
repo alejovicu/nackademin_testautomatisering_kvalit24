@@ -38,7 +38,7 @@ product_names = [product_name_1, product_name_2]
 for product_name in product_names:
 
     # Get all products
-    response = requests.get(f"{BASE_URL}/product", headers=headers_user)
+    response = requests.get(f"{BASE_URL}/products", headers=headers_user)
     products = response.json()
     product_id = None
 
