@@ -1,3 +1,5 @@
+import requests
+
 
 class AdminAPI:
     def __init__(self, base_url, token):
@@ -6,12 +8,52 @@ class AdminAPI:
 
 
 
+
     def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
+        url = f"{self.base_url}/products"
+        headers = {
+        "Authorization": f"Bearer {self.token}",
+         "Content-Type": "application/json"
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            products = response.json()
+            return len(products)
+        return 0
 
     def create_product(self, product_name):
-        # complete logic
+        
+        url = f"{self.base_url}/product"
+        headers = {
+        "Authorization": f"Bearer {self.token}",
+         "Content-Type": "application/json"
+        }
+
+        body = {"name": product_name}
+
+        response = requests.post(url, headers=headers, json=body)
+        return response
 
     def delete_product_by_name(self, product_name):
-        # complete logic
+        
+        url = f"{self.base_url}/products"
+        headers = {"Authorization": f"Bearer {self.token}"}
+
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            raise Exception(f"Failed to fetch products. Status: {response.status_code}")
+
+
+        products = response.json()
+        for product in products:
+            if product.get("name") == product_name:
+                product_id = product.get("id")
+                delete_product = f"{self.base_url}/product/{product_id}"
+
+                response = requests.delete(delete_product, headers=headers)
+                return response
+
+        return None  # Om produkten inte hittades
+
