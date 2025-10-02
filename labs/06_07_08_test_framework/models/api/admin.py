@@ -17,7 +17,7 @@ class AdminAPI:
 
     def create_product(self, product_name):
         body = {"name": product_name}
-        return self.session.post(f"{self.base_url}/products", json=body)
+        return self.session.post(f"{self.base_url}/product", json=body)
 
     def list_products(self):
         response = self.session.get(f"{self.base_url}/products")
