@@ -1,4 +1,6 @@
 from playwright.sync_api import TimeoutError
+import asyncio
+from playwright.async_api import async_playwright
 import time
 
 
@@ -40,13 +42,25 @@ class AdminPage:
             latest_product.wait_for(state="visible", timeout=timeout)
 
     # Added function to await product change
-    def wait_for_product_count_change(self, stock_count, count_value):
-        try:
-            self.page.wait_for_function(
-                "count => document.querySelectorAll('.product-item').length === count",
-                arg=stock_count + count_value,
-                timeout=8000,
-            )
-        except TimeoutError:
-            # If query fails on timeout, revert to wait for 5 seconds(apperent wait_for_locator issue specific to firefox)
-            time.sleep(5)
+    # def wait_for_product_count_change(self, stock_count, count_value):
+    #     try:
+    #         self.page.wait_for_function(
+    #             "count => document.querySelectorAll('.product-item').length === count",
+    #             arg=stock_count + count_value,
+    #             timeout=8000,
+    #         )
+    #     except TimeoutError:
+    #         # If query fails on timeout, revert to wait for 5 seconds(apperent wait_for_locator issue specific to firefox)
+    #         time.sleep(8)
+
+    # Added function to await product change
+
+    def wait_for_product_count_change(self, stock_count, count_value, timeout=15):
+        expected_count = stock_count + count_value
+        end_time = time.time() + timeout
+
+        while time.time() < end_time:
+            current_count = self.page.locator(".product-item").count()
+            if current_count == expected_count:
+                return  # Success!
+            time.sleep(0.2)  # Wait a bit before retrying

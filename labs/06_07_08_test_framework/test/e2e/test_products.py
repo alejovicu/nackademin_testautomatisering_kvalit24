@@ -51,6 +51,7 @@ def test_add_product_to_catalog(page: Page, get_admin_token):
     expect(create_product_button).to_be_visible()
 
     ### ACT - When I add a product to the catalog​
+    page.wait_for_load_state("networkidle")
     # Fetch pre-addition stock count
     pre_addition_stock_count = admin_page.product_item_in_list.count()
     admin_page.add_product(product_name)
