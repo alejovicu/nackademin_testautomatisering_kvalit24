@@ -5,7 +5,7 @@ from models.ui.home import HomePage
 from models.api.admin import AdminAPI
 import os
 
-BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
+BASE_URL = os.getenv("BACKEND_URL","http://localhost:8000/")
 
 
 def test_add_product_to_catalog(page):

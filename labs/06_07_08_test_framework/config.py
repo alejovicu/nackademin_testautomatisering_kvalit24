@@ -1,7 +1,7 @@
 import requests
 import os
 
-BASE = os.environ.get("BACKEND", "http://localhost:8000")
+BASE = os.environ.get("BACKEND_URL", "http://localhost:8000")
 
 # create admin user
 requests.post(f"{BASE}/signup", json={

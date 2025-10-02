@@ -3,7 +3,7 @@ from models.api.user import UserAPI
 import libs.utils
 import os
 
-BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
+BASE_URL = os.getenv("BACKEND_URL","http://localhost:8000/")
 
 def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix()
@@ -38,7 +38,6 @@ def test_assign_product_to_user():
             
     login_response = user_api.login(username, password)
     assert login_response.status_code == 200
-
 
     assign_product_response = user_api.add_product_to_user(product_to_assign)
 

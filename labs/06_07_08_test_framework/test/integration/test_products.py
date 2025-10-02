@@ -4,7 +4,7 @@ from models.api.admin import AdminAPI
 from models.api.user import UserAPI
 import os
 
-BASE_URL = os.getenv("BACKEND","http://localhost:8000/")
+BASE_URL = os.getenv("BACKEND_URL","http://localhost:8000/")
 
 
 @pytest.fixture
