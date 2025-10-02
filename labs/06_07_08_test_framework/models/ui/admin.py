@@ -48,5 +48,5 @@ class AdminPage:
                 timeout=3000,
             )
         except TimeoutError:
-            # If query fails on timeout, revert to wait for 2 seconds(appereant wait_for_locator issue specific to firefox)
-            time.sleep(2)
+            # If query fails on timeout, revert to wait for 4 seconds(apperent wait_for_locator issue specific to firefox)
+            time.sleep(4)
