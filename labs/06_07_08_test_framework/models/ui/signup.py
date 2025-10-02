@@ -2,7 +2,7 @@
 # navigate to Home
 import os
 
-VITE_FRONTEND_URL = os.getenv("VITE_FRONTEND_URL", "http://localhost:5173")
+VITE_FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 
 class SignupPage:

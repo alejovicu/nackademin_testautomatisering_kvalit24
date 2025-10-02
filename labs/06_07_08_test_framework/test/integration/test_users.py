@@ -3,7 +3,7 @@ import libs.utils
 from models.api.user import UserAPI
 import os
 
-VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
+VITE_BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am a new potential customer​
