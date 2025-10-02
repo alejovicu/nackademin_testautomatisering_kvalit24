@@ -15,7 +15,7 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def nav(self):
-        self.page.goto(os.getenv("FRO_BASE_URL"))
+        self.page.goto(os.getenv("FRONTEND_URL"))
 
     def login(self, username, password):
         self.login_input_username.fill(username)

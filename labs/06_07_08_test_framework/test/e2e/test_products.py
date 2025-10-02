@@ -16,8 +16,8 @@ load_dotenv(dotenv_path=env_path)
 
 @pytest.mark.order(1)
 def test_setup_admin():
-    user_api = UserAPI(os.getenv("BASE_URL"))
-    admin_api = AdminAPI(os.getenv("BASE_URL"))
+    user_api = UserAPI(os.getenv("BACKEND_URL"))
+    admin_api = AdminAPI(os.getenv("BACKEND_URL"))
     username = os.getenv("admin_username")
     password = os.getenv("admin_password")
     course01 = os.getenv("product01")
@@ -34,7 +34,7 @@ def test_setup_admin():
 
 @pytest.mark.order(2)
 def test_add_product_to_catalog(page: Page):
-    user_api = UserAPI(os.getenv("BASE_URL"))
+    user_api = UserAPI(os.getenv("BACKEND_URL"))
     product = "Java-programmering för nybörjare"
     home_page = HomePage(page)
     admin_page = AdminPage(page)
@@ -54,7 +54,7 @@ def test_add_product_to_catalog(page: Page):
 
 @pytest.mark.order(3)
 def test_remove_product_from_catalog(page: Page):
-    user_api = UserAPI(os.getenv("BASE_URL"))
+    user_api = UserAPI(os.getenv("BACKEND_URL"))
     product_name = os.getenv("product04")
     # Given I am an admin user​
     username = os.getenv("admin_username")
@@ -74,8 +74,8 @@ def test_remove_product_from_catalog(page: Page):
 
 @pytest.mark.order(4)
 def test_reset_data_admin():
-    user_api = UserAPI(os.getenv("BASE_URL"))
-    admin_api = AdminAPI(os.getenv("BASE_URL"))
+    user_api = UserAPI(os.getenv("BACKEND_URL"))
+    admin_api = AdminAPI(os.getenv("BACKEND_URL"))
     username = os.getenv("admin_username")
     password = os.getenv("admin_password")
     course01 = os.getenv("product01")

@@ -8,8 +8,8 @@ import os
 
 
 def test_add_product_to_catalog():  # complete code
-    user_api = UserAPI(os.getenv("BASE_URL"))
-    admin_api = AdminAPI(os.getenv("BASE_URL"))
+    user_api = UserAPI(os.getenv("BACKEND_URL"))
+    admin_api = AdminAPI(os.getenv("BACKEND_URL"))
     username = "Admin_user"
     password = "Automation53"
     # Given I am an admin user​
@@ -24,8 +24,8 @@ def test_add_product_to_catalog():  # complete code
 
 
 def test_remove_product_from_catalog():  # complete code
-    user_api = UserAPI(os.getenv("BASE_URL"))
-    admin_api = AdminAPI(os.getenv("BASE_URL"))
+    user_api = UserAPI(os.getenv("BACKEND_URL"))
+    admin_api = AdminAPI(os.getenv("BACKEND_URL"))
     username = "Admin_user"
     password = "Automation53"
     # Given I am an admin user​
