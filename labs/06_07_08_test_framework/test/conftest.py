@@ -5,7 +5,7 @@ def pytest_sessionstart(session):
 
     BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
-    api_base = VITE_BACKEND_URL
+    api_base = BACKEND_URL
     user_api = UserAPI(api_base)
 
     # Create users
