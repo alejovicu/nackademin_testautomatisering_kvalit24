@@ -7,7 +7,7 @@ services:
     ports:
       - "80:5173"
     environment:
-      - VITE_BACKEND_URL=http://localhost:8000
+      - VITE_BACKEND_URL=http://app-backend:8000
     image: "alejovicu/app-frontend:1.0.3"
   jenkins:
     ports:
