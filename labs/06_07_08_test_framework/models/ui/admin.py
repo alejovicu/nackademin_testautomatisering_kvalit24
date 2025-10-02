@@ -1,20 +1,53 @@
-# View  where the admin user can manage the products
-# that are in the Product Catalog to be used
-# by all the users
+from playwright.sync_api import TimeoutError
+import asyncio
+from playwright.async_api import async_playwright
+import time
 
 
 class AdminPage:
     def __init__(self, page):
         self.page = page
-        #page_(element-type)_(descriptive-name)
-        #complete admin view elements
+        self.header_main_title = page.get_by_text("Nackademin Course App")
+        self.welcome_message = page.locator("h2:has-text('Welcome')")
+        self.products_header = page.get_by_text("Products available:")
+        self.add_product_header = page.get_by_role("h3", name="Add new product:")
+        self.empty_product_list = page.get_by_role("p", name="No products available.")
+        self.product_list = page.locator(".product-grid")
+        self.product_item_in_list = page.locator(".product-item")
+        self.input_add_product = page.get_by_placeholder("Product Name")
+        self.button_create_product = page.get_by_text("Create Product")
+        self.button_logout = page.get_by_role("button", name="Logout")
 
-    def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
+    def add_product(self, product):
+        self.input_add_product.fill(product)
+        self.button_create_product.click()
 
-    def create_product(self,product_name):
-        # complete logic
+    def locate_latest_product_name(self):
+        return self.page.locator(".product-item > span").last
 
-    def delete_product_by_name(self,product_name):
-        # complete logic
+    def delete_latest_product(self):
+        latest_product = self.page.locator(".product-item").last
+        delete_button = latest_product.locator(
+            ".product-item-button", has_text="Delete"
+        )
+        delete_button.click()
+
+    def wait_for_product_list_to_load(self, timeout=3000):
+        # If the empty list message is visible, skip waiting for products
+        if self.empty_product_list.is_visible():
+            return
+        else:
+            # Otherwise, wait for a product to appear
+            latest_product = self.page.locator(".product-item").last
+            latest_product.wait_for(state="visible", timeout=timeout)
+
+    # Added function to await product change
+    def wait_for_product_count_change(self, stock_count, count_value, timeout=15):
+        expected_count = stock_count + count_value
+        end_time = time.time() + timeout
+
+        while time.time() < end_time:
+            current_count = self.page.locator(".product-item").count()
+            if current_count == expected_count:
+                return  # Success!
+            time.sleep(0.2)  # Wait a bit before retrying
