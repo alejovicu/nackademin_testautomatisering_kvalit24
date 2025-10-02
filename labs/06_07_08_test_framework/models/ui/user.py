@@ -11,8 +11,8 @@ class UserPage:
         self.header_title = page.get_by_text('Nackademin Course App')
         self.product_title = page.get_by_text('Your Products:')
         self.product_list = page.locator("xpath=//h3[text()='Your Products:']/following-sibling::div[1]/div"
-                                         )
-
+                                        )
+        # self.product_list= page.locator("xpath=//*[@id='root']/div/div/div/div/text()")
     def get_user_products(self) -> list[str]:
 
         expect(self.product_list).to_have_count(1)

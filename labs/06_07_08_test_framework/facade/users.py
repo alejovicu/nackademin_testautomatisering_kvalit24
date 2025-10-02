@@ -39,7 +39,6 @@ class UsersFacade:
         # When I log in into the application​
         home_page.navigate()
         home_page.login(username, password)
-
         # Then I should see all my products
         products = user_page.get_user_products()
         assert len(products) > 0
