@@ -1,5 +1,6 @@
 # Landing page where the users could either login or
 import os
+import time
 # navigate to signup
 
 
@@ -15,11 +16,12 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def nav(self):
-        self.page.goto(os.getenv("FRONTEND_URL"))
+        self.page.goto(os.getenv("FRONTEND_URL", "http://localhost/"))
 
     def login(self, username, password):
         self.login_input_username.fill(username)
         self.login_input_password.fill(password)
+        time.sleep(1)
         self.login_btn_login.click()
 
     def go_to_signup(self):
