@@ -2,7 +2,7 @@ import requests
 import os
 import time
 
-BASE_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
+BASE_URL = os.environ.get("APP_BACK_URL", "http://localhost:8000")
 
 # CREATE ADMIN
 login_response = requests.post(f"{BASE_URL}/login", json= {"username": "admin", "password": "admin123"})
