@@ -11,7 +11,7 @@ def setup_admin_user():
     """
     username = "user_admin"
     password = "test_1234"
-    backend_url = os.getenv("BACKEND_URL_TEST", "http://localhost:8000")
+    backend_url = os.getenv("BACKEND_URL", "http://localhost:8000")
 
     admin_api = UserAPI(backend_url)
 
