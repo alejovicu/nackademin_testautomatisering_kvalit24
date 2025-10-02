@@ -10,7 +10,7 @@ token = login_resp.json()["access_token"]
 
 if login_resp.ok:
     headers = {"Authorization": f"Bearer {token}"}
-    product_resp = requests.get(f"{BASE}/products")
+    product_resp = requests.get(f"{BASE}/products", headers=headers)
     products = product_resp.json()
 
     if any(p.get("name")== "Banan" for p in products):
