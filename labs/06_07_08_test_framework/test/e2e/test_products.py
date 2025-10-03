@@ -28,9 +28,11 @@ def test_add_product_to_catalog(page: Page):
     # Then The product is available to be used in the app
     expect(admin_page.product_item.filter(has_text=product)).to_be_visible()
     admin_page.logout_admin()
+    reset()
 
 
 def test_remove_product_from_catalog(page: Page):
+    setup()
     user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     product_name = os.getenv("product04", "Avancerad Java-programmering")
     # Given I am an admin user​

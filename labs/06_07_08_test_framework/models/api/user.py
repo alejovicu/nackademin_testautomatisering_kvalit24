@@ -2,6 +2,7 @@
 # produts from the Product Catalog and/or
 # remove it
 import requests
+import time
 
 
 class UserAPI:
@@ -12,6 +13,7 @@ class UserAPI:
         # complete code
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/login", json=body)
+        time.wait(1)
         return response
 
     def login_token(self, username, password):

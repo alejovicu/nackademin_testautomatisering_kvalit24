@@ -26,9 +26,11 @@ def test_signup(page: Page):
     # Then I should be able to log in with my new user
     home_page.login(username, password)
     user_page.logout_user()
+    reset()
 
 
 def test_login(page: Page):
+    setup()
     home_page = HomePage(page)
     user_page = UserPage(page)
     course01 = os.getenv("product02", "Frontend programering 1")
