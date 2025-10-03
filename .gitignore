@@ -19,3 +19,4 @@ __pycache__
 **/New.venv
 .DS_Store
 **/.DS_Store
+**performance_venv
