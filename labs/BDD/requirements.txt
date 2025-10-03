@@ -1,0 +1,2 @@
+pytest-playwright==0.7.0
+requests==2.32.5nackademin_testautomatisering_kvalit24/labs/06_07_08_test_framework/requirements.txt

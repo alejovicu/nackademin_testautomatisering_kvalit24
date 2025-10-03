@@ -10,6 +10,8 @@ ADMIN_USER_ID = 1
 
 router = APIRouter()
 
+<<<<<<< HEAD
+=======
 def validate_admin_user(user_id):
     if user_id != ADMIN_USER_ID:
         raise HTTPException(
@@ -17,6 +19,7 @@ def validate_admin_user(user_id):
             detail="The user doesn't have permissions. Only the Admin user can manage products from the catalog."
         )
 
+>>>>>>> 4007169f48709b48b776125c775acc67d6e7056c
 @router.post("/product", response_model=ProductResponse)
 def create_product(
     product: ProductCreate,
