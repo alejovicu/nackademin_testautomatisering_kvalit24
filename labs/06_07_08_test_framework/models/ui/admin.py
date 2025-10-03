@@ -14,8 +14,8 @@ class AdminPage:
         self.delete_btn = page.get_by_role("button", name="Delete")
 
     def get_current_product_count(self):
-        if self.empty_product_message.is_visible():
-            return 0
+        # if self.empty_product_message.is_visible():
+        #     return 0
         return self.product_lists.count()
 
     def create_product(self, product_name):
