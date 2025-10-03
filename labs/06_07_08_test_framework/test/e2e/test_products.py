@@ -5,7 +5,7 @@ import libs.utils
 import pytest
 import os
 
-API_URL = os.getenv("API_URL", "http://localhost:8000")
+API_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 @pytest.fixture
