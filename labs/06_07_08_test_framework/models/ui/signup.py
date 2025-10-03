@@ -6,7 +6,7 @@ class SignupPage:
 
         self.signup_input_username = page.get_by_placeholder('Username')
         self.signup_input_password = page.get_by_placeholder('Password')
-        self.signup_btn_signup = page.get_by_text('signup')
+        self.signup_btn_signup = page.locator('button.button-primary')
 
 
     def signup(self,username,password):
