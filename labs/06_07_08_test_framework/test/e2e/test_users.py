@@ -12,16 +12,7 @@ import os
 API_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
-@pytest.fixture
-def admin_api():
-    username = "admin"
-    password = "admin123"
 
-    user_api = UserAPI(API_URL)
-    login_response = user_api.login(username, password)
-    login_response.raise_for_status()
-    token = login_response.json()["access_token"]
-    return AdminAPI(API_URL, token=token)
 
 # Given I am a new potential customer​
 # When I signup in the app​
@@ -37,8 +28,8 @@ def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix("user")
     password = "test123"
 
-    
-    signup.signup(username, password)
+    with page.expect_response(lambda r: r.url.endswith("/signup") and r.status == 200):
+        signup.signup(username, password)
 
     home.navigate()
     home.login(username, password)
@@ -52,7 +43,7 @@ def test_signup(page: Page):
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products
-def test_login_and_view_products(page: Page, admin_api):
+def test_login_and_view_products(page: Page):
     home = HomePage(page)
     username = "test"
     password = "test123"
@@ -61,7 +52,7 @@ def test_login_and_view_products(page: Page, admin_api):
     home.login(username, password)
 
     user_page = UserPage(page)
-    products = user_page.get_user_products_swagger()
+    products = user_page.get_user_products()
     print("Products for user: ", products)
 
     assert isinstance(products, list)
