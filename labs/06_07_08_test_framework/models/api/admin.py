@@ -1,5 +1,4 @@
 import requests
-import time
 
 
 class AdminAPI:
@@ -28,7 +27,6 @@ class AdminAPI:
                 product_found = product["name"]
                 print(f"product {product_name} exist on the app.")
                 break
-        time.wait(1)
         return product_found
 
     def get_current_product_count(self):  # complete logic
