@@ -23,7 +23,7 @@ class UserPage:
             return []
 
         # Return list of product names (text) inside <li>
-            return container.locator("li").all_text_contents()
+        return container.locator("li").all_text_contents()
 
         
 
