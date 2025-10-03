@@ -5,12 +5,21 @@ class HomePage:
     def __init__(self, page):
         self.page = page
         #page_(element-type)_(descriptive-name)
-        self.login_header_main_title = page.get_by_text('Nackademin Course App')
+       
+        self.page_title = page.get_by_text('Nackademin Course App')
         self.login_input_username = page.get_by_placeholder('Username')
         self.login_input_password = page.get_by_placeholder('Password')
         self.login_btn_login = page.locator('button.button-primary')
+        
         self.login_label_have_account = page.get_by_text("Don't have an account?")
         self.login_btn_signup = page.locator('#signup')
+
+        # Post-login elements
+        self.header = page.locator("text=Welcome") 
+        self.products_section_title = page.locator("h3:has-text('Your Products:')")
+        self.no_products_text = page.locator("p:has-text('No products assigned.')")
+        self.header = page.get_by_role("heading", name="Welcome,User!")
+        self.logout_button = page.get_by_role("button", name="Log out")
 
 
     def navigate(self):
@@ -24,3 +33,4 @@ class HomePage:
 
     def go_to_signup(self):
         # complete code
+        self.login_btn_signup.click()
