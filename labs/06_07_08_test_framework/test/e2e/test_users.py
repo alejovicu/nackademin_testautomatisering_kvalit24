@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.api.user import UserAPI
 from models.ui.user import UserPage
@@ -55,4 +55,6 @@ def test_login_and_view_products(page: Page):
     products = user_page.get_user_products()
     print("Products for user: ", products)
 
-    assert isinstance(products, list)
+
+    expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
+    expect(page.locator('h3:has-text("Your Products")')).to_be_visible()
