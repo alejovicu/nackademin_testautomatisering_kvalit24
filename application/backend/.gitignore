@@ -1,1 +1,13 @@
 test.db
+# Virtual envs
+venv/
+.venv/
+**/venv/
+**/.venv/
+
+# Caches
+__pycache__/
+*.pyc
+
+# macOS junk
+.DS_Store

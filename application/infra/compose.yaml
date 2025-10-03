@@ -12,7 +12,10 @@ services:
   jenkins:
     ports:
       - "8080:8080"
-    image: "alejovicu/app-jenkins:0.1.0"
+    # CHANGED THIS LINE:
+    image: "jenkins/jenkins:lts-jdk17"
+    # OR use platform flag to force AMD64 emulation:
+    # platform: linux/amd64
     volumes:
       - jenkins_home:/var/jenkins_home
   mailhog:
