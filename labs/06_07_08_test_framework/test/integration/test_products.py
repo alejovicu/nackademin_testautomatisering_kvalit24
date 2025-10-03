@@ -4,10 +4,12 @@ import pytest
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 import os
+from test.conftest import setup, reset
 # from dotenv import load_dotenv
 
 
 def test_add_product_to_catalog():  # complete code
+    setup()
     user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     username = os.getenv("admin_username", "Admin_user")
@@ -21,9 +23,11 @@ def test_add_product_to_catalog():  # complete code
     # Then The product is available to be used in the app
     assert new_product_name == "New product"
     assert new_product_added.status_code == 200
+    reset()
 
 
 def test_remove_product_from_catalog():  # complete code
+    setup()
     user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     admin_api = AdminAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     username = os.getenv("admin_username", "Admin_user")
@@ -37,3 +41,4 @@ def test_remove_product_from_catalog():  # complete code
     removed_product = admin_api.get_product_by_name("New product")
     assert delete_product.status_code == 200
     assert removed_product == None
+    reset()

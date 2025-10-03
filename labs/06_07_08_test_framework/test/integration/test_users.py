@@ -2,6 +2,7 @@ from playwright.sync_api import Page
 import libs.utils
 from models.api.user import UserAPI
 import os
+from test.conftest import setup, reset
 
 
 def test_signup():
@@ -20,6 +21,7 @@ def test_signup():
 
 
 def test_login():  # use -s in the pytest command to show the print.
+    setup()
     user_api = UserAPI(os.getenv("BACKEND_URL", "http://localhost:8000"))
     # Given I am an authenticated user​
     username = "user83"
@@ -39,3 +41,4 @@ def test_login():  # use -s in the pytest command to show the print.
     else:
         assert len(user_products) >= 0
         print("Products exist on the users account.")
+    reset()
