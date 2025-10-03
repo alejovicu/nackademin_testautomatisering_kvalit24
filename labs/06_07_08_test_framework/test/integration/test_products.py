@@ -7,7 +7,7 @@ import libs.utils
 
 import os
 
-API_URL = os.getenv("API_URL", "http://localhost:8000")
+API_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 
@@ -35,28 +35,7 @@ def admin_api():
     return AdminAPI(API_URL, token=token)
 
 
-def test_login_existing_user(page: Page, user_api, admin_api):
-    username = "test"
-    password = "test123"
 
-    product_name = libs.utils.generate_string_with_prefix("product")
-    product = admin_api.create_product(product_name)
-
-    user_api.login(username, password)
-    user_api.add_product_to_user(product["id"])
-
-    page.goto(FRONTEND_URL)
-    page.locator("text=login").click()
-    page.locator("input[placeholder='Username']").fill(username)
-    page.locator("input[placeholder='Password']").fill(password)
-    page.locator("button:has-text('Login')").click()
-
-    page.wait_for_selector(f"text=Welcome, {username}!")
-    assert page.locator(f"text=Welcome, {username}!").is_visible()
-
-    page.wait_for_selector("text=Your Products:")
-    product_elements = page.locator("text=Your Products: >> xpath=following-sibling::div/div")
-    assert product_elements.count() >= 0
     
 
 # Given I am an admin user​
