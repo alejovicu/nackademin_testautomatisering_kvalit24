@@ -1,0 +1,10 @@
+# Ignorera virtuella miljöer
+venv/
+.venv/
+
+# Ignorera temporära Python-filer
+*.pyc
+__pycache__/
+
+# Ignorera genererade rapporter
+report.html
