@@ -27,7 +27,7 @@ class UserAPI:
         for product in products:
             if product.get("name") == product_name:
                 return requests.post(
-                    f"{self.base_url}/user/products/{product['id']}", headers=headers
+                    f"{self.base_url}/user/product/{product['id']}", headers=headers
                 )
         return None
 

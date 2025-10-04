@@ -4,7 +4,7 @@ class AdminPage:
         self.admin_input_product_name = page.get_by_placeholder("Product Name")
         self.admin_btn_create = page.get_by_role("button", name="Create Product")
         self.product_items = page.locator("div.product-item")
-        self.product_delete_buttons = page.locator("button.product-item-button")
+        self.product_delete_buttons = page.get_by_role("button", name="Delete")
 
     def get_current_product_count(self):
         return self.product_items.count()
@@ -15,4 +15,4 @@ class AdminPage:
 
     def delete_product_by_name(self, product_name):
         row = self.page.locator(f"div.product-item:has-text('{product_name}')").first
-        row.locator("button.product-item-button").click()
+        row.get_by_role("button", name="Delete").click()

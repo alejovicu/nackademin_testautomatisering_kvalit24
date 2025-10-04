@@ -5,7 +5,9 @@ from models.api.admin import AdminAPI
 
 import os
 
-BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+BASE_URL = os.getenv("BACKEND_URL") or os.getenv(
+    "API_BASE_URL", "http://localhost:8000"
+)
 
 
 def test_signup():

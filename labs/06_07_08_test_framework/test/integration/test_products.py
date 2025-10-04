@@ -5,7 +5,9 @@ from libs.utils import generate_string_with_prefix
 import os
 
 
-BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+BASE_URL = os.getenv("BACKEND_URL") or os.getenv(
+    "API_BASE_URL", "http://localhost:8000"
+)
 
 
 def _admin_api():
