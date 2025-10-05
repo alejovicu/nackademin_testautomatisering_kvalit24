@@ -24,13 +24,10 @@ def test_create_product_to_catalog(page: Page):
     admin_page = AdminPage(page)
     admin_page.navigate()
 
-    
-   
-
     prev_count = admin_page.get_current_product_count()
-    admin_page.create_product(product_name)
-
-
+    products_list=admin_page.create_product(product_name)
+    print(products_list)
+    expect(page.get_by_text(product_name)).to_be_visible()
     current_count = admin_page.get_current_product_count()
     assert current_count == prev_count + 1
 

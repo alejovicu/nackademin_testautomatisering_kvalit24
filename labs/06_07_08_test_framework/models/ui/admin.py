@@ -29,7 +29,9 @@ class AdminPage:
 
 
     def navigate(self):
-        self.page.goto("http://localhost:5173")
+       self.page.goto("http://localhost")
+
+
 
     def get_current_product_count(self):
         # complete logic

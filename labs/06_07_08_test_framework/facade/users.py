@@ -16,7 +16,7 @@ class UsersFacade:
         # login as new user
         # return username and password
         username = libs.utils.generate_string_with_prefix("user")
-        password = "Password123!"
+        password = "123!"
         home_page = HomePage(self.page)
         home_page.navigate()
         home_page.go_to_signup()
@@ -25,7 +25,7 @@ class UsersFacade:
         home_page.navigate()
         home_page.login(username, password)
         return username, password
-        # return username and password
-        return username, password
+        
+        
     
     

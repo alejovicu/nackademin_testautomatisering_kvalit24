@@ -7,7 +7,8 @@ import requests
 class UserAPI:
     def __init__(self, base_url):
         self.base_url = base_url
-        
+        self.token = None
+       
 
     def login(self, username, password):
         body = { "username": username, "password": password }

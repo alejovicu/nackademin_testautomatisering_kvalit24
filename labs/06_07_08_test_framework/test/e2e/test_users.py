@@ -25,14 +25,10 @@ def test_signup(page: Page):
     
 
     signup= SignupPage(page)
-   
     signup.signup(username, password)
     signup.go_to_home()
 
-    
-
     home_page.login(username, password)
- 
     assert(home_page.header).get_by_role(f"Welcome {username}")
    
 
@@ -55,8 +51,8 @@ def test_authenticated_user_signup(page: Page):
 # Setup test data
     
 
-    username = "asif"
-    password = "khan"
+    username= libs.utils.generate_string_with_prefix("user")
+    password = "123"
 
 
     #login
