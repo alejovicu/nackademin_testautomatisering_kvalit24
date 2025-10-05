@@ -45,11 +45,17 @@ def test_sum_one_positive_one_string_value():
         main.addition(positive_value, string_value)
 
 
-# def test_divide_two_positive_values():
-# #     # Arrange
-#     positive_value = 10
-#     positive_value  = 2
-#     expected_result = {"result": 5 }
+def test_divide_two_positive_values():
+#     # Arrange
+    positive_value_1 = 10
+    positive_value_2 = 2
+    expected_result = {"result": 5 }
+
+    result = main.division(positive_value_1 , positive_value_2)
+
+#     # Assert
+    assert  result == expected_result
+
 
 
 
