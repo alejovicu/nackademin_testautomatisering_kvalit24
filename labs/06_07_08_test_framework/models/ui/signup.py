@@ -17,13 +17,14 @@ class SignupPage:
             password,
         )
 
-        self.page.get_by_role("button", name="Sign Up").first.click()
-
-        resp = self.page.wait_for_response(
+        with self.page.expect_response(
             lambda r: r.request.method == "POST" and "/signup" in r.url,
             timeout=12000,
-        )
+        ) as resp_info:
+            self.page.get_by_role("button", name="Sign Up").first.click()
+        resp = resp_info.value
         status = resp.status
+
         if status not in (200, 201, 409):
             raise TimeoutError(f"Signup failed, unexpected status: {status}")
 

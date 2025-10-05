@@ -32,12 +32,12 @@ class HomePage:
             password,
         )
 
-        self.page.get_by_role("button", name="Login").first.click()
-
-        resp = self.page.wait_for_response(
+        with self.page.expect_response(
             lambda r: r.request.method == "POST" and "/login" in r.url,
             timeout=12000,
-        )
+        ) as resp_info:
+            self.page.get_by_role("button", name="Login").first.click()
+        resp = resp_info.value
         if not (200 <= resp.status < 300):
             raise TimeoutError(f"Login failed, status: {resp.status}")
 
@@ -49,13 +49,11 @@ class HomePage:
             return
         except:
             pass
-
         try:
             self.page.get_by_role("button", name="Add Product").wait_for(timeout=7000)
             return
         except:
             pass
-
         try:
             self.page.wait_for_url(lambda u: "#/user" in u, timeout=5000)
             return
