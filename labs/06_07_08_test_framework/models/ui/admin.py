@@ -15,7 +15,7 @@ class AdminPage:
         # return number of total products displayed 
            
         return self.page.locator('.product-item').count()
-
+      
 
     def create_product(self,product_name):
         self.input_product_name.fill(product_name)
