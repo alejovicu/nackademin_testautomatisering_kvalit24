@@ -1,5 +1,4 @@
 from playwright.sync_api import expect
-import time
 import os
 
 class HomePage:
@@ -19,14 +18,18 @@ class HomePage:
 
 
     def login(self,username,password):
-        self.login_input_username.fill(username)
-        time.sleep(0.5)
-        self.login_input_password.fill(password)
-        time.sleep(0.5)
-        self.login_btn_login.click()
-        time.sleep(2)
-        
-        self.page.screenshot(path=f"/tmp/login_{username}.png")
+        try:
+            self.login_input_username.fill(username)
+            self.login_input_password.fill(password)
+            self.login_btn_login.click()
+            expect(self.page.locator("text=Welcome")).to_be_visible(timeout=10000)
+        except Exception as e:
+            # create screenshots folder if not exists
+            screenshot_dir = "/var/jenkins_home/workspace/Jenkins lab_13_14 integration and e2e/screenshots"
+            os.makedirs(screenshot_dir, exist_ok=True)
+            # take screenshot
+            self.page.screenshot(path=os.path.join(screenshot_dir, f"login_{username}.png"))
+            raise e
 
 
     def go_to_signup(self):
