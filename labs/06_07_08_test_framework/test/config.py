@@ -18,7 +18,7 @@ def config_signup(username: str, password: str):
 
     try:
         response = requests.post(url, json=payload, timeout=5)
-        if response.status_code == 201:
+        if response.status_code in (200, 201):
             print(f"User {username} created successfully")
         elif response.status_code == 400:
             print(f"User {username} already exists")
