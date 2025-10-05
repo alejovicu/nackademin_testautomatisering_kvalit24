@@ -4,12 +4,12 @@ import os
 @pytest.fixture(scope="session")
 def base_url():
     """Backend API base URL"""
-    return os.environ.get('BACKEND_URL', 'http://app-backend:8000')
+    return os.environ.get('BACKEND_URL', 'http://infra-app-backend-1:8000')
 
 @pytest.fixture(scope="session")
 def frontend_url():
     """Frontend base URL"""
-    return os.environ.get('FRONTEND_URL', 'http://app-frontend:5173')
+    return os.environ.get('FRONTEND_URL', 'http://infra-app-frontend-1:5173')
 
 @pytest.fixture(scope="function")
 def admin_credentials():
