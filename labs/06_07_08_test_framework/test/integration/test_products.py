@@ -1,20 +1,17 @@
+from config import BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD
 from libs.utils import generate_product_string_with_prefix
 import requests
 import os
 from models.api.admin import AdminAPI
 
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin_user")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "pass_1234")
-
 
 def _admin_api():
-    api = AdminAPI(APP_BACKEND_URL)
+    api = AdminAPI(BACKEND_URL)
     api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
     return api
 
 
-# Given I am an admin user​
+# Given I am an admin user
 def test_add_product_to_catalog():
     api = _admin_api()
 
@@ -29,8 +26,8 @@ def test_add_product_to_catalog():
     assert product_name in names
 
 
-# Given I am an admin user​
-# When I remove a product from the catalog​
+# Given I am an admin user
+# When I remove a product from the catalog
 # Then The product should not be listed in the app to be used
 def test_remove_product_from_catalog():
     api = _admin_api()
