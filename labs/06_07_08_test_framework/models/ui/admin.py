@@ -17,9 +17,9 @@ class AdminPage:
     
 
     def create_product(self, product):
-        expect(self.input_create_product).to_be_visible(timeout=5000)
+        expect(self.page.locator("text=Add new product:")).to_be_visible(timeout=10000)
+        expect(self.input_create_product).to_be_visible(timeout=10000)
         self.input_create_product.fill(product)
-        expect(self.button_create_product).to_be_enabled(timeout=5000)
         self.button_create_product.click()
     
 

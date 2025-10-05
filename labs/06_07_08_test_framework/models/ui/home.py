@@ -1,3 +1,4 @@
+from playwright.sync_api import expect
 import os
 
 class HomePage:
@@ -20,6 +21,7 @@ class HomePage:
         self.login_input_username.fill(username)
         self.login_input_password.fill(password)
         self.login_btn_login.click()
+        expect(self.page.locator("text=Welcome")).to_be_visible(timeout=10000)
 
 
     def go_to_signup(self):

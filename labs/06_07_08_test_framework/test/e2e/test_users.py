@@ -26,7 +26,7 @@ def test_signup(page: Page):
 
     # Then I should be able to log in with my new user
     login_page.login(username, password)
-    assert page.get_by_text("Welcome, "f"{username}").is_visible()
+    assert page.get_by_text("Welcome, "f"{username}!").is_visible()
     assert page.get_by_text("Your Products:").is_visible()
 
 
@@ -44,7 +44,7 @@ def test_login_see_my_products(page: Page):
 
     # When I log in into the application​
     login_page.login(username, password)
-    assert page.get_by_text("Welcome, "f"{username}").is_visible()
+    assert page.get_by_text("Welcome, "f"{username}!").is_visible()
     assert page.get_by_text("Your Products:").is_visible()
 
     # Then I should see all my products
