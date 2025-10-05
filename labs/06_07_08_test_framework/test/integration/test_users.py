@@ -1,32 +1,32 @@
-from playwright.sync_api import Page
-from models.api.user import UserAPI
 import libs.utils
+from models.api.user import UserAPI
 
-def test_signup():
-    # Given I am a new potential customer
-    username = libs.utils.generate_string_with_prefix("user", 6)
-    password = "test_1234?"
+def test_signup(base_url):
+    """Test user signup and login"""
+    username = libs.utils.generate_string_with_prefix("intuser")
+    password = "Test123!@#"
+    
+    user_api = UserAPI(base_url)
+    signup_response = user_api.signup(username, password)
+    assert signup_response.status_code == 200
+    
+    login_response = user_api.login(username, password)
+    assert login_response.status_code == 200
+    assert 'access_token' in login_response.json()
 
-    user_api = UserAPI('http://host.docker.internal:8000')
-
-    # When I signup in the app
-    signup_api_response = user_api.signup(username, password)
-    assert signup_api_response.status_code == 200
-
-    # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username, password)
-    assert login_api_response.status_code == 200
-
-def test_login():
-    # Given I am an authenticated user
-    username = libs.utils.generate_string_with_prefix("user", 6)
-    password = "test_1234?"
-
-    user_api = UserAPI('http://host.docker.internal:8000')
-
-    # When I log in into the application
-    user_api.signup(username, password)  # Ensure the user exists
-    login_api_response = user_api.login(username, password)
-
-    # Then I should see all my products
-    assert login_api_response.status_code == 200
+def test_login(base_url):
+    """Test that logged in user can see their products"""
+    username = libs.utils.generate_string_with_prefix("intuser")
+    password = "Test123!@#"
+    
+    user_api = UserAPI(base_url)
+    user_api.signup(username, password)
+    
+    login_response = user_api.login(username, password)
+    assert login_response.status_code == 200
+    
+    user_info_response = user_api.get_user_info()
+    assert user_info_response.status_code == 200
+    user_data = user_info_response.json()
+    assert 'products' in user_data
+    assert isinstance(user_data['products'], list)

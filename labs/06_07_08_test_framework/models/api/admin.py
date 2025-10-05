@@ -1,29 +1,37 @@
 import requests
+
 class AdminAPI:
     def __init__(self, base_url, token):
         self.base_url = base_url
         self.token = token
 
     def get_current_product_count(self):
-        # Logic to fetch the current product count
-        response = requests.get(f"{self.base_url}/product", headers={"Authorization": f"Bearer {self.token}"})
-        response.raise_for_status()
-        return len(response.json())  # Assuming the API returns a list of products
+        headers = {"Authorization": f"Bearer {self.token}"}
+        response = requests.get(f"{self.base_url}/products", headers=headers)
+        if response.status_code == 200:
+            return len(response.json())
+        return 0
 
     def create_product(self, product_name):
-        # Logic to create a product
+        headers = {"Authorization": f"Bearer {self.token}"}
+        body = {"name": product_name}
         response = requests.post(
             f"{self.base_url}/product",
-            json={"name": product_name},
-            headers={"Authorization": f"Bearer {self.token}"}
+            json=body,
+            headers=headers
         )
-        response.raise_for_status()
-        return response.json()
+        return response
 
     def delete_product_by_name(self, product_name):
-        # Logic to delete a product by name
-        response = requests.delete(
-            f"{self.base_url}/product/{product_name}",
-            headers={"Authorization": f"Bearer {self.token}"}
-        )
-        response.raise_for_status()
+        headers = {"Authorization": f"Bearer {self.token}"}
+        response = requests.get(f"{self.base_url}/products", headers=headers)
+        if response.status_code == 200:
+            products = response.json()
+            for product in products:
+                if product['name'] == product_name:
+                    delete_response = requests.delete(
+                        f"{self.base_url}/product/{product['id']}",
+                        headers=headers
+                    )
+                    return delete_response
+        return None
