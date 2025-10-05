@@ -22,7 +22,10 @@ class HomePage:
             self.login_input_username.fill(username)
             self.login_input_password.fill(password)
             self.login_btn_login.click()
-            expect(self.page.locator("text=Welcome")).to_be_visible(timeout=10000)
+
+            self.page.wait_for_load_state("networkidle")
+            expect(self.page.get_by_text("Welcome", exact=False)).to_be_visible(timeout=10000)
+
         except Exception as e:
             # create screenshots folder if not exists
             screenshot_dir = "/var/jenkins_home/workspace/Jenkins lab_13_14 integration and e2e/screenshots"
