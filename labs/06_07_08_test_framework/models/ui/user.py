@@ -9,15 +9,31 @@ class UserPage:
 
     def add_product_to_user(self, product_name: str):
         self.btn_add_product.click()
-        modal = self.page.get_by_role("dialog", name="Select Products")
-        modal.wait_for(timeout=7000)
+        try:
+            modal = self.page.get_by_role("dialog", name="Select Products")
+            modal.wait_for(timeout=5000)
+        except:
+            self.page.get_by_text("Select Products", exact=True).wait_for(timeout=7000)
+            modal = (
+                self.page.locator("section, div, form")
+                .filter(has_text="Select Products")
+                .first
+            )
         row = modal.locator("li", has_text=product_name).first
         row.scroll_into_view_if_needed()
         add_btn = row.get_by_role("button", name="Add").first
         add_btn.wait_for(state="visible", timeout=5000)
         add_btn.click()
-        modal.get_by_role("button", name="Close").click()
-        modal.wait_for(state="hidden", timeout=7000)
+        try:
+            modal.get_by_role("button", name="Close").click()
+        except:
+            self.page.get_by_role("button", name="Close").click()
+        try:
+            modal.wait_for(state="hidden", timeout=7000)
+        except:
+            self.page.get_by_text("Select Products", exact=True).wait_for(
+                state="hidden", timeout=7000
+            )
         self.page.locator("div.product-item").filter(
             has_text=product_name
         ).first.wait_for(timeout=10000)
