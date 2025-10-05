@@ -1,5 +1,7 @@
 # Landing page where the users could either login or
 # navigate to signup
+import os
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 class HomePage:
     def __init__(self, page):
@@ -10,11 +12,12 @@ class HomePage:
         self.login_input_password = page.get_by_placeholder('Password')
         self.login_btn_login = page.locator('button.button-primary')
         self.login_label_have_account = page.get_by_text("Don't have an account?")
-        self.login_btn_signup = page.locator('#signup')
+        self.login_btn_signup = page.locator("#signup")
+
 
 
     def navigate(self):
-        self.page.goto("http://localhost:5173/")
+        self.page.goto(FRONTEND_URL)
 
 
     def login(self,username,password):
@@ -23,4 +26,5 @@ class HomePage:
         self.login_btn_login.click()
 
     def go_to_signup(self):
-        # complete code
+        self.login_btn_signup.wait_for(state="visible", timeout=5000)
+        self.login_btn_signup.click()
