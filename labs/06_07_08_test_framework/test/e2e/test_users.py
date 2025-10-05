@@ -45,9 +45,3 @@ def test_login(page: Page):
     user_page.get_user_products()
 
     expect(page.get_by_text("Your Products:")).to_be_visible()
-    
-
-    #product_count = user_page.get_user_products()
-
-    #assert len(product_count) > 0, "No products found for this user"
-    #expect(page.get_by_text("Your Products:")).to_be_visible()
