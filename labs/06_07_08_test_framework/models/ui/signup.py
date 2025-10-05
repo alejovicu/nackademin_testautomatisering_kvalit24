@@ -14,7 +14,14 @@ class SignupPage:
 
     def go_to_home(self):
         self.signup_btn_login_link.click()
-        self.page.wait_for_url(lambda u: "#/login" in u, timeout=7000)
-        self.page.get_by_text("Login", exact=True).wait_for(timeout=7000)
-        self.page.locator("#inp-username, input[placeholder='Username']")
-        self.page.locator("#inp-password, input[placeholder='Password']")
+
+        self.page.wait_for_selector(
+            "#inp-username, input[placeholder='Username'], input[name='username']",
+            state="visible",
+            timeout=7000,
+        )
+        self.page.wait_for_selector(
+            "#inp-password, input[placeholder='Password'], input[name='password']",
+            state="visible",
+            timeout=7000,
+        )
