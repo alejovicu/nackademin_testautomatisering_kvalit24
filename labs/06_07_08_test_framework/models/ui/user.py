@@ -9,32 +9,23 @@ class UserPage:
 
     def add_product_to_user(self, product_name: str):
         self.btn_add_product.click()
-        self.page.get_by_text("Select Products", exact=True).wait_for(timeout=7000)
-
-        row = self.page.locator("li", has_text=product_name).first
+        modal = self.page.get_by_role("dialog", name="Select Products")
+        modal.wait_for(timeout=7000)
+        row = modal.locator("li", has_text=product_name).first
         row.scroll_into_view_if_needed()
-        row.get_by_role("button", name="Add").click()
-
-        self.page.get_by_role("button", name="Close").click()
-        self.page.get_by_text("Select Products", exact=True).wait_for(
-            state="hidden", timeout=7000
-        )
-
-        self.page.locator("div", has_text=product_name).locator(
-            "button.product-item-button"
+        add_btn = row.get_by_role("button", name="Add").first
+        add_btn.wait_for(state="visible", timeout=5000)
+        add_btn.click()
+        modal.get_by_role("button", name="Close").click()
+        modal.wait_for(state="hidden", timeout=7000)
+        self.page.locator("div.product-item").filter(
+            has_text=product_name
         ).first.wait_for(timeout=10000)
 
     def remove_product_from_user(self, product_name: str):
-        delete_btn = (
-            self.page.locator("div", has_text=product_name)
-            .locator("button.product-item-button")
-            .first
-        )
-
+        card = self.page.locator("div.product-item").filter(has_text=product_name).first
+        delete_btn = card.locator("button.product-item-button").first
         delete_btn.scroll_into_view_if_needed()
         self.page.wait_for_timeout(100)
         delete_btn.click()
-
-        self.page.locator("div", has_text=product_name).locator(
-            "button.product-item-button"
-        ).first.wait_for(state="detached", timeout=10000)  # CHANGED
+        card.wait_for(state="detached", timeout=10000)
