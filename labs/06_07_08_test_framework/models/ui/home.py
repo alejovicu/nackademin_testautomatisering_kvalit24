@@ -18,29 +18,10 @@ class HomePage:
 
 
     def login(self, username, password):
-
-        self.page.on("console", lambda msg: print(f"CONSOLE [{msg.type}]: {msg.text}"))
-        self.page.on("pageerror", lambda err: print(f"PAGE ERROR: {err}"))
         try:
             self.login_input_username.fill(username)
             self.login_input_password.fill(password)
             self.login_btn_login.click()
-            
-            # Wait longer to see if anything happens
-            self.page.wait_for_timeout(3000)
-            
-            # Check for error messages
-            page_content = self.page.content()
-            if "Invalid" in page_content or "error" in page_content.lower():
-                print(f"Found error on page: {page_content}")
-            
-            # Print current state
-            print(f"Current URL: {self.page.url}")
-            print(f"Is login form still visible? {self.login_input_username.is_visible()}")
-            
-            # Check what's on the page
-            body_text = self.page.locator("body").inner_text()
-            print(f"Page text: {body_text[:500]}")
             
             self.page.wait_for_load_state("networkidle")
             expect(self.page.get_by_text("Welcome", exact=False)).to_be_visible(timeout=10000)
