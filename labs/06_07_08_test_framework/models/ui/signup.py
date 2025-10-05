@@ -8,9 +8,24 @@ class SignupPage:
         self.signup_btn_login_link = page.get_by_role("button", name="Login")
 
     def signup(self, username, password):
-        self.signup_input_username.fill(username)
-        self.signup_input_password.fill(password)
-        self.signup_btn_signup.click()
+        self.page.fill(
+            "#inp-username, input[placeholder='Username'], input[name='username']",
+            username,
+        )
+        self.page.fill(
+            "#inp-password, input[placeholder='Password'], input[name='password']",
+            password,
+        )
+
+        self.page.get_by_role("button", name="Sign Up").first.click()
+
+        resp = self.page.wait_for_response(
+            lambda r: r.request.method == "POST" and "/signup" in r.url,
+            timeout=12000,
+        )
+        status = resp.status
+        if status not in (200, 201, 409):
+            raise TimeoutError(f"Signup failed, unexpected status: {status}")
 
     def go_to_home(self):
         self.signup_btn_login_link.click()

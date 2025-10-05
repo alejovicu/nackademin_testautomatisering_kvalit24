@@ -23,18 +23,27 @@ class HomePage:
         )
 
     def login(self, username: str, password: str):
-        self.page.fill("#inp-username, input[placeholder='Username']", username)
-        self.page.fill("#inp-password, input[placeholder='Password']", password)
+        self.page.fill(
+            "#inp-username, input[placeholder='Username'], input[name='username']",
+            username,
+        )
+        self.page.fill(
+            "#inp-password, input[placeholder='Password'], input[name='password']",
+            password,
+        )
 
         self.page.get_by_role("button", name="Login").first.click()
 
-        self.page.wait_for_load_state("networkidle")
+        resp = self.page.wait_for_response(
+            lambda r: r.request.method == "POST" and "/login" in r.url,
+            timeout=12000,
+        )
+        if not (200 <= resp.status < 300):
+            raise TimeoutError(f"Login failed, status: {resp.status}")
 
         logout = self.page.locator(
             "button:has-text('Logout'), a:has-text('Logout')"
         ).first
-        if logout.is_visible():
-            return
         try:
             logout.wait_for(state="visible", timeout=5000)
             return
@@ -54,7 +63,7 @@ class HomePage:
             pass
 
         raise TimeoutError(
-            "Login did not reach expected state (no Logout/Add Product/#/user)."
+            "Login did not reach expected state after successful /login."
         )
 
     def go_to_signup(self):
