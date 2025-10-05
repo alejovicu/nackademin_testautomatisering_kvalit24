@@ -24,6 +24,8 @@ def test_signup(page: Page):
     home_page.navigate()
     assert page.get_by_text('Nackademin Course App').is_visible()
 
+    page.wait_for_timeout(1000)
+
     # Then I should be able to log in with my new user
     login_page.login(username, password)
     expect(page.get_by_text(f"Welcome, {username}", exact=False)).to_be_visible(timeout=10000)
