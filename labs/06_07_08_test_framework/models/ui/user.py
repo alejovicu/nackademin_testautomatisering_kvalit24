@@ -9,13 +9,51 @@ class UserPage:
 
     def add_product_to_user(self, product_name: str):
         self.btn_add_product.click()
-        self.page.get_by_text("Select Products", exact=True).wait_for(timeout=7000)
-        row = self.page.locator("li", has_text=product_name).first
-        row.scroll_into_view_if_needed()
-        row.evaluate("el => el.scrollIntoView({block:'center', inline:'center'})")
+        modal = self.page.get_by_text("Select Products", exact=True)
+        modal.wait_for(timeout=7000)
+
+        self.page.evaluate("window.scrollTo(0, 0)")
+        modal.locator("..").first.scroll_into_view_if_needed()
+
+        list_container = self.page.locator(
+            "role=dialog[name='Select Products'] ul, role=dialog[name='Select Products'] .modal-body, role=dialog[name='Select Products'] section"
+        ).first
+        row = (
+            self.page.locator("role=dialog[name='Select Products'] li")
+            .filter(has_text=product_name)
+            .first
+        )
+
+        try:
+            row.scroll_into_view_if_needed()
+        except:
+            pass
+        try:
+            list_container.evaluate(
+                "(el, name) => {"
+                "  const li=[...el.querySelectorAll('li')].find(n=>n.textContent.includes(name));"
+                "  li && li.scrollIntoView({block:'center', inline:'center'});"
+                "}",
+                product_name,
+            )
+        except:
+            pass
+
         add_btn = row.get_by_role("button", name="Add").first
         add_btn.wait_for(state="visible", timeout=5000)
-        add_btn.click(force=True)
+
+        try:
+            add_btn.click()
+        except:
+            box = add_btn.bounding_box()
+            assert box is not None
+            self.page.mouse.move(
+                box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
+            )
+            self.page.mouse.click(
+                box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
+            )
+
         self.page.get_by_role("button", name="Close").click()
         self.page.get_by_text("Select Products", exact=True).wait_for(
             state="hidden", timeout=7000
