@@ -1,6 +1,9 @@
+import os
+
 class HomePage:
     def __init__(self, page):
         self.page = page
+        self.url = os.getenv("FRONTEND_URL", "http://localhost")
         self.login_header_main_title = page.get_by_text('Nackademin Course App')
         self.login_input_username = page.get_by_placeholder('Username')
         self.login_input_password = page.get_by_placeholder('Password')
@@ -10,7 +13,7 @@ class HomePage:
 
 
     def navigate(self):
-        self.page.goto("http://localhost")
+        self.page.goto(self.url)
 
 
     def login(self,username,password):
