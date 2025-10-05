@@ -1,13 +1,15 @@
 import main
+import pytest
 
 def test_sum_two_positives():
     # Arrange
-    possitive_value_1 = 1
-    possitive_value_2 = 4
+    positive_value_1 = 1
+    positive_value_2 = 4
     expected_result = {"result": 5 }
 
     # Act
-    result = main.addition(possitive_value_1,possitive_value_2)
+    result = main.addition(positive_value_1,positive_value_2)
+    
 
     # Assert
     assert  result == expected_result
@@ -17,24 +19,41 @@ def test_sum_two_positives():
 
 ## Complete the following tests
 
-# def test_sum_one_positive_one_negative():
+def test_sum_one_positive_one_negative():
 #     # Arrange
-#     possitive_value = **
-#     negative_value  = **
-#     expected_result = {"result": ** }
+    positive_value = 7
+    negative_value  = -2
+    expected_result = {"result": 5 }
 
 #     # Act
-#     result = main.sum( ** , ** )
+    result = main.addition(positive_value , negative_value)
 
 #     # Assert
-#     assert  result == expected_result
+    assert  result == expected_result
 
 
+# cntrl + K + C -- Lägg kommentar
+# cntrl + K + U -- Ta bort kommentar
 
-# def test_sum_one_positive_one_string_value():
+def test_sum_one_positive_one_string_value():
+#     # Arrange
+    positive_value = 7
+    string_value  = "-2"
+    
+
+    with pytest.raises("TypeError"):
+        main.addition(positive_value, string_value)
 
 
 # def test_divide_two_positive_values():
+# #     # Arrange
+#     positive_value = 10
+#     positive_value  = 2
+#     expected_result = {"result": 5 }
 
 
-# def test_divide_by_zero():
+
+# #def test_divide_by_zero(): 
+#     positive_value = 10
+#     positive_value  = 2
+#     expected_result = {"result": 5 }

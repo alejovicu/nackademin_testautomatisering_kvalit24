@@ -27,6 +27,7 @@ pip install -r requirements_test.txt
 
 # Integration Tests
 
+
 ## Terminal tab 1 - run API
 ```shell
 rm -rf .venv_api
