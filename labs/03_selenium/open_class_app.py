@@ -25,3 +25,7 @@ def test_navigate_to_signup():
 
     # Teardown
     driver.quit()
+
+    if __name__ == "__main__":
+         test_navigate_to_signup()
+
