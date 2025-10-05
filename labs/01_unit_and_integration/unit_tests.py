@@ -32,9 +32,6 @@ def test_sum_one_positive_one_negative():
     assert  result == expected_result
 
 
-# cntrl + K + C -- Lägg kommentar
-# cntrl + K + U -- Ta bort kommentar
-
 def test_sum_one_positive_one_string_value():
 #     # Arrange
     positive_value = 7
@@ -57,9 +54,9 @@ def test_divide_two_positive_values():
     assert  result == expected_result
 
 
-
-
-# #def test_divide_by_zero(): 
-#     positive_value = 10
-#     positive_value  = 2
-#     expected_result = {"result": 5 }
+def test_divide_by_zero(): 
+    positive_value = 10
+    zero_value = 0
+    
+    with pytest.raises("ZeroDivisionError"):
+        main.division(positive_value , zero_value)
