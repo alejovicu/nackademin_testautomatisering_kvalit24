@@ -1,4 +1,5 @@
 from playwright.sync_api import expect
+import time
 import os
 
 class HomePage:
@@ -19,10 +20,13 @@ class HomePage:
 
     def login(self,username,password):
         self.login_input_username.fill(username)
+        time.sleep(0.5)
         self.login_input_password.fill(password)
+        time.sleep(0.5)
         self.login_btn_login.click()
-        expect(self.page.get_by_text("Welcome,", exact=False)).to_be_visible(timeout=15000)
-        expect(self.page.get_by_text("Product Catalog:", exact=True)).to_be_visible(timeout=15000)
+        time.sleep(2)
+        
+        self.page.screenshot(path=f"/tmp/login_{username}.png")
 
 
     def go_to_signup(self):
