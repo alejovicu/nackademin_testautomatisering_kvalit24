@@ -1,4 +1,4 @@
-from playwright.sync_api import Playwright, Page
+from playwright.sync_api import Playwright, expect, Page
 from models.ui.signup import SignupPage
 from models.ui.home import HomePage
 import pytest
@@ -26,8 +26,8 @@ def test_signup(page: Page):
 
     # Then I should be able to log in with my new user
     login_page.login(username, password)
-    assert page.get_by_text("Welcome, "f"{username}!").is_visible()
-    assert page.get_by_text("Your Products:").is_visible()
+    expect(page.get_by_text(f"Welcome, {username}", exact=False)).to_be_visible(timeout=10000)
+    expect(page.get_by_text("Your Products:", exact=True)).to_be_visible(timeout=10000)
 
 
 def test_login_see_my_products(page: Page):
@@ -44,8 +44,8 @@ def test_login_see_my_products(page: Page):
 
     # When I log in into the application​
     login_page.login(username, password)
-    assert page.get_by_text("Welcome, "f"{username}!").is_visible()
-    assert page.get_by_text("Your Products:").is_visible()
+    expect(page.get_by_text(f"Welcome, {username}", exact=False)).to_be_visible(timeout=10000)
+    expect(page.get_by_text("Your Products:", exact=True)).to_be_visible(timeout=10000)
 
     # Then I should see all my products
     # to be implemented?
