@@ -25,7 +25,8 @@ class HomePage:
     def login(self, username: str, password: str):
         self.page.fill("#inp-username, input[placeholder='Username']", username)
         self.page.fill("#inp-password, input[placeholder='Password']", password)
-        self.page.keyboard.press("Enter")
+
+        self.page.get_by_role("button", name="Login").first.click()
 
         self.page.wait_for_load_state("networkidle")
 
@@ -34,7 +35,6 @@ class HomePage:
         ).first
         if logout.is_visible():
             return
-
         try:
             logout.wait_for(state="visible", timeout=5000)
             return
