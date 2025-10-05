@@ -22,6 +22,8 @@ def test_add_product_to_catalog(page: Page):
     home_page.navigate()
     login_page.login("admin", "pass1234")
 
+    expect(page.get_by_text("Product Catalog:")).to_be_visible(timeout=10000)
+
     # When I add a product to the catalog​
     product = f"test_course_{uuid.uuid4()}"
     admin_page.create_product(product)
@@ -49,6 +51,7 @@ def test_remove_product_from_catalog(page: Page):
     # Given I am an admin user​ - UI login
     # note !! this admin-user must be added pre-test run
     login_page.login("admin", "pass1234")
+    expect(page.get_by_text("Product Catalog:")).to_be_visible(timeout=10000)
     
     product = f"test_course_{uuid.uuid4()}"
     admin_page.create_product(product)
