@@ -1,8 +1,3 @@
-# View  where the admin user can manage the products
-# that are in the Product Catalog to be used
-# by all the users
-
-
 class AdminPage:
     def __init__(self, page):
         self.page = page
