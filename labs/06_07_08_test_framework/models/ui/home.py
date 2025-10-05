@@ -16,7 +16,6 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        #        url = os.getenv("FRONTEND_URL", "http://localhost")
         self.page.goto(FRONTEND_URL)
 
     def login(self, username, password):
