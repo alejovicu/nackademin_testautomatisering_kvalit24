@@ -17,16 +17,20 @@ class AdminPage:
     
 
     def create_product(self, product):
-        # complete logic
+        expect(self.input_create_product).to_be_visible(timeout=5000)
         self.input_create_product.fill(product)
+        expect(self.button_create_product).to_be_enabled(timeout=5000)
         self.button_create_product.click()
     
 
     def delete_product_by_name(self,product):
         # complete logic
         product_row = self.page.locator(f".product-item:has(span:text('{product}'))")
+        expect(product_row).to_be_visible(timeout=10000)
         delete_button = product_row.get_by_role("button", name="Delete")
+        expect(delete_button).to_be_enabled(timeout=5000)
         delete_button.click()
+        expect(product_row).not_to_be_visible(timeout=10000)
 
 
     def product_exists(self, product: str) -> bool:
@@ -35,8 +39,8 @@ class AdminPage:
     
     def product_is_visible(self, product):
         product_locator = self.page.locator(f".product-item:has-text('{product}')")
-        expect(product_locator).to_be_visible()
+        expect(product_locator).to_be_visible(timeout=10000)
 
     def product_to_not_be_visible(self, product):    
         product_locator = self.page.locator(f".product-item:has-text('{product}')")
-        expect(product_locator).not_to_be_visible()    
+        expect(product_locator).not_to_be_visible(timeout=10000)   
