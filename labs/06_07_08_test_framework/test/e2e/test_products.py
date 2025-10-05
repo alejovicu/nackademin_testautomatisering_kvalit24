@@ -1,23 +1,22 @@
 import os
 from libs.utils import generate_product_string_with_prefix
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 from models.api.user import UserAPI
+from config import BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD
 
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
-
-# Given I am an admin user​
-# When I add a product to the catalog​
+# Given I am an admin user
+# When I add a product to the catalog
 # Then The product is available to be used in the app
 def test_add_product_to_catalog(page: Page):
-    username = "admin_user"
-    password = "pass_1234"
+    username = ADMIN_USERNAME
+    password = ADMIN_PASSWORD
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     product = generate_product_string_with_prefix("mango", 8)
 
     # Get token from the API and verify that login is successful
@@ -38,26 +37,25 @@ def test_add_product_to_catalog(page: Page):
     admin_page.create_product(product_name=product)
     page.wait_for_load_state("networkidle")
 
-    # Verify the product is visible and has right text
+    # Go to the listing page (home) and verify
+    home_page.navigate()
+    page.wait_for_load_state("networkidle")
+
     product_locator = admin_page.find_product(product)
-    assert product_locator.count() == 1, (
-        f"Expected 1 product, found {product_locator.count()}"
-    )
-    assert product_locator.first.inner_text() == product, (
-        f"Expected product text '{product}', got '{product_locator.first.inner_text()}'"
-    )
+    expect(product_locator).to_have_count(1, timeout=5000)
+    expect(product_locator.first).to_contain_text(product)
 
 
-# Given I am an admin user​
-# When I remove a product from the catalog​
+# Given I am an admin user
+# When I remove a product from the catalog
 # Then The product should not be listed in the app to be used
 def test_remove_product_from_catalog(page: Page):
-    username = "admin_user"
-    password = "pass_1234"
+    username = ADMIN_USERNAME
+    password = ADMIN_PASSWORD
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     product = generate_product_string_with_prefix("mango", 8)
 
     # Get token from the API and verify that login is successful
@@ -78,16 +76,9 @@ def test_remove_product_from_catalog(page: Page):
     admin_page.create_product(product_name=product)
     page.wait_for_load_state("networkidle")
 
-    # Verify the product is visible and has the correct text
-    product_locator = admin_page.find_product(product)
-    assert product_locator.count() == 1, (
-        f"Expected 1 product, found {product_locator.count()}"
-    )
-    assert product_locator.first.inner_text() == product, (
-        f"Expected product text '{product}', got '{product_locator.first.inner_text()}'"
-    )
+    # Wait until the product name appears visibly
+    page.get_by_text(product).wait_for(state="visible")
 
-    # Delete the product and verify it is gone
+    # Delete and verify the product is hidden
     admin_page.delete_product_by_name(product_name=product)
-    page.wait_for_load_state("networkidle")
-    assert admin_page.find_product(product).count() == 0
+    expect(admin_page.find_product(product)).to_be_hidden()

@@ -5,16 +5,15 @@ from models.ui.signup import SignupPage
 from models.ui.user import UserPage
 from models.api.user import UserAPI
 import libs.utils
+from config import BACKEND_URL, USER_USERNAME, USER_PASSWORD
 
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
-
-# Given I am a new potential customer​
-# When I signup in the app​
+# Given I am a new potential customer
+# When I signup in the app
 # Then I should be able to log in with my new user
 def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix("user", 8)
-    password = "pass1234"
+    password = "jhKJHHLKJD89873423"
 
     home_page = HomePage(page)
     signup_page = SignupPage(page)
@@ -32,7 +31,7 @@ def test_signup(page: Page):
     signup_page.signup(username, password)
     page.wait_for_load_state("networkidle")
 
-    # Klicka sign up
+    # Go back to login
     signup_page.signup_btn_login.click()
     page.wait_for_load_state("networkidle")
 
@@ -41,7 +40,7 @@ def test_signup(page: Page):
     page.wait_for_load_state("networkidle")
 
     # Wait until the welcome message appears
-    user_page.title_user.wait_for(state="visible", timeout=5000)
+    user_page.title_user.wait_for(state="visible")
 
     # Assertions
     assert username in user_page.title_user.inner_text()
@@ -49,16 +48,16 @@ def test_signup(page: Page):
     assert user_page.title_user.inner_text() == f"Welcome, {username}!"
 
 
-# Given I am an authenticated user​
-# When I log in into the application​
+# Given I am an authenticated user
+# When I log in into the application
 # Then I should see all my products
 def test_signup_auth_user(page: Page):
-    username = "user_1"
-    password = "pass1234"
+    username = USER_USERNAME
+    password = USER_PASSWORD
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     # Get token from API
     response = user_api.login(username, password)
