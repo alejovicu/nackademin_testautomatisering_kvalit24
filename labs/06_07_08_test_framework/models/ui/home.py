@@ -17,21 +17,26 @@ class HomePage:
         self.page.goto(self.url)
 
 
-    def login(self,username,password):
+    def login(self, username, password):
         try:
             self.login_input_username.fill(username)
             self.login_input_password.fill(password)
             self.login_btn_login.click()
-
+            
             self.page.wait_for_load_state("networkidle")
+            self.page.wait_for_timeout(2000)  # Add explicit 2 second wait
+            
             expect(self.page.get_by_text("Welcome", exact=False)).to_be_visible(timeout=10000)
-
         except Exception as e:
-            # create screenshots folder if not exists
             screenshot_dir = "/var/jenkins_home/workspace/Jenkins lab_13_14 integration and e2e/screenshots"
             os.makedirs(screenshot_dir, exist_ok=True)
-            # take screenshot
             self.page.screenshot(path=os.path.join(screenshot_dir, f"login_{username}.png"))
+            
+            # Add this debug info
+            print(f"Login failed for {username}")
+            print(f"Current URL: {self.page.url}")
+            print(f"Page title: {self.page.title()}")
+            
             raise e
 
 
