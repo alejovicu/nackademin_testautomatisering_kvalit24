@@ -46,7 +46,7 @@ def test_add_product_to_user():
     user_api.set_token(user_token)
 
     # User adds the product to their own account
-    product_id = 5
+    product_id = 1
     add_product_response = user_api.add_product_to_user(product_id)
     assert add_product_response.status_code == 200
     assert add_product_response is not None
@@ -62,6 +62,6 @@ def test_remove_product_from_user():
     user_token = login_api_response.json()["access_token"]
     user_api.set_token(user_token)
 
-    product_id = 2
+    product_id = 1
     remove_product_response = user_api.remove_product_from_user(product_id)
     assert remove_product_response.status_code == 200

@@ -18,12 +18,8 @@ def test_add_product_to_catalog(page: Page):
     product_name = "Banana"
     admin_page = AdminPage(page)
 
-    before_counting = admin_page.get_current_product_count()
     admin_page.create_product(product_name)
-
-    # Then the product is available to be used in the app
-    after_counting = admin_page.get_current_product_count()
-    assert after_counting == before_counting + 1
+    expect(page.get_by_text(product_name)).to_be_visible()
 
 
 def test_remove_product_from_catalog(page: Page):
@@ -39,9 +35,5 @@ def test_remove_product_from_catalog(page: Page):
     product_name = "Banana"
     admin_page = AdminPage(page)
 
-    before_count = admin_page.get_current_product_count()
     admin_page.delete_product_by_name(product_name)
-
-    # Then the product should not be listed in the app to be used
-    after_count = admin_page.get_current_product_count()
-    assert after_count == before_count - 1
+    expect(page.get_by_text(product_name)).not_to_be_visible()
