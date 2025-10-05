@@ -22,10 +22,23 @@ class HomePage:
             "#inp-username, input[placeholder='Username']", timeout=10000
         )
 
-    def login(self, username, password):
-        self.login_input_username.fill(username)
-        self.login_input_password.fill(password)
-        self.login_input_password.press("Enter")
+    def login(self, username: str, password: str):
+        self.page.fill("#inp-username, input[placeholder='Username']", username)
+        self.page.fill("#inp-password, input[placeholder='Password']", password)
+
+        self.page.keyboard.press("Enter")
+
+        self.page.wait_for_load_state("networkidle")
+
+        try:
+            self.page.locator(
+                "button:has-text('Logout'), a:has-text('Logout')"
+            ).first.wait_for(state="visible", timeout=7000)
+            return
+        except:
+            pass
+
+        self.page.get_by_text("Your Products:", exact=False).wait_for(timeout=7000)
 
     def go_to_signup(self):
         self.page.get_by_text("Don't have an account?").wait_for(timeout=5000)
