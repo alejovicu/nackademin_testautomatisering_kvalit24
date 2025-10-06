@@ -1,26 +1,33 @@
-# Landing page where the users could either login or
-# navigate to signup
+import os
+from playwright.sync_api import Page
+
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:")
 
 class HomePage:
-    def __init__(self, page):
+    def __init__(self, page: Page):
         self.page = page
-        #page_(element-type)_(descriptive-name)
-        self.login_header_main_title = page.get_by_text('Nackademin Course App')
-        self.login_input_username = page.get_by_placeholder('Username')
-        self.login_input_password = page.get_by_placeholder('Password')
-        self.login_btn_login = page.locator('button.button-primary')
-        self.login_label_have_account = page.get_by_text("Don't have an account?")
-        self.login_btn_signup = page.locator('#signup')
-
+        self.login_header_main_title = page.get_by_text("Nackademin Course App")
+        self.login_input_username = page.get_by_placeholder("Username")
+        self.login_input_password = page.get_by_placeholder("Password")
+        self.login_btn_login = page.locator("button.button-primary")
+        self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        self.page.goto("http://localhost:5173/")
+        """
+        Navigerar till frontend-sidan.
+        """
+        self.page.goto(FRONTEND_URL)
 
+    def go_to_signup(self):
+        """
+        Klickar på signup-knappen för att gå till signup-sidan.
+        """
+        self.login_btn_signup.click()
 
-    def login(self,username,password):
+    def login(self, username: str, password: str):
+        """
+        Loggar in användaren via UI.
+        """
         self.login_input_username.fill(username)
         self.login_input_password.fill(password)
         self.login_btn_login.click()
-
-    def go_to_signup(self):
-        # complete code
