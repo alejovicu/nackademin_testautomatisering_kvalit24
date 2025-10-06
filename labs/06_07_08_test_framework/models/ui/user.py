@@ -13,12 +13,16 @@ class UserPage:
         self.button_logout = page.get_by_role("button", name="Logout")
 
     def get_user_products(self):
-        self.page.wait_for_selector(
-            "p:has-text('No products assigned.'), #root > div > div div"
-        )
-        if self.page.locator("p:has-text('No products assigned.')").is_visible():
+        
+        grid_locator = self.page.locator("#root > div > div")
+
+     
+        if grid_locator.locator("p", has_text="No products assigned.").is_visible():
             return []
 
-        return [
-            el.inner_text() for el in self.page.locator("#root > div > div div").all()
-        ]
+     
+        product_divs = grid_locator.locator("div")
+        product_texts = [div.inner_text() for div in product_divs.all()]
+        return product_texts
+
+    

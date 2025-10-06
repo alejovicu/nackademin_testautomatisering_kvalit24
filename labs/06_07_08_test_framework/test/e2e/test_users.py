@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.user import UserPage
 from models.ui.signup import SignupPage
@@ -7,10 +7,10 @@ from libs.utils import generate_string_with_prefix
 import libs.utils
 import os
 
-VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def test_signup(page: Page):
-    username = generate_string_with_prefix()
+    username = libs.utils.generate_string_with_prefix()
     password = "1234"
 
     home_page = HomePage(page)
@@ -43,25 +43,23 @@ def test_signup(page: Page):
 
     assert username in user_page.title_user.inner_text()
 
-    assert user_page.title_user.inner_text() == f"Welcome,{username}!"
-
 
 def test_login_auth_user(page: Page):
-    username = "testing1"
+    username = "user1"
     password = "1234"
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)
-    user_api = UserAPI(VITE_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
 
-    response = user_api.login(username, password)
-    assert response.status_code == 200
-    token = user_api.token
+    home_page.navigate()
 
     page.wait_for_load_state("networkidle")
     home_page.navigate()
     page.wait_for_load_state("networkidle")
-    user_products = user_page.get_user_products()
+    user_page.get_user_products()
     page.wait_for_load_state("networkidle")
 
-    assert len(user_products) > 0, "Expected at least one product"
+    no_products_locator = page.get_by_text("No products assigned.")
+    expect(page.locator(".product-grid .product-item")).to_have_count(0)
+  

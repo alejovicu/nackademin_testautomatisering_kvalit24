@@ -1,5 +1,6 @@
 from libs.utils import generate_product_string_with_prefix
 from models.api.admin import AdminAPI
+from models.api.user import UserAPI
 import requests
 import os
 
@@ -7,6 +8,13 @@ import os
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "1234")
+
+def setup():
+    try:
+        user_api = UserAPI(BASE_URL)
+        user_api.signup(ADMIN_USERNAME, ADMIN_PASSWORD)
+    except:
+        print("Admin already exist.")
 
 
 def _admin_api():
@@ -16,6 +24,7 @@ def _admin_api():
 
 
 def test_add_product_to_catalog():
+    
     api = _admin_api()
 
     product_name = generate_product_string_with_prefix("banana", 4)

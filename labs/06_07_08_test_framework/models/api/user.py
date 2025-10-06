@@ -19,7 +19,9 @@ class UserAPI:
         body = {"username": username, "password": password}
         response = requests.post(f"{self.base_url}/signup", json=body)
         self.status_code = response.status_code
-        return response.json()
+        return response
+        #return response.json()
+       
 
     def login(self, username, password):
         body = {"username": username, "password": password}
@@ -29,7 +31,8 @@ class UserAPI:
         data = response.json()
         # <-- FIX: don't KeyError if token missing / named differently
         self.token = data.get("token") or data.get("access_token") or data.get("jwt")
-        return data
+        return response
+        #return data
 
     def get_user_products(self):
         headers = {"Authorization": f"Bearer {self.token}"} if self.token else {}

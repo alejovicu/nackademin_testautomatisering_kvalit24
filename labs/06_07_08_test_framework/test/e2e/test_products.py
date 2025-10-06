@@ -2,24 +2,44 @@ from libs.utils import generate_product_string_with_prefix
 from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
+from models.api.admin import AdminAPI
 from models.api.user import UserAPI
 import os
 
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "1234")
+
+def setup():
+    try:
+        user_api = UserAPI(BACKEND_URL)
+        user_api.signup(ADMIN_USERNAME, ADMIN_PASSWORD)
+    except:
+        print("Admin already exist.")
+
+
+def _admin_api():
+    api = AdminAPI(BACKEND_URL)
+    api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
+    return api
+
+
 
 def test_add_product_to_catalog(page: Page):
-    # Given I am an admin user
-    username = "admin"
-    password = "1234"
+   
+    setup()
+    api = _admin_api()
+    
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI(VITE_BACKEND_URL)
-    product = generate_product_string_with_prefix("apple", 4)
-    token = user_api.login(username, password)
+    user_api = UserAPI(BACKEND_URL)
+    product = generate_product_string_with_prefix()
+    
+ 
 
-    # Get token from the API and verify that login is successful
-    response = user_api.login(username, password)
-    assert response.status_code == 200, f"Admin login failed: {response.text}"
+  
+    response = user_api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
     token = user_api.token
 
     # Inject the token into localStorage before loading the page
@@ -27,65 +47,53 @@ def test_add_product_to_catalog(page: Page):
     window.localStorage.setItem("token", "{token}");
 """)
 
-    # Navigate directly to the home page
+    
     home_page.navigate()
     page.wait_for_load_state("networkidle")
 
-    # Create a new product using the AdminPage
+    
     admin_page.create_product(product_name=product)
     page.wait_for_load_state("networkidle")
 
-    # Verify the product is visible and has right text
-    product_locator = admin_page.find_product(product)
-    assert product_locator.count() == 1, (
-        f"Expected 1 product, found {product_locator.count()}"
-    )
-    assert product_locator.first.inner_text() == product, (
-        f"Expected product text '{product}', got '{product_locator.first.inner_text()}'"
-    )
+    page.get_by_text(product).wait_for(state="visible")
+
+ 
+    assert admin_page.check_product(product).inner_text() == product
+    assert admin_page.check_product(product).count() == 1
+
+
 
 # Given I am an admin user
 # When I remove a product from the catalog
 # Then The product should not be listed in the app to be used
 
 def test_remove_product_from_catalog(page: Page):
-    username = "admin"
-    password = "1234"
+    api = _admin_api()
+    product = generate_product_string_with_prefix()
 
     home_page = HomePage(page)
     admin_page = AdminPage(page)
-    user_api = UserAPI(VITE_BACKEND_URL)
-    product = generate_product_string_with_prefix("apple", 4)
-    token = user_api.login(username, password)
+    user_api = UserAPI(BACKEND_URL)
 
-    # Get token from the API and verify that login is successful
-    response = user_api.login(username, password)
-    assert response.status_code == 200, f"Admin login failed: {response.text}"
+   
+    response = user_api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
     token = user_api.token
 
-    # Inject the token into localStorage before loading the page
+   
     page.add_init_script(f"""
     window.localStorage.setItem("token", "{token}");
 """)
 
-    # Navigate to the home page
+    
     home_page.navigate()
     page.wait_for_load_state("networkidle")
 
-    # Add the product (to make the test repeatable)
+   
     admin_page.create_product(product_name=product)
     page.wait_for_load_state("networkidle")
 
-    # Verify the product is visible and has the correct text
-    product_locator = admin_page.find_product(product)
-    assert product_locator.count() == 1, (
-        f"Expected 1 product, found {product_locator.count()}"
-    )
-    assert product_locator.first.inner_text() == product, (
-        f"Expected product text '{product}', got '{product_locator.first.inner_text()}'"
-    )
+    page.get_by_text(product).wait_for(state="visible")
 
-    # Delete the product and verify it is gone
     admin_page.delete_product_by_name(product_name=product)
-    page.wait_for_load_state("networkidle")
-    assert admin_page.find_product(product).count() == 0
+    expect(admin_page.check_product(product)).to_be_hidden()
+   

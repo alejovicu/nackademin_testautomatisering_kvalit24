@@ -25,11 +25,14 @@ class AdminPage:
         self.input_product_name.fill(product_name)
         self.button_create_product.click()
 
-    def check_created_product(self, product_name):
+    def check_product(self, product_name):
         return self.product_list.filter(has_text=product_name)
 
-    def delete_product(self, name):
+    def list_products(self, product_name):
+        return self.product_list.filter(has_text=product_name)
+
+    def delete_product_by_name(self, product_name):
         product_div = self.page.locator(
-            f'//div[@class="product-item"][span[text()="{name}"]]'
+            f'//div[@class="product-item"][span[text()="{product_name}"]]'
         )
         product_div.locator("button.product-item-button").click()

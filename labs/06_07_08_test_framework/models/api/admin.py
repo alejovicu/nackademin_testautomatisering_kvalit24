@@ -17,6 +17,9 @@ class AdminAPI:
     def create_product(self, product_name):
         body = {"name": product_name}
         return self.session.post(f"{self.base_url}/product", json=body)
+    
+    def find_product(self, product_name):
+        return self.product_list.filter(has_text=product_name)
 
     def list_products(self):
         response = self.session.get(f"{self.base_url}/products")
@@ -25,8 +28,7 @@ class AdminAPI:
 
     def delete_product_by_name(
         self,
-        product_name,
-    ):
+        product_name):
         products = self.session.get(f"{self.base_url}/products").json()
         print(products)
         for product in products:

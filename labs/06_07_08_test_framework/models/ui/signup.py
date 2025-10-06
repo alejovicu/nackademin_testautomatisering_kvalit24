@@ -1,7 +1,7 @@
 
 import os
 
-VITE_FRONTEND_URL = os.getenv("VITE_FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 
 class SignupPage:
@@ -19,9 +19,6 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
-        self.page.goto("https://localhost:5173")
+        self.page.goto(FRONTEND_URL)
 
-        # or
-
-    # def go_to_home(self):
-    # self.signup_btn_login.click()
+  
