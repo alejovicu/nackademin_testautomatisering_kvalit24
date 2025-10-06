@@ -19,4 +19,4 @@ def test_signup(page: Page):
     home.login(username, password)
     page.reload(wait_until="domcontentloaded")
 
-    assert page.get_by_text("Your products:").count() > 0
+    expect(page.get_by_text("Your products:"))

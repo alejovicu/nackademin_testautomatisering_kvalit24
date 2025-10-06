@@ -1,3 +1,6 @@
+from playwright.sync_api import expect
+
+
 class SignupPage:
     def __init__(self, page):
         self.page = page
@@ -20,14 +23,3 @@ class SignupPage:
 
     def go_to_home(self):
         self.signup_btn_login_link.click()
-
-        self.page.wait_for_selector(
-            "#inp-username, input[placeholder='Username'], input[name='username']",
-            state="visible",
-            timeout=7000,
-        )
-        self.page.wait_for_selector(
-            "#inp-password, input[placeholder='Password'], input[name='password']",
-            state="visible",
-            timeout=7000,
-        )
