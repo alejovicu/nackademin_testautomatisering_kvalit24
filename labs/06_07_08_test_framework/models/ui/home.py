@@ -2,7 +2,7 @@ import os
 class HomePage:
     def __init__(self, page):
         self.page = page
-        self.url = os.getenv("FRONTEND_URL", "http://localhost"/)
+        self.url = os.getenv("FRONTEND_URL", "http://localhost")
         #page_(element-type)_(descriptive-name)
         self.login_header_main_title = page.get_by_text('Nackademin Course App')
         self.login_input_username = page.get_by_placeholder('Username')

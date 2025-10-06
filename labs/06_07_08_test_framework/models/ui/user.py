@@ -12,12 +12,15 @@ class UserPage:
         self.product_list = page.locator("xpath=//h3[text()='Your Products:']/following-sibling::div[1]/div"
                                          )
 
-    def get_user_products(self) -> list[str]:
+    def get_user_products(self, product):
 
-        expect(self.product_list).to_have_count(1)
+        #expect(self.product_list).to_have_count(1)
         # complete code
-        count = self.product_list.count()
-        products = []
-        for i in range(count):
-            products.append(self.product_list.nth(i).inner_text())
-        return products
+        #count = self.product_list.count()
+        #products = []
+        #for i in range(count):
+        #    products.append(self.product_list.nth(i).inner_text())
+        #return products
+    
+        product_locator = self.page.locator(f".product-item:has-text('{product}')")
+        return product_locator.is_visible()

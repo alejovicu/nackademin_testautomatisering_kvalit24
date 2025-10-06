@@ -5,10 +5,11 @@ from models.ui.home import HomePage
 from models.ui.signup import SignupPage
 import random
 import libs.utils
+import os
 
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost"/)
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 def test_add_product_to_catalog(page: Page):
     # complete code
