@@ -8,7 +8,7 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def _admin_api():
     api = AdminAPI(BACKEND_URL)
-    api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
+    api.login("admin", "1234")
     return api
 
 
