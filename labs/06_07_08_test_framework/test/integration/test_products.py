@@ -2,23 +2,24 @@ import libs.utils
 import pytest
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
-
+import os
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 
 # Given I am an admin user​
 # When I add a product to the catalog​
 # Then The product is available to be used in the app
 def test_add_product_to_catalog():
     # Given I am an admin user​
-    base_url = "http://localhost:8000"
     admin_username = "testare_arre"
     admin_password = "testare_123"
 
-    user_api = UserAPI(base_url)
+    user_api = UserAPI(BACKEND_URL)
     login_response = user_api.login(admin_username, admin_password)
     assert login_response.status_code == 200
     admin_token = user_api.token
 
-    admin_api = AdminAPI(base_url, admin_token)
+    admin_api = AdminAPI(BACKEND_URL, admin_token)
 
     # When I add a product to the catalog​
     product_name = libs.utils.generate_string_with_prefix()
@@ -39,16 +40,15 @@ def test_add_product_to_catalog():
 # Then The product should not be listed in the app to be used
 def test_remove_product_from_catalog():   
     # Given I am an admin user​
-    base_url = "http://localhost:8000"
     admin_username = "testare_arre"
     admin_password = "testare_123"
 
-    user_api = UserAPI(base_url)
+    user_api = UserAPI(BACKEND_URL)
     login_response = user_api.login(admin_username, admin_password)
     assert login_response.status_code == 200
     admin_token = user_api.token
 
-    admin_api = AdminAPI(base_url, admin_token)
+    admin_api = AdminAPI(BACKEND_URL, admin_token)
 
     #When I remove a product from the catalog​
     
