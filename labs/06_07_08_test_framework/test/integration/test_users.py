@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 import libs.utils
 from models.api.user import UserAPI
+from config import BACKEND_URL, USER_USERNAME, USER_PASSWORD
 import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")

@@ -10,7 +10,7 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def _admin_api():
     api = AdminAPI(BACKEND_URL)
-    api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
+    api.login("admin", "1234")
     return api
 
 
@@ -24,7 +24,7 @@ def test_add_product_to_catalog(page: Page):
     user_api = UserAPI(BACKEND_URL)
     product = generate_product_string_with_prefix()
   
-    response = user_api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
+    response = user_api.login("admin", "1234")
     token = user_api.token
 
     # Inject the token into localStorage before loading the page
@@ -61,7 +61,7 @@ def test_remove_product_from_catalog(page: Page):
     user_api = UserAPI(BACKEND_URL)
 
    
-    response = user_api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
+    response = user_api.login("admin", "1234")
     token = user_api.token
 
    

@@ -1,3 +1,4 @@
+from config import BACKEND_URL, USER_USERNAME, USER_PASSWORD
 from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.user import UserPage
@@ -8,12 +9,11 @@ import libs.utils
 import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-USER_USERNAME = ("USER_USERNAME", "user2")
-USER_PASSWORD  = os.getenv("USER_PASSWORD", "5678")
+
 
 def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix()
-    password = "1234"
+    password = "123456"
 
     home_page = HomePage(page)
     signup_page = SignupPage(page)
@@ -47,8 +47,8 @@ def test_signup(page: Page):
 
 
 def test_login_auth_user(page: Page):
-    username = "user2"
-    password = "5678"
+    username = USER_USERNAME
+    password = USER_PASSWORD
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)

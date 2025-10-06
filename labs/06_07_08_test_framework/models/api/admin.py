@@ -25,18 +25,15 @@ class AdminAPI:
         return self.product_list.filter(has_text=product_name)
 
     def list_products(self):
-        response = self.session.get(f"{self.base_url}/products")
-        data = response.json()
-        #return [p["name"] for p in data]
-        return [p["name"] for p in data["products"]]
+        headers = {"Authorization": f"Bearer {self.token}"}
+        response = requests.get(f"{self.base_url}/products", headers=headers)
+        products = response.json()
+
+        return products
 
 
-    def delete_product_by_name(
-        self,
-        product_name):
-        products = self.session.get(f"{self.base_url}/products").json()
-        print(products)
-        for product in products:
-            if product['name'] == product_name:
-                return self.session.delete(f"{self.base_url}/product/{product['id']}")
-        return None
+    def delete_product_by_name(self, product_id):
+        headers = {"Authorization": f"Bearer {self.token}"}
+        delete_product_response = requests.delete(f"{self.base_url}/product/{product_id}", headers=headers)
+
+        return delete_product_response

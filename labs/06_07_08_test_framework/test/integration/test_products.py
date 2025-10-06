@@ -1,3 +1,4 @@
+from config import BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD
 from libs.utils import generate_product_string_with_prefix
 from models.api.admin import AdminAPI
 from models.api.user import UserAPI
@@ -8,7 +9,7 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def _admin_api():
     api = AdminAPI(BACKEND_URL)
-    api.login("admin", "1234")
+    api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
     return api
 
 
@@ -16,7 +17,7 @@ def test_add_product_to_catalog():
     
     api = _admin_api()
 
-    product_name = generate_product_string_with_prefix("banana", 4)
+    product_name = generate_product_string_with_prefix()
 
     api.create_product(product_name)
 
@@ -27,7 +28,7 @@ def test_add_product_to_catalog():
 
 def test_remove_product_from_catalog():
     api = _admin_api()
-    product_name = generate_product_string_with_prefix("banana", 4)
+    product_name = generate_product_string_with_prefix()
 
     api.create_product(product_name)
 
