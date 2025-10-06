@@ -30,8 +30,8 @@
     # complete code
     #pass
 
-
-BASE_URL = "http://localhost:8000"
+import os
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # tests/integration/test_users.py
 
@@ -55,7 +55,7 @@ def test_login(user_api):
     assert response["token_type"] == "bearer"
 
 def test_get_user_info(user_token):
-    user_api = UserAPI(base_url=BASE_URL)
+    user_api = UserAPI(base_url=BACKEND_URL)
     user_api.set_token(user_token)
     profile = user_api.get_user()
     assert "username" in profile

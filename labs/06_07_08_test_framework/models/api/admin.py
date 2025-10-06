@@ -30,14 +30,15 @@ class AdminAPI:
         }
 
     def get_current_product_count(self):
-        url = f"{self.base_url}/products"
+        url = f"{self.base_url.rstrip('/')}/product"
+
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         products = response.json()
         return len(products)
 
     def create_product(self, product_name):
-        url = f"{self.base_url}/products"
+        url = f"{self.base_url}/product"
         body = {"name": product_name}
         response = requests.post(url, json=body, headers=self.headers)
         response.raise_for_status()

@@ -47,10 +47,10 @@ def test_user_signup_and_login(page: Page):
     username = libs.utils.generate_string_with_prefix("user")
     password = "test_1234?"
 
-    # Go to homepage
-    page.goto("http://localhost:5173/")
-
+    # Go to homepage'
     home = HomePage(page)
+    home.navigate()
+
     home.go_to_signup()
 
     signup = SignupPage(page)

@@ -1,10 +1,13 @@
 
 import pytest
 from models.api.user import UserAPI
+import os
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 @pytest.fixture(scope="session")
 def user_api():
-    return UserAPI(base_url="http://localhost:8000")
+    return UserAPI(BACKEND_URL)
 
 @pytest.fixture(scope="session")
 def admin_token(user_api):
@@ -16,7 +19,7 @@ def admin_token(user_api):
         token = user_api.login(username, password).get("access_token")
     except Exception:
         # If login fails, create user
-        user_api.signup(username, password, role="admin")
+        user_api.signup(username, password)
         token = user_api.login(username, password).get("access_token")
 
     assert token is not None

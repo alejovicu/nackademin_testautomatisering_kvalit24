@@ -32,6 +32,8 @@ class AdminPage:
     def create_product(self, product_name):
         self.input_product_name.fill(product_name)
         self.btn_create_product.click()
+        # ✅ Wait until the new product appears (up to 5 seconds)
+        self.page.wait_for_selector(f"text={product_name}", timeout=5000)
 
     def get_current_product_count(self):
         return self.product_items.count()
@@ -40,6 +42,10 @@ class AdminPage:
         product = self.page.locator(f".product-item:has-text('{product_name}')")
         delete_button = product.locator(".product-item-button")
         delete_button.click()
+        # ✅ Short delay to let frontend start the delete
+        self.page.wait_for_timeout(300)
+        # ✅ Wait until the product disappears completely
+        self.page.wait_for_selector(f"text={product_name}", state="detached", timeout=5000)
 
     def logout(self):
         self.btn_logout.click()

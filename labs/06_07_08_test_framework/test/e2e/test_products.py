@@ -36,6 +36,7 @@ def test_admin_can_create_product(page: Page):
     product_item = page.locator(f"text={product_name}")
     assert product_item.is_visible()
 
+
 def test_remove_product_from_catalog(page: Page):
     home = HomePage(page)
     home.navigate()
