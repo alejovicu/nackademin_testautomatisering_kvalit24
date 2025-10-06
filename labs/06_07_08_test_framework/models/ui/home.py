@@ -26,45 +26,43 @@ class HomePage:
         )
 
     def login(self, username: str, password: str):
-        self.page.fill(
-            "#inp-username, input[placeholder='Username'], input[name='username']",
-            username,
-        )
-        self.page.fill(
-            "#inp-password, input[placeholder='Password'], input[name='password']",
-            password,
-        )
-        self.page.get_by_role("button", name="Login").first.click()
+        self.page.fill("#inp-username, input[placeholder='Username']", username)
+        self.page.fill("#inp-password, input[placeholder='Password']", password)
+        self.page.keyboard.press("Enter")
 
         self.page.wait_for_load_state("networkidle")
 
-        targets = [
-            self.page.locator("button:has-text('Logout'), a:has-text('Logout')").first,
-            self.page.get_by_role("button", name="Add Product"),
-            self.page.get_by_text("Your products:", exact=False),
-        ]
+        logout = self.page.locator(
+            "button:has-text('Logout'), a:has-text('Logout')"
+        ).first
+        if logout.is_visible():
+            return
 
-        deadline = self.page.context._impl_obj._loop.time() + 10  # ~10s общий лимит
-        for loc in targets:
-            try:
-                loc.wait_for(timeout=3000)
-                return
-            except Exception:
-                pass
-            if self.page.context._impl_obj._loop.time() > deadline:
-                break
-
-        err = self.page.get_by_text("Invalid", exact=False)
         try:
-            if err.is_visible():
-                raise TimeoutError(
-                    "Login failed: invalid credentials or backend error."
-                )
-        except Exception:
+            logout.wait_for(state="visible", timeout=5000)
+            return
+        except:
+            pass
+
+        try:
+            self.page.locator(
+                "button:has-text('Logout'), a:has-text('Logout')"
+            ).first.wait_for(state="visible", timeout=7000)
+            self.page.get_by_role("button", name="Add Product").wait_for(timeout=7000)
+            return
+        except:
+            pass
+
+        self.page.get_by_text("Your Products:", exact=False).wait_for(timeout=7000)
+
+        try:
+            self.page.wait_for_url(lambda u: "#/user" in u, timeout=5000)
+            return
+        except:
             pass
 
         raise TimeoutError(
-            "Login did not reach expected state (no Logout/Add Product/'Your products:')."
+            "Login did not reach expected state (no Logout/Add Product/#/user)."
         )
 
     def go_to_signup(self):
