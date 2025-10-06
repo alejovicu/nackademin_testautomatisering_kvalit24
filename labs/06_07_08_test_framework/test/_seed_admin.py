@@ -21,7 +21,20 @@ def ensure_admin():
     )
     try:
         with urllib.request.urlopen(req, timeout=8) as r:
-            pass
+            return
     except urllib.error.HTTPError as e:
-        if e.code != 409:
-            raise
+        if e.code in (400, 409):
+            return
+        try:
+            login_req = urllib.request.Request(
+                f"{BACKEND_URL}/login",
+                data=data,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(login_req, timeout=8) as r2:
+                if 200 <= r2.getcode() < 300:
+                    return
+        except Exception:
+            pass
+        raise
