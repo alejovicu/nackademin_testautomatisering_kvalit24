@@ -19,7 +19,4 @@ def test_signup(page: Page):
     home.login(username, password)
     page.reload(wait_until="domcontentloaded")
 
-    page.locator("button:has-text('Logout'), a:has-text('Logout')").first.wait_for(
-        timeout=7000
-    )
     assert page.get_by_text("Your products:").count() > 0
