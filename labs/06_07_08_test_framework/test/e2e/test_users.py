@@ -1,19 +1,53 @@
-from playwright.sync_api import Page
-from models.login import LoginPage
-# complete imports
-
+from playwright.sync_api import Playwright, expect, Page
+from models.ui.signup import SignupPage
+from models.ui.home import HomePage
+import pytest
 import libs.utils
 
 
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
+
 def test_signup(page: Page):
-    # complete code
+    # Given I am a new potential customer​
+    username = libs.utils.generate_string_with_prefix()
+    password = "test_1234"
+    
+    home_page = HomePage(page)
+    signup_page = SignupPage(page)
+    login_page = HomePage(page)
+
+    home_page.navigate()
+    home_page.go_to_signup()
+
+    # When I signup in the app​
+    signup_page.signup(username, password) # <-- this is what is sent into the signup function in the SignupPage class
+    
+    home_page.navigate()
+    assert page.get_by_text('Nackademin Course App').is_visible()
+
+    page.wait_for_timeout(1000)
+
+    # Then I should be able to log in with my new user
+    login_page.login(username, password)
+    expect(page.get_by_text(f"Welcome, {username}", exact=False)).to_be_visible(timeout=10000)
+    expect(page.get_by_text("Your Products:", exact=True)).to_be_visible(timeout=10000)
 
 
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
-def test_signup(page: Page):
-    # complete code
+def test_login_see_my_products(page: Page):
+    # Given I am an authenticated user​
+    # note !! this user must be added pre-test run
+    username = "test_1234"
+    password = "test_1234"
+    
+    home_page = HomePage(page)
+    login_page = HomePage(page)
+
+    home_page.navigate()
+    assert page.get_by_text('Nackademin Course App').is_visible()
+
+    # When I log in into the application​
+    login_page.login(username, password)
+    expect(page.get_by_text(f"Welcome, {username}", exact=False)).to_be_visible(timeout=10000)
+    expect(page.get_by_text("Your Products:", exact=True)).to_be_visible(timeout=10000)
+
+    # Then I should see all my products
+    # to be implemented?
