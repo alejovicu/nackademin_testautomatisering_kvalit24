@@ -2,10 +2,10 @@ import os
 import time
 import requests
 
-APP_BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 
-def sign_up_admin_user():
+def sign_up_admin():
     url = f"{APP_BACKEND_URL}/signup"
     payload = {
         "username": "admin",
@@ -21,7 +21,6 @@ def sign_up_admin_user():
             print(f"Failed to sign up admin user: {response.status_code} - {response.text}")
     except requests.exceptions.RequestException as e:
         print(f"Error connecting to the backend: {e}")
-
 
         
 
@@ -42,5 +41,12 @@ def sign_up_user():
     except requests.exceptions.RequestException as e:
         print(f"Error connecting to the backend: {e}")
 
-sign_up_admin_user()
+
+
+
+
+sign_up_admin()
 sign_up_user()
+
+if __name__ == "__main__":
+    time.sleep(2)  # Wait for 2 seconds to ensure the backend is ready
