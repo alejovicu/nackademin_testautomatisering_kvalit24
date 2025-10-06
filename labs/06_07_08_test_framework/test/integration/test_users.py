@@ -47,7 +47,7 @@ def test_add_product_to_user():
     user_api.user_token(token)
 
     
-    product_id = 2
+    product_id = 1
     new_product = user_api.add_product_to_user(product_id)
     assert new_product.status_code == 200
     assert new_product is not None

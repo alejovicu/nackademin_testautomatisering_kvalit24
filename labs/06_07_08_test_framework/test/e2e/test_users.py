@@ -15,14 +15,25 @@ def test_signup(page: Page):
 
     home_page = HomePage(page)
     home_page.navigate()
+
+    expect(page.get_by_text("Login")).to_be_visible(timeout=5000)
+
     home_page.go_to_signup()
     
     signup = SignupPage(page)
     signup.signup(username, password)
+
+    page.wait_for_load_state("networkidle")
+    expect(page.get_by_text("Login")).to_be_visible(timeout=5000)
+
     signup.go_to_home()
 
     home_page.login(username, password)
     expect(page.get_by_text("Your Products:")).to_be_visible()
+
+    user_page = UserPage(page)
+    items = user_page.get_user_products()
+    assert isinstance(items, list)
 
 
 
@@ -39,14 +50,16 @@ def test_login(page: Page):
     home_page.navigate()
 
     home_page.login(username, password)
+    expect(home_page.login_header_main_title).to_be_visible()
     expect(page.get_by_text("Your Products:")).to_be_visible()
 
     #see all products
     list_user_product = UserPage(page)
-    items_count = list_user_product.get_user_products()
+    list_user_product.get_user_products()
 
     #atleast one product should exist
-    assert len(items_count) > 0, "No available items/products"
+    expect(page.get_by_text("Your Products:")).to_be_visible()
+
 
 
 

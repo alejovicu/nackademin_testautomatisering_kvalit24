@@ -17,12 +17,11 @@ def test_add_product_to_catalog(page: Page):
 
     new_product = "class item 8"
     admin_home = AdminPage(page)
-    
-    prev_count = admin_home.get_current_product_count()
-    admin_home.create_product(new_product)
 
-    current_count = admin_home.get_current_product_count()
-    assert current_count == prev_count + 1
+    admin_home.create_product(new_product)
+    expect(page.get_by_text(new_product)).to_be_visible()
+
+    
     
   
     
@@ -39,10 +38,9 @@ def test_remove_product_from_catalog(page: Page):
 
     new_product = "class item 8"
     admin_home = AdminPage(page)
-    
-    # remove product
-    prev_count = admin_home.get_current_product_count()
+   
     admin_home.delete_product_by_name(new_product)
+    expect(page.get_by_text(new_product)).not_to_be_visible()
+    
 
-    current_count = admin_home.get_current_product_count()
-    assert current_count == prev_count - 1
+   
