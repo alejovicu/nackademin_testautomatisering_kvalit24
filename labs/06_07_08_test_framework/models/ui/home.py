@@ -14,7 +14,7 @@ class HomePage:
 
     # Öpnnar appen i webbläsaren. Används i början av testet för att komma till startsidan.
     def navigate(self):
-        self.page.goto("http://localhost:5173/")
+        self.page.goto("FRONTEND_URL","http://localhost:5173/")
 
 
     def login(self,username,password):
