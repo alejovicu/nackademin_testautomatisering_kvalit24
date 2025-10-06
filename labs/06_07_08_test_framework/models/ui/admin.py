@@ -1,20 +1,18 @@
-# View  where the admin user can manage the products
-# that are in the Product Catalog to be used
-# by all the users
-
-
 class AdminPage:
     def __init__(self, page):
         self.page = page
-        #page_(element-type)_(descriptive-name)
-        #complete admin view elements
+        self.name_input = page.get_by_placeholder('Product Name')
+        self.add_btn = page.get_by_role('button', name='Create Product')
+        self.items = page.locator('.product-item')
 
     def get_current_product_count(self):
-        # complete logic
-        # return number of total products displayed
+        return self.items.count()
 
-    def create_product(self,product_name):
-        # complete logic
+    def create_product(self, product_name):
+        self.name_input.fill(product_name)
+        self.add_btn.click()
 
-    def delete_product_by_name(self,product_name):
-        # complete logic
+    def delete_product_by_name(self, product_name):
+
+        product = self.page.locator('.product-item', has_text=product_name)
+        product.locator('.product-item-button').click()

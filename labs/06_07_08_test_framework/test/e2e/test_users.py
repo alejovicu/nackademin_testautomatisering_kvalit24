@@ -1,7 +1,7 @@
-from playwright.sync_api import Page
-from models.login import LoginPage
-# complete imports
-
+from playwright.sync_api import Page, expect
+from models.ui.home import HomePage
+from models.ui.signup import SignupPage
+from models.ui.user import UserPage
 import libs.utils
 
 
@@ -9,11 +9,38 @@ import libs.utils
 # When I signup in the app​
 # Then I should be able to log in with my new user
 def test_signup(page: Page):
-    # complete code
+    username = libs.utils.generate_string_with_prefix()
+    password = "Tomat_123"
+
+    login_home_page = HomePage (page)
+    login_home_page.navigate()
+    login_home_page.go_to_signup()
+
+    page_signup = SignupPage(page)
+    page_signup.signup(username, password)
+    page_signup.go_to_home()
+
+    page.wait_for_load_state("networkidle")
+    login_home_page.login(username, password)
+    expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
+
 
 
 # Given I am an authenticated user​
 # When I log in into the application​
 # Then I should see all my products
-def test_signup(page: Page):
-    # complete code
+def test_login(page: Page):
+    username  = "användare"
+    password = "Flagga123"
+
+    login_home_page = HomePage (page)
+    login_home_page.navigate()
+
+    login_home_page.login(username, password)
+    page.wait_for_load_state("networkidle")
+    expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
+
+    user_product_page = UserPage(page)
+    user_product_page.get_user_products()
+
+    expect(page.get_by_text("Your Products:")).to_be_visible()
