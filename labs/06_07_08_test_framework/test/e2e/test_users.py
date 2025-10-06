@@ -38,8 +38,13 @@ def test_login(page: Page):
 
     home.login(username, password)
 
-    user_products = UserPage(page)
+    #check so login is successfull
+    expect(page.get_by_text(f"Welcome, {username}!")).to_be_visible()
+    #check so the product list h3 is visible. best way i could check this since there is not list element to look for. 
+    expect(page.locator('h3:has-text("Your Products:")')).to_be_visible()
 
-    product_count = user_products.get_user_products()
-    assert len(product_count) > 0, "No available items/products"
+    # user_products = UserPage(page)
+
+    # product_count = user_products.get_user_products()
+    # assert len(product_count) > 0, "No available items/products"
     

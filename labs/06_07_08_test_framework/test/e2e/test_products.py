@@ -60,7 +60,7 @@ def test_remove_product_from_catalog(page: Page):
 
     product_name = libs.utils.generate_string_with_prefix("prod")
     admin.create_product(product_name)
-    time.sleep(1)
+
     product_count = admin.get_current_product_count()
     admin.delete_product_by_name(product_name)
     expect(page.get_by_text(product_name)).to_be_hidden()
