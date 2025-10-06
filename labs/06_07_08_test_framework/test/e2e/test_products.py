@@ -3,7 +3,7 @@ from libs.utils import generate_product_with_prefix
 
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
-
+from config import ADMIN_USERNAME, ADMIN_PASSWORD
   
 
 
@@ -12,8 +12,8 @@ from models.ui.admin import AdminPage
 # When I add a product to the catalog​
 # Then The product is available to be used in the app
 def test_create_product_to_catalog(page: Page):
-    username = "admin"
-    password = "admin"
+    username = ADMIN_USERNAME
+    password = ADMIN_PASSWORD
     product_name = generate_product_with_prefix("product")
     # Login as admin
     home_page = HomePage(page)
@@ -42,8 +42,8 @@ def test_delete_product_from_catalog(page: Page):
     pass
     # complete code
    # Given I am an admin user
-    username = "admin"
-    password = "admin"
+    username = ADMIN_USERNAME
+    password = ADMIN_PASSWORD
     product = generate_product_with_prefix("product")
 
     # Login as admin
