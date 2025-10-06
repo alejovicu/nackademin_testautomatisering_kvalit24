@@ -16,10 +16,13 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        base = os.getenv("FRONTEND_URL", "http://localhost/#/login").strip()
+        base = os.getenv("FRONTEND_URL", "http://app-frontend:5173").strip().rstrip("/")
+        if "#/login" not in base:
+            base = f"{base}/#/login"
         self.page.goto(base, wait_until="domcontentloaded")
         self.page.wait_for_selector(
-            "#inp-username, input[placeholder='Username']", timeout=10000
+            "#inp-username, input[placeholder='Username'], input[name='username']",
+            timeout=10000,
         )
 
     def login(self, username: str, password: str):
@@ -31,38 +34,12 @@ class HomePage:
             "#inp-password, input[placeholder='Password'], input[name='password']",
             password,
         )
+        self.page.get_by_role("button", name="Login").first.click()
+        self.page.wait_for_load_state("networkidle")
 
-        with self.page.expect_response(
-            lambda r: r.request.method == "POST" and "/login" in r.url,
-            timeout=12000,
-        ) as resp_info:
-            self.page.get_by_role("button", name="Login").first.click()
-        resp = resp_info.value
-        if not (200 <= resp.status < 300):
-            raise TimeoutError(f"Login failed, status: {resp.status}")
-
-        logout = self.page.locator(
+        self.page.locator(
             "button:has-text('Logout'), a:has-text('Logout')"
-        ).first
-        try:
-            logout.wait_for(state="visible", timeout=5000)
-            return
-        except:
-            pass
-        try:
-            self.page.get_by_role("button", name="Add Product").wait_for(timeout=7000)
-            return
-        except:
-            pass
-        try:
-            self.page.wait_for_url(lambda u: "#/user" in u, timeout=5000)
-            return
-        except:
-            pass
-
-        raise TimeoutError(
-            "Login did not reach expected state after successful /login."
-        )
+        ).first.wait_for(timeout=7000)
 
     def go_to_signup(self):
         self.page.get_by_text("Don't have an account?").wait_for(timeout=5000)
