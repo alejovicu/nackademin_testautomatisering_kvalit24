@@ -3,6 +3,7 @@ import time
 import requests
 
 APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://app-backend:8000")
+APP_FRONTEND_URL = os.getenv("APP_FRONTEND_URL", "http://app-frontend:5173")
 
 
 def sign_up_admin():
