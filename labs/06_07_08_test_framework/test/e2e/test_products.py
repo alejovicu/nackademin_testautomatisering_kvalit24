@@ -20,7 +20,7 @@ def test_add_product_to_catalog(page: Page):
 
     home_page.navigate()
     home_page.login("testare_arre", "testare_123")
-    page.wait_for_selector('input[placeholder="Product Name"]', timeout=60000)
+    #page.wait_for_selector('input[placeholder="Product Name"]', timeout=60000)
 
     # When I add a product to the catalog​
     product_count = product.get_current_product_count()
@@ -42,8 +42,6 @@ def test_remove_product_from_catalog(page: Page):
 
     home_page.navigate()
     home_page.login("testare_arre", "testare_123")
-    page.wait_for_selector('input[placeholder="Product Name"]', timeout=60000)
-
     #Creating a product to be deleted
     product.create_product("TestDeleteProduct123")
 

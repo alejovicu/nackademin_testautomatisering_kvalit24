@@ -13,9 +13,18 @@ class HomePage:
     def navigate(self):
         self.page.goto(self.url)
     def login(self,username,password):
-        self.login_input_username.fill(username)
-        self.login_input_password.fill(password)
-        self.login_btn_login.click()
+        try:
+            self.login_input_username.fill(username)
+            self.login_input_password.fill(password)
+            self.login_btn_login.click()
+
+            self.page.wait_for_load_state("networkidle")
+            expect(self.page.get_by_text("Welcome", exact=False)).to_be_visible(timeout=10000)
+        except Exception as e:
+            screenshot_dir = "/var/jenkins_home/workspace/Jenkins lab_13_14 integration and e2e/screenshots"
+            os.makedirs(screenshot_dir, exist_ok=True)
+            self.page.screenshot(path=os.path.join(screenshotdir, f"login{username}.png"))
+            raise e
 
     def go_to_signup(self):
         # complete code 
