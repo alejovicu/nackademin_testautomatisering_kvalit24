@@ -2,11 +2,11 @@ import os
 import time
 import requests
 
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://app-backend:8000")
 
 
 def sign_up_admin():
-    url = f"{APP_BACKEND_URL}/signup",
+    url = f"{APP_BACKEND_URL}/signup"
     payload = {
         "username": "admin",
         "password": "pass123"
