@@ -38,27 +38,34 @@ class HomePage:
 
         self.page.wait_for_load_state("networkidle")
 
+        targets = [
+            self.page.locator("button:has-text('Logout'), a:has-text('Logout')").first,
+            self.page.get_by_role("button", name="Add Product"),
+            self.page.get_by_text("Your products:", exact=False),
+        ]
+
+        deadline = self.page.context._impl_obj._loop.time() + 10  # ~10s общий лимит
+        for loc in targets:
+            try:
+                loc.wait_for(timeout=3000)
+                return
+            except Exception:
+                pass
+            if self.page.context._impl_obj._loop.time() > deadline:
+                break
+
+        err = self.page.get_by_text("Invalid", exact=False)
         try:
-            self.page.locator(
-                "button:has-text('Logout'), a:has-text('Logout')"
-            ).first.wait_for(timeout=4000)
-            return
-        except:
+            if err.is_visible():
+                raise TimeoutError(
+                    "Login failed: invalid credentials or backend error."
+                )
+        except Exception:
             pass
 
-        try:
-            self.page.get_by_role("button", name="Add Product").wait_for(timeout=4000)
-            return
-        except:
-            pass
-
-        try:
-            self.page.get_by_text("Your products:", exact=False).wait_for(timeout=4000)
-            return
-        except:
-            pass
-
-        self.page.wait_for_url(lambda u: "#/user" in u, timeout=4000)
+        raise TimeoutError(
+            "Login did not reach expected state (no Logout/Add Product/'Your products:')."
+        )
 
     def go_to_signup(self):
         self.page.get_by_text("Don't have an account?").wait_for(timeout=5000)
