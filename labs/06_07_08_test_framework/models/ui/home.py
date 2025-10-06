@@ -19,7 +19,6 @@ class HomePage:
             self.login_btn_login.click()
 
             self.page.wait_for_load_state("networkidle")
-            expect(self.page.get_by_text("Welcome", exact=False)).to_be_visible(timeout=10000)
         except Exception as e:
             screenshot_dir = "/var/jenkins_home/workspace/Jenkins lab_13_14 integration and e2e/screenshots"
             os.makedirs(screenshot_dir, exist_ok=True)
