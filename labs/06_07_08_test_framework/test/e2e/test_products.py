@@ -20,11 +20,8 @@ def test_add_product_to_catalog(page: Page):
     item = "Mango"
     admin_home_page = AdminPage(page)
 
-    products_before = admin_home_page.get_current_product_count()
     admin_home_page.create_product(item)
-
-    products_after = admin_home_page.get_current_product_count()
-    assert products_after == products_before +1
+    expect(page.get_by_text(item)).to_be_visible()
 
 
 # Given I am an admin user​
@@ -44,8 +41,5 @@ def test_remove_product_from_catalog(page: Page):
     item = "Mango"
     admin_home_page = AdminPage(page)
 
-    products_before = admin_home_page.get_current_product_count()
     admin_home_page.delete_product_by_name(item)
-
-    products_after = admin_home_page.get_current_product_count()
-    assert products_after == products_before -1
+    expect(page.get_by_text(item)).not_to_be_visible()

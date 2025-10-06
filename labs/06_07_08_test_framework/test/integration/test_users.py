@@ -6,7 +6,7 @@ import os
 BACKEND_URL = os.environ.get("BACKEND_URL","http://127.0.0.1:8000")
 base_url = UserAPI (BACKEND_URL)
 username = "användare"
-password = "Flagga_123" #testdata/användare
+password = "Flagga123" #testdata/användare
 
 def test_signup():
     username = libs.utils.generate_string_with_prefix() #Skapar ett unikt användarnamn automatiskt med prefix (för att undvika dubbletter)
@@ -35,8 +35,6 @@ def test_login():
 
 
 def test_add_product_to_user():#Loggar in för att få access token
-    username = "användare"
-    password = "Flagga_123"
    
     login_page = base_url.login(username,password) 
     assert login_page.status_code == 200
@@ -44,14 +42,12 @@ def test_add_product_to_user():#Loggar in för att få access token
     token_user = login_page.json()["access_token"]
     base_url.set_token(token_user)
 
-    product_id = 5
+    product_id = 1
     add_product = base_url.add_product_to_user(product_id)
     assert add_product.status_code == 200
 
 
 def test_remove_product_from_user():
-    username = "användare"
-    password = "Flagga_123"
    
     login_page = base_url.login(username,password)
     assert login_page.status_code == 200
@@ -59,7 +55,7 @@ def test_remove_product_from_user():
     token_user = login_page.json()["access_token"]
     base_url.set_token(token_user)
 
-    product_id = 4
+    product_id = 1
     remove_product = base_url.remove_product_from_user(product_id) #Skickar request för att ta bort produkten från användaren
 
     assert remove_product.status_code == 200
