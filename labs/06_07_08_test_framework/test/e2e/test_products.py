@@ -7,9 +7,9 @@ import random
 import libs.utils
 
 
-# Given I am an admin user​
-# When I add a product to the catalog​
-# Then The product is available to be used in the app
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost"/)
+
 def test_add_product_to_catalog(page: Page):
     # complete code
 

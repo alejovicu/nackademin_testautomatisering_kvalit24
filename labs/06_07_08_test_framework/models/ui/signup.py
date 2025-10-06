@@ -1,6 +1,8 @@
+import os
 class SignupPage:
     def __init__(self, page):
         self.page = page
+        self.url = os.getenv("FRONTEND_URL", "http://localhost"/)
         self.signup_input_username = page.get_by_placeholder('Username')
         self.signup_input_password = page.get_by_placeholder('Password')
         self.signup_btn_signup = page.locator('button.button-primary')
@@ -16,4 +18,3 @@ class SignupPage:
     def go_to_home(self):
         # complete code 
         self.signup_btn_login.click()
-        # complete code
