@@ -1,6 +1,6 @@
 # Landing page where the users could either login or
 # navigate to signup
-
+from config import FRONTEND_URL
 class HomePage:
     def __init__(self, page):
         self.page = page
@@ -23,7 +23,7 @@ class HomePage:
 
 
     def navigate(self):
-        self.page.goto("http://localhost")
+        self.page.goto(FRONTEND_URL)
 
         
        

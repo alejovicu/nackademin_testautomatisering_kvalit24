@@ -1,7 +1,7 @@
 # View  where the admin user can manage the products
 # that are in the Product Catalog to be used
 # by all the users
-
+from config import FRONTEND_URL
 
 class AdminPage:
     def __init__(self, page):
@@ -29,7 +29,7 @@ class AdminPage:
 
 
     def navigate(self):
-       self.page.goto("http://localhost")
+       self.page.goto(FRONTEND_URL)
 
 
 
