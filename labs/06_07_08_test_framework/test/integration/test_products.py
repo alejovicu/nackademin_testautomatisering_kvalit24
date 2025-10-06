@@ -5,20 +5,20 @@ import requests
 import os
 
 
-BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+BACKEND_URL= os.getenv("BACKEND_URL", "http://localhost:8000")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "1234")
 
 def setup():
     try:
-        user_api = UserAPI(BASE_URL)
+        user_api = UserAPI(BACKEND_URL)
         user_api.signup(ADMIN_USERNAME, ADMIN_PASSWORD)
     except:
         print("Admin already exist.")
 
 
 def _admin_api():
-    api = AdminAPI(BASE_URL)
+    api = AdminAPI(BACKEND_URL)
     api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
     return api
 
