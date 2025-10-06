@@ -5,11 +5,11 @@ from models.ui.admin import AdminPage
 import libs.utils
 import os
 
-# ADMIN_USER = os.getenv("ADMIN_USERNAME", "nahom_admin")
-# ADMIN_PASS = os.getenv("ADMIN_PASSWORD", "1234")
+ADMIN_USER = os.getenv("ADMIN_USERNAME", "nahom_admin")
+ADMIN_PASS = os.getenv("ADMIN_PASSWORD", "1234")
 
-ADMIN_USER = "nahom_admin"
-ADMIN_PASS = "1234"
+# ADMIN_USER = "nahom_admin"
+# ADMIN_PASS = "1234"
 
 # Given I am an admin user​
 # When I add a product to the catalog​
