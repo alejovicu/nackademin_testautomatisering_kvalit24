@@ -24,7 +24,7 @@ def test_add_product_to_catalog(page:Page):
     home_page.navigate()
     home_page.login(username, password)
     if not admin_page.products.first.is_visible():
-        return admin_page.create_product(product)
+       return admin_page.create_product(product)
     else:
         expect(admin_page.products.first).to_be_visible()
     

@@ -15,6 +15,7 @@ def sign_up_admin():
         response = requests.post(url, json=payload)
         if response.status_code == 200:
             print("Admin user signed up successfully.")
+            
         elif response.status_code == 400 and "already exists" in response.text:
             print("Admin user already exists.")
         else:
