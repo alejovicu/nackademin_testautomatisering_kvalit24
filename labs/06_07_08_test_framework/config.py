@@ -2,10 +2,10 @@ import os
 import requests
 
 class Config:
-    # Backend URL comes from environment (Docker/Jenkins), defaults to localhost
+    
     BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
-    # Users to seed
+     #Users to seed
     SEED_USERS = {
         "testare_arre": "testare_123"
     }
@@ -32,6 +32,8 @@ def seed_users():
         config_signup(username, password)
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     print(f"Seeding users into {Config.BACKEND_URL}...")
     seed_users()
+
+
