@@ -16,10 +16,13 @@ class HomePage:
         self.login_btn_signup = page.locator("#signup")
 
     def navigate(self):
-        base = os.getenv("FRONTEND_URL", "http://localhost/#/login").strip()
+        base = os.getenv("FRONTEND_URL", "http://localhost:5173").strip().rstrip("/")
+        if "#/login" not in base:
+            base = f"{base}/#/login"
         self.page.goto(base, wait_until="domcontentloaded")
         self.page.wait_for_selector(
-            "#inp-username, input[placeholder='Username']", timeout=10000
+            "#inp-username, input[placeholder='Username'], input[name='username']",
+            timeout=10000,
         )
 
     def login(self, username: str, password: str):
