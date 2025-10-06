@@ -42,7 +42,7 @@ def test_login():
 
     # Create a product as admin
     admin_api = AdminAPI(BASE_URL)
-    admin_api.login("admin", "1234")
+    admin_api.login("admin", "adminadmin1234")
     product_name = libs.utils.generate_string_with_prefix("IT_course")
     admin_api.create_product(product_name)
 

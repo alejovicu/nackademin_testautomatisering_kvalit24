@@ -7,7 +7,8 @@ import libs.utils
 def test_add_product_to_catalog(page: Page):
     home = HomePage(page)
     home.navigate()
-    home.login("admin", "1234")
+    home.login("admin", "adminadmin1234")
+
     page.get_by_text("Product Catalog:", exact=False).wait_for(timeout=7000)
 
     admin = AdminPage(page)
@@ -25,7 +26,7 @@ def test_add_product_to_catalog(page: Page):
 def test_remove_product_from_catalog(page: Page):
     home = HomePage(page)
     home.navigate()
-    home.login("admin", "1234")
+    home.login("admin", "adminadmin1234")
 
     admin = AdminPage(page)
     name = libs.utils.generate_string_with_prefix("e2e", 6)

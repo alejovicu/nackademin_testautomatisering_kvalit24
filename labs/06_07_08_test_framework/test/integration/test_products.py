@@ -12,7 +12,7 @@ BASE_URL = os.getenv("BACKEND_URL") or os.getenv(
 
 def _admin_api():
     api = AdminAPI(BASE_URL)
-    r = api.login("admin", "1234")
+    r = api.login("admin", "adminadmin1234")
     assert r.status_code == 200, f"Admin login failed: {r.status_code} {r.text}"
     return api
 
