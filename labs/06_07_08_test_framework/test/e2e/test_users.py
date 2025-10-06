@@ -1,19 +1,47 @@
-from playwright.sync_api import Page
-from models.login import LoginPage
-# complete imports
-
+from playwright.sync_api import Page, expect
+from models.ui.home import HomePage
+from models.ui.signup import SignupPage
+from models.ui.user import UserPage
 import libs.utils
 
 
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
 def test_signup(page: Page):
-    # complete code
+    # Given I am a new potential customer​
+    username = libs.utils.generate_string_with_prefix()
+    password = "test_user1234"
+
+    login_page = HomePage(page)
+    login_page.navigate()
+    login_page.go_to_signup()
+
+    # When I signup in the app​
+    signup_page = SignupPage(page)
+
+    # Wait for the signup request to complete successfully before proceeding
+    with page.expect_response(lambda r: r.url.endswith("/signup") and r.status == 200):
+        signup_page.signup(username, password)
+    signup_page.go_to_home()
+
+    # Then I should be able to log in with my new user
+    login_page.login(username, password)
+    expect(page.get_by_role("button", name="Logout")).to_be_visible()
 
 
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
-def test_signup(page: Page):
-    # complete code
+def test_login(page: Page):
+    # Given I am an authenticated user​
+    username = "test_user"
+    password = "user_test321"
+
+    # When I log in into the application​
+    login_page = HomePage(page)
+    login_page.navigate()
+
+    login_page.login(username, password)
+    expect(login_page.login_header_main_title).to_be_visible()
+    expect(page.get_by_role("button", name="Logout")).to_be_visible()
+
+    # Then I should see all my products
+    user_page = UserPage(page)
+    user_page.get_user_products()
+
+    expect(page.get_by_text("Your Products:")).to_be_visible()
