@@ -2,7 +2,7 @@ import os
 import time
 import requests
 
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://app-backend:8000")
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 
 def sign_up_admin():
@@ -15,7 +15,6 @@ def sign_up_admin():
         response = requests.post(url, json=payload)
         if response.status_code == 200:
             print("Admin user signed up successfully.")
-            
         elif response.status_code == 400 and "already exists" in response.text:
             print("Admin user already exists.")
         else:
@@ -45,9 +44,8 @@ def sign_up_user():
 
 
 
-
-sign_up_admin()
-sign_up_user()
-
 if __name__ == "__main__":
     time.sleep(2)  # Wait for 2 seconds to ensure the backend is ready
+    sign_up_admin()
+    sign_up_user()
+  
