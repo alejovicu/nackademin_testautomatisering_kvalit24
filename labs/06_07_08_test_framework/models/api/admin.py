@@ -28,6 +28,8 @@ class AdminAPI:
         response = self.session.get(f"{self.base_url}/products")
         data = response.json()
         #return [p["name"] for p in data]
+        return [p["name"] for p in data["products"]]
+
 
     def delete_product_by_name(
         self,
