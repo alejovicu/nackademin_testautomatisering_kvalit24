@@ -18,8 +18,9 @@ class AdminAPI:
         return response
 
     def create_product(self, product_name):
+        headers = {"Authorization": f"Bearer {self.token}"}
         body = {"name": product_name}
-        return self.session.post(f"{self.base_url}/product", json=body)
+        return self.session.post(f"{self.base_url}/product", headers=headers, json=body)
     
     def find_product(self, product_name):
         return self.product_list.filter(has_text=product_name)
