@@ -1,19 +1,25 @@
-# Page where the users could either create a new user or
-# navigate to Home
+from playwright.sync_api import expect
+
+
 class SignupPage:
     def __init__(self, page):
         self.page = page
 
-        self.signup_input_username = page.get_by_placeholder('Username')
-        self.signup_input_password = page.get_by_placeholder('Password')
-        self.signup_btn_signup = page.locator('button.button-primary')
-        self.signup_btn_login = page.locator('button.btn-blue')
+        self.signup_input_username = page.locator("#inp-username")
+        self.signup_input_password = page.locator("#inp-password")
+        self.signup_btn_signup = page.get_by_role("button", name="Sign Up")
+        self.signup_btn_login_link = page.get_by_role("button", name="Login")
 
-
-    def signup(self,username,password):
-        self.signup_input_username.fill(username)
-        self.signup_input_password.fill(password)
-        self.signup_btn_signup.click()
+    def signup(self, username, password):
+        self.page.fill(
+            "#inp-username, input[placeholder='Username'], input[name='username']",
+            username,
+        )
+        self.page.fill(
+            "#inp-password, input[placeholder='Password'], input[name='password']",
+            password,
+        )
+        self.page.get_by_role("button", name="Sign Up").first.click()
 
     def go_to_home(self):
-        # complete code
+        self.signup_btn_login_link.click()
