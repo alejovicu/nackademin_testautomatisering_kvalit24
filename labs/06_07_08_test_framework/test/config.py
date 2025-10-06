@@ -6,7 +6,7 @@ APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 
 def sign_up_admin():
-    url = f"{APP_BACKEND_URL}/signup"
+    url = f"{APP_BACKEND_URL}/signup",
     payload = {
         "username": "admin",
         "password": "pass123"
@@ -15,10 +15,10 @@ def sign_up_admin():
         response = requests.post(url, json=payload)
         if response.status_code == 200:
             print("Admin user signed up successfully.")
-        elif response.status_code == 400 and "already exists" in response.text:
-            print("Admin user already exists.")
         else:
-            print(f"Failed to sign up admin user: {response.status_code} - {response.text}")
+         response.status_code == 400 and "already exists" in response.text
+         print("Admin user already exists.")
+        
     except requests.exceptions.RequestException as e:
         print(f"Error connecting to the backend: {e}")
 
