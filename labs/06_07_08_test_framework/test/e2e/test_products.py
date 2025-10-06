@@ -33,6 +33,7 @@ def test_add_product_to_catalog(page:Page):
     admin_page.create_product(product)
 
     expect(admin_page.products).to_have_count(num_of_products_before + 1)
+    page.wait_for_timeout(2000)
 
 
 # Given I am an admin user​
@@ -59,15 +60,9 @@ def test_remove_product_from_catalog(page: Page):
 
     home_page.navigate()
     expect(admin_page.products.first).to_be_visible()
-    if not admin_page.products.first.is_visible():
-        print("No products to delete, creating one first")
         
-
-    
-
-
-    
     num_of_products_before = admin_page.get_current_product_count()
+    
     admin_page.delete_product_by_name(product)
-
+   
     expect(admin_page.products).to_have_count(num_of_products_before - 1)
