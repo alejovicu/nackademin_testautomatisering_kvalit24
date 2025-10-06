@@ -3,7 +3,7 @@ import requests
 import os
 from models.api.admin import AdminAPI
 
-BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+BASE_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 ADMIN_USER = os.getenv("ADMIN_USERNAME", "nahom_admin")
 ADMIN_PASS = os.getenv("ADMIN_PASSWORD", "1234")
 
