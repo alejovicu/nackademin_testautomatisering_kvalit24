@@ -2,7 +2,6 @@ import requests
 import libs.utils
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
-from test._seed_admin import ensure_admin
 
 import os
 
@@ -40,8 +39,6 @@ def test_login():
     assert login_api_response.status_code == 200
     token = login_api_response.json().get("access_token")
     user_api.token = token
-
-    ensure_admin()
 
     # Create a product as admin
     admin_api = AdminAPI(BASE_URL)
