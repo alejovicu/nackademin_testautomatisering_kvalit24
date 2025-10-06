@@ -4,7 +4,7 @@ from models.api.admin import AdminAPI
 from models.api.user import UserAPI
 
 import os
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Given I am an admin user​
 # When I add a product to the catalog​
@@ -16,14 +16,14 @@ def test_add_product_to_catalog():
     product_name = "bord"
 
     #logg in via user login 
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     api_response = user_api.login(username, password)
     assert api_response.status_code == 200
     #get the access token and check its there
     token = api_response.json().get("access_token")
     assert token is not None
     #go to admin with access token
-    admin_api = AdminAPI(APP_BACKEND_URL, token)
+    admin_api = AdminAPI(BACKEND_URL, token)
 
     #check amount of products before add
     api_response = admin_api.get_current_product_count()
@@ -49,14 +49,14 @@ def test_remove_product_from_catalog():
     
 
     #logg in via user login 
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     api_response = user_api.login(username, password)
     assert api_response.status_code == 200
     #get the access token and check its there
     token = api_response.json().get("access_token")
     assert token is not None
     #go to admin with access token
-    admin_api = AdminAPI(APP_BACKEND_URL, token)
+    admin_api = AdminAPI(BACKEND_URL, token)
 
     #check the length of the list before and after the product is deleted. 
     api_response = admin_api.get_current_product_count()

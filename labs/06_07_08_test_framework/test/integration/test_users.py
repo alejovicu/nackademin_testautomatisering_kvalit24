@@ -5,14 +5,14 @@ import os
 from models.api.user import UserAPI
 
 
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 def test_user_signup():
     username = libs.utils.generate_string_with_prefix("user")
     password = libs.utils.generate_string_with_prefix("pass")
 
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
 
     signup_api_response = user_api.signup(username, password)
     assert signup_api_response.status_code == 200
@@ -29,7 +29,7 @@ def test_user_signup():
 def test_login():
     username = libs.utils.generate_string_with_prefix("user")
     password = libs.utils.generate_string_with_prefix("pass")
-    user_api = UserAPI(APP_BACKEND_URL)
+    user_api = UserAPI(BACKEND_URL)
     user_api.signup(username, password)
 
     login_api_response = user_api.login(username, password)
