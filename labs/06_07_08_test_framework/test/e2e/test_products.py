@@ -1,12 +1,10 @@
 from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
-from test._seed_admin import ensure_admin
 import libs.utils
 
 
 def test_add_product_to_catalog(page: Page):
-    ensure_admin()
     home = HomePage(page)
     home.navigate()
     home.login("admin", "1234")
@@ -24,7 +22,6 @@ def test_add_product_to_catalog(page: Page):
 
 
 def test_remove_product_from_catalog(page: Page):
-    ensure_admin()
     home = HomePage(page)
     home.navigate()
     home.login("admin", "1234")
