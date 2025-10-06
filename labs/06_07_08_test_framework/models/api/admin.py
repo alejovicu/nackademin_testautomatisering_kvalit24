@@ -10,9 +10,12 @@ class AdminAPI:
 
     def login(self, username, password):
         body = {"username": username, "password": password}
-        r = self.session.post(f"{self.base_url}/login", json=body)
-        self.session.headers["Authorization"] = f"Bearer {r.json()['access_token']}"
-        return r
+        response = requests.post(f"{self.base_url}/login", json=body)
+        self.status_code = response.status_code 
+        response.raise_for_status()
+        data = response.json()
+        self.token = data.get("token") or data.get("access_token") or data.get("jwt")
+        return response
 
     def create_product(self, product_name):
         body = {"name": product_name}
