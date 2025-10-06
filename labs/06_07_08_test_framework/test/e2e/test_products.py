@@ -60,7 +60,9 @@ def test_remove_product_from_catalog(page: Page):
     home_page.navigate()
     expect(admin_page.products.first).to_be_visible()
     if not admin_page.products.first.is_visible():
-        return None
+        print("No products to delete, creating one first")
+        
+
     
 
 
