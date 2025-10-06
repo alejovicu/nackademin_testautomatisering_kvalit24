@@ -57,7 +57,7 @@ class UserAPI:
     def add_product_to_user(self, product_id: str):
         
         # skickar post request med authorization bearer token.
-        resp = requests.post(f"{self.base_url}/user/products/{product_id}", headers=self._auth_headers())
+        resp = requests.post(f"{self.base_url}/user/product/{product_id}", headers=self._auth_headers())
         
         # kollar att vi får OK, annars bryts koden här
         resp.raise_for_status()
