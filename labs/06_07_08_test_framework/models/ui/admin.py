@@ -9,6 +9,7 @@ class AdminPage:
         return self.admin_products.count()
 
     def create_product_by_api(self, product_name):
+        # Fyll bara och klicka, ingen väntan
         self.input_product_name.fill(product_name)
         self.button_create_product.click()
 
