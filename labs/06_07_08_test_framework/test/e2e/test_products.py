@@ -13,8 +13,8 @@ from config import ADMIN_USERNAME, ADMIN_PASSWORD
 # Then The product is available to be used in the app
 def test_create_product_to_catalog(page: Page):
     
-    username = ADMIN_USERNAME
-    password = ADMIN_PASSWORD
+    username = "admin"
+    password = "admin"
     product = generate_product_with_prefix("product")
 
     # Login as admin
@@ -27,13 +27,10 @@ def test_create_product_to_catalog(page: Page):
 
     admin_page = AdminPage(page)
     admin_page.navigate()
-    
 
-
-    # Create a product to later delete
-    product = generate_product_with_prefix(product)
     admin_page.create_product(product)
-    expect(page.get_by_text(product)).to_be_visible()
+    page.wait_for_load_state("networkidle")
+    expect(page.get_by_text(product)).to_be_visible
 
     
 
@@ -46,8 +43,8 @@ def test_delete_product_from_catalog(page: Page):
     pass
     # complete code
    # Given I am an admin user
-    username = ADMIN_USERNAME
-    password = ADMIN_PASSWORD
+    username = "admin"
+    password = "admin"
     product = generate_product_with_prefix("product")
 
     # Login as admin
