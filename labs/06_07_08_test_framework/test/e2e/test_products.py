@@ -7,16 +7,6 @@ from models.api.user import UserAPI
 import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "1234")
-
-def setup():
-    try:
-        user_api = UserAPI(BACKEND_URL)
-        user_api.signup(ADMIN_USERNAME, ADMIN_PASSWORD)
-    except:
-        print("Admin already exist.")
-
 
 def _admin_api():
     api = AdminAPI(BACKEND_URL)
@@ -27,17 +17,12 @@ def _admin_api():
 
 def test_add_product_to_catalog(page: Page):
    
-    setup()
     api = _admin_api()
     
-
     home_page = HomePage(page)
     admin_page = AdminPage(page)
     user_api = UserAPI(BACKEND_URL)
     product = generate_product_string_with_prefix()
-    
- 
-
   
     response = user_api.login(ADMIN_USERNAME, ADMIN_PASSWORD)
     token = user_api.token
