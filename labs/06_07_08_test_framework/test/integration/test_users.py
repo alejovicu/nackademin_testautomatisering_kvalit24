@@ -2,6 +2,7 @@ import requests
 import libs.utils
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+from test._seed_admin import ensure_admin
 
 import os
 
@@ -40,6 +41,8 @@ def test_login():
     token = login_api_response.json().get("access_token")
     user_api.token = token
 
+    ensure_admin()
+
     # Create a product as admin
     admin_api = AdminAPI(BASE_URL)
     admin_api.login("admin", "1234")
@@ -47,9 +50,9 @@ def test_login():
     admin_api.create_product(product_name)
 
     # Add product to user
-    add_respponse = user_api.add_product_to_user(product_name)
-    assert add_respponse is not None
-    assert add_respponse.status_code in (200, 201)
+    add_response = user_api.add_product_to_user(product_name)
+    assert add_response is not None
+    assert add_response.status_code in (200, 201)
 
     # Then I should see all my products
     headers = {"Authorization": f"Bearer {token}"}
