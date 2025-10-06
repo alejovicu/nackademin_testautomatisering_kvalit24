@@ -4,6 +4,7 @@ from models.api.user import UserAPI
 import requests
 import os
 
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def _admin_api():
     api = AdminAPI(BACKEND_URL)
