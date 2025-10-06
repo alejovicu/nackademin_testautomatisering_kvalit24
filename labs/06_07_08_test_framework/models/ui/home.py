@@ -1,5 +1,6 @@
 # Landing page where the users could either login or
 # navigate to signup
+import os
 
 class HomePage:
     def __init__(self, page):
@@ -11,10 +12,11 @@ class HomePage:
         self.login_btn_login = page.locator('button.button-primary') # Locator för Login-knappen via CSS (button.button-primary).
         self.login_label_have_account = page.get_by_text("Don't have an account?") # Locator för en textetikett på sidan — kan användas som “är sidan rätt?”-check.
         self.login_btn_signup = page.locator('#signup') # Locator för Sign up-knappen via id (#signup).
+        self.base_url = os.getenv("FRONTEND_URL", "http://localhost")
 
     # Öpnnar appen i webbläsaren. Används i början av testet för att komma till startsidan.
     def navigate(self):
-        self.page.goto("FRONTEND_URL","http://localhost:5173/")
+        self.page.goto(self.base_url)
 
 
     def login(self,username,password):
