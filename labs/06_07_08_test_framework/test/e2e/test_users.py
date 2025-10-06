@@ -8,6 +8,8 @@ import libs.utils
 import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+USER_USERNAME = ("USER_USERNAME", "user2")
+USER_PASSWORD  = os.getenv("USER_PASSWORD", "5678")
 
 def test_signup(page: Page):
     username = libs.utils.generate_string_with_prefix()
@@ -45,8 +47,8 @@ def test_signup(page: Page):
 
 
 def test_login_auth_user(page: Page):
-    username = "user1"
-    password = "1234"
+    username = "user2"
+    password = "5678"
 
     home_page = HomePage(page)
     user_page = UserPage(username, page)

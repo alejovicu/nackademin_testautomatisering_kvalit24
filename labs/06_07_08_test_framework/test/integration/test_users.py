@@ -3,7 +3,7 @@ import libs.utils
 from models.api.user import UserAPI
 import os
 
-VITE_BACKEND_URL = os.getenv("VITE_BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 def test_signup():
     username = libs.utils.generate_string_with_prefix()
