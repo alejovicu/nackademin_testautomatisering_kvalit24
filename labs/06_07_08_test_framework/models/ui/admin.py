@@ -61,7 +61,7 @@ class AdminPage:
             if text.startswith(product):
                 
                 self.page.locator(".product-item > .product-item-button").nth(i).click()
-                self.page.wait_for_timeout(1000)  # wait for 1 second to ensure
+                #self.page.wait_for_timeout(1000)  # wait for 1 second to ensure
                 break
         
         

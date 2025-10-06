@@ -30,9 +30,9 @@ class UserPage:
     def add_product_to_user(self, product_name):
         # complete code
         self.page.get_by_role("button", name=f"Add {product_name}").click()
-        self.page.wait_for_timeout(1000)  # wait for 1 second to ensure
+        #self.page.wait_for_timeout(1000)  # wait for 1 second to ensure
 
     def remove_product_from_user(self, product_name):
         # complete code
         self.page.get_by_role("button", name=f"Remove {product_name}").click()
-        self.page.wait_for_timeout(1000)  # wait for 1 second to ensure
+        #self.page.wait_for_timeout(1000)  # wait for 1 second to ensure
