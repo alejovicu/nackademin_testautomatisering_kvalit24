@@ -80,3 +80,8 @@ class UserAPI:
         resp = requests.get(f"{self.base_url}/user", headers=self._auth_headers())
         resp.raise_for_status()
         return resp.json()
+    
+    def signup_admin(self, username, password):
+        body = {"username": username, "password": password}
+        response = requests.post(f"{self.base_url}/signup", json=body)
+        return response

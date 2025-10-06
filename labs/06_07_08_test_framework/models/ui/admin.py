@@ -1,7 +1,7 @@
 # View  where the admin user can manage the products
 # that are in the Product Catalog to be used
 # by all the users
-
+from playwright.sync_api import expect
 
 class AdminPage:
     def __init__(self, page):
@@ -28,7 +28,10 @@ class AdminPage:
     def create_product(self, product_name):
         self.input_product_name.fill(product_name)
         self.btn_create_product.click()
+        self.page.wait_for_load_state("networkidle")
+        expect(self.page.get_by_text(product_name)).to_be_enabled()
 
     def delete_product_by_name(self,product_name):
         row = self.rows.filter(has_text=product_name).first
         row.locator(".product-item-button").click()
+        self.page.wait_for_load_state("networkidle")

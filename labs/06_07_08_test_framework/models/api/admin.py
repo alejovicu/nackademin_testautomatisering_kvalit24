@@ -10,6 +10,11 @@ class AdminAPI:
         if self.token: # kollar om vi har token, dvs om vi loggat in.
             return {"Authorization": f"Bearer {self.token}"} # om vi är inloggade returneras en header-dict med authorization.
         return {} # om vi inte är inloggade returneras en tom dict
+    
+    def signup_admin(self, username, password):
+        body = {"username": username, "password": password}
+        response = requests.post(f"{self.base_url}/signup", json=body)
+        return response
 
     def login(self, username: str, password: str):
         resp = requests.post(f"{self.base_url}/login", json={"username": username, "password": password})

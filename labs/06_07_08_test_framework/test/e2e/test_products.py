@@ -4,6 +4,7 @@ from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 import libs.utils
 import os
+import time
 
 ADMIN_USER = os.getenv("ADMIN_USERNAME", "nahom_admin")
 ADMIN_PASS = os.getenv("ADMIN_PASSWORD", "1234")
@@ -32,14 +33,16 @@ def test_add_product_to_catalog(page: Page):
     admin.create_product(product_name)
 
     
-    expect(admin.rows.filter(has_text=product_name).first).to_be_visible()
-    assert admin.get_current_product_count() == product_count + 1
+    is_added = False
+    for attempt in range(3):
+        if admin.get_current_product_count() == product_count + 1 :
+            is_added= True
+            break
+        else:
+            print("Product not added yet.")
+            time.sleep(1)
 
-    # Städa, ta bort den skapade produkten.
-    admin.delete_product_by_name(product_name)
-    assert admin.get_current_product_count() == product_count
-
-
+    assert is_added, "Product was not added"
 
 
 
@@ -54,13 +57,26 @@ def test_remove_product_from_catalog(page: Page):
 
     home.login(ADMIN_USER, ADMIN_PASS)
 
-    product_count = admin.get_current_product_count()
 
     product_name = libs.utils.generate_string_with_prefix("prod")
     admin.create_product(product_name)
-
+    time.sleep(1)
+    product_count = admin.get_current_product_count()
     admin.delete_product_by_name(product_name)
-    assert admin.get_current_product_count() == product_count
+    expect(page.get_by_text(product_name)).to_be_hidden()
+    
+    is_deleted = False
+    for attempt in range(3):
+        current_prod_count = admin.get_current_product_count()
+        expected_prod_count = product_count - 1
+        if current_prod_count == expected_prod_count:
+            is_deleted= True
+            break
+        else:
+            print(f"Product not deleted yet. current_prod_count: {current_prod_count} expected_prod_count: {expected_prod_count}")
+            time.sleep(1)
 
+    assert is_deleted, "Product was not deleted"
+  
 
     
