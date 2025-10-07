@@ -5,10 +5,11 @@ BASE = os.environ.get("BACKEND_URL", "http://localhost:8000")
 
 # log in as admin
 login_resp = requests.post(f"{BASE}/login", json={"username": "admin", "password": "admin1234"})
-login_resp.raise_for_status()
-token = login_resp.json()["access_token"]
+
+
 
 if login_resp.ok:
+    token = login_resp.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
     product_resp = requests.get(f"{BASE}/products", headers=headers)
     products = product_resp.json()
