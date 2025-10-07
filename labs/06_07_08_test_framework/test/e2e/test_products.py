@@ -2,6 +2,10 @@ from playwright.sync_api import Page, expect
 from models.ui.home import HomePage
 from models.ui.admin import AdminPage
 import requests
+import os
+
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000")
+
 
 # Given I am an admin user​
 # When I add a product to the catalog​
@@ -11,11 +15,9 @@ def test_add_product_to_catalog(page: Page):
     admin_page = AdminPage(page)
     product = "mobil"
 
-    login_url = "http://localhost:8000/login"
-    response = requests.post(login_url, json={
-        "username": "admin1",
-        "password": "1234"
-    })
+    response = requests.post(
+        f"{BACKEND_URL}/login", json={"username": "admin1", "password": "1234"}
+    )
     response.raise_for_status()
     jwt = response.json()["access_token"]
 
@@ -32,6 +34,7 @@ def test_add_product_to_catalog(page: Page):
     # Then The product is available to be used in the app
     expect(admin_page.products).to_have_count(before_new_product + 1)
 
+
 # Given I am an admin user​
 # When I remove a product from the catalog​
 # Then The product should not be listed in the app to be used
@@ -39,11 +42,9 @@ def test_remove_product_from_catalog(page: Page):
     home_page = HomePage(page)
     admin_page = AdminPage(page)
     product = "mobil"
-    login_url = "http://localhost:8000/login"
-    response = requests.post(login_url, json={
-        "username": "admin1",
-        "password": "1234"
-    })
+    response = requests.post(
+        f"{BACKEND_URL}/login", json={"username": "admin1", "password": "1234"}
+    )
     response.raise_for_status()
     jwt = response.json()["access_token"]
 
