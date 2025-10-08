@@ -29,6 +29,7 @@ def test_add_product_to_catalog(page: Page):
     # Step 4: Assert product count increased
     count_after = admin_page.get_current_product_count()
     assert count_after == count_before + 1
+    admin_page.delete_product_by_name(product_name)
 
 
 # Given I am an admin user​
