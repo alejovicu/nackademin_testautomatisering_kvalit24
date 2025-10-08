@@ -15,6 +15,7 @@ def test_add_product_to_catalog(page: Page):
     # Step 1: Login as admin
     home_page = HomePage(page)
     home_page.navigate()
+
     home_page.login("admin", "admin")
 
     # Step 2: Go to admin page
@@ -22,7 +23,7 @@ def test_add_product_to_catalog(page: Page):
 
     # Step 3: Create a unique product
     product_name = libs.utils.generate_string_with_prefix("test_product")
-    # expect(admin_page.product_lists.first).to_be_visible()
+    expect(admin_page.product_lists.first).to_be_visible()
     count_before = admin_page.get_current_product_count()
     admin_page.create_product(product_name)
 
