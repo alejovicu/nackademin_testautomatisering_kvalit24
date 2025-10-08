@@ -1,98 +1,317 @@
 {
 	"info": {
-		"_postman_id": "b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171",
-		"name": "nackademin-app",
-		"description": "|  |  |\n| --- | --- |\n|  |  |",
+		"_postman_id": "516254c8-c6a3-4ab4-b688-b1d6f2fcabf7",
+		"name": "nackademin_app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2980405",
-		"_collection_link": "https://nackademin-testautomation-24.postman.co/workspace/eb1d397c-a9ac-4e07-b498-24360914bfba/collection/2980405-b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171?action=share&source=collection_link&creator=2980405"
+		"_exporter_id": "40934769"
 	},
 	"item": [
 		{
-			"name": "signup",
-			"event": [
+			"name": "QA",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"// Function to generate a random username\r",
-							"function generateUsername(length) {\r",
-							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';\r",
-							"    let username = '';\r",
-							"    for (let i = 0; i < length; i++) {\r",
-							"        username += chars.charAt(Math.floor(Math.random() * chars.length));\r",
-							"    }\r",
-							"    return username;\r",
-							"}\r",
-							"\r",
-							"// Generate a 10-character username\r",
-							"let username = generateUsername(10);\r",
-							"\r",
-							"// Store it in an environment variable\r",
-							"pm.environment.set(\"username\", username);\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Parse the JSON response body\r",
-							"let responseJson = pm.response.json();\r",
-							"\r",
-							"\r",
-							"// Validate that ID is a number\r",
-							"pm.test(\"ID is a number\", function() {\r",
-							"    pm.expect(responseJson.id).to.be.a('number');\r",
-							"});\r",
-							"\r",
-							"// Validate that username is a string\r",
-							"pm.test(\"Username is a string\", function() {\r",
-							"    pm.expect(responseJson.username).to.be.a('string');\r",
-							"});\r",
-							"\r",
-							"// Validate that products is an array\r",
-							"pm.test(\"Products is an array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array');\r",
-							"});\r",
-							"\r",
-							"// Validate that products array is empty\r",
-							"pm.test(\"Products is an empty array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array').that.is.empty;\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"1234\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "Login_qa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Kör bara om inloggningen lyckas\r",
+									"pm.test(\"Login responded\", () => pm.response.code > 0);\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"  let data;\r",
+									"  try { data = pm.response.json(); } catch (e) { data = {}; }\r",
+									"\r",
+									"  // Stöd både access_token/token/jwt\r",
+									"  const tok = data.access_token || data.token || data.jwt;\r",
+									"\r",
+									"  // Sätt token i environment\r",
+									"  if (tok) {\r",
+									"    pm.environment.set(\"token\", tok);\r",
+									"  } else {\r",
+									"    pm.environment.unset(\"token\");\r",
+									"  }\r",
+									"\r",
+									"  // Tester\r",
+									"  pm.test(\"Token was received\", () => pm.expect(pm.environment.get(\"token\")).to.exist);\r",
+									"} else {\r",
+									"  // Misslyckad login → ta bort ev. gammal token så vi inte luras\r",
+									"  pm.environment.unset(\"token\");\r",
+									"  pm.test(`Login failed (${pm.response.code})`, () => pm.expect.fail(`Status ${pm.response.code}`));\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "{{backend.env}}/signup",
-					"host": [
-						"{{backend.env}}"
 					],
-					"path": [
-						"signup"
-					]
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin_qa\",\r\n  \"password\": \"pass_5678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Poducts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Created\", () => pm.response.code === 201 || pm.response.code === 200);\r",
+									"if (pm.response.code === 200 || pm.response.code === 201) {\r",
+									"  const p = pm.response.json();\r",
+									"  pm.environment.set(\"lastProductId\", p.id);\r",
+									"  pm.test(\"Has id\", () => pm.expect(p.id).to.exist);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"choklad\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "DEV",
+			"item": [
+				{
+					"name": "login_dev",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Kör bara om inloggningen lyckas\r",
+									"pm.test(\"Login responded\", () => pm.response.code > 0);\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"  let data;\r",
+									"  try { data = pm.response.json(); } catch (e) { data = {}; }\r",
+									"\r",
+									"  // Stöd både access_token/token/jwt\r",
+									"  const tok = data.access_token || data.token || data.jwt;\r",
+									"\r",
+									"  // Sätt token i environment\r",
+									"  if (tok) {\r",
+									"    pm.environment.set(\"token\", tok);\r",
+									"  } else {\r",
+									"    pm.environment.unset(\"token\");\r",
+									"  }\r",
+									"\r",
+									"  // Tester\r",
+									"  pm.test(\"Token was received\", () => pm.expect(pm.environment.get(\"token\")).to.exist);\r",
+									"} else {\r",
+									"  // Misslyckad login → ta bort ev. gammal token så vi inte luras\r",
+									"  pm.environment.unset(\"token\");\r",
+									"  pm.test(`Login failed (${pm.response.code})`, () => pm.expect.fail(`Status ${pm.response.code}`));\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin_dev\",\r\n  \"password\": \"pass_1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Playstation\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
