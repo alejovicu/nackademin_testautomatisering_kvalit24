@@ -5,6 +5,7 @@ def generate_string_with_prefix(prefix: str = "user", length: int = 8) -> str:
     """
     Generate a string with a configurable prefix and a random string.
 
+    
     Args:
         prefix (str): The prefix for the username (default: "user").
         length (int): Length of the random string to append (default: 8).
