@@ -1,98 +1,260 @@
 {
 	"info": {
-		"_postman_id": "b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171",
-		"name": "nackademin-app",
-		"description": "|  |  |\n| --- | --- |\n|  |  |",
+		"_postman_id": "5f511ff0-b008-4b00-96d4-7cb957f36a89",
+		"name": "Nackademin App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2980405",
-		"_collection_link": "https://nackademin-testautomation-24.postman.co/workspace/eb1d397c-a9ac-4e07-b498-24360914bfba/collection/2980405-b2e4a5f8-068c-4d6c-bc2b-97fd5a2bb171?action=share&source=collection_link&creator=2980405"
+		"_exporter_id": "48148756"
 	},
 	"item": [
 		{
-			"name": "signup",
-			"event": [
+			"name": "Users",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"// Function to generate a random username\r",
-							"function generateUsername(length) {\r",
-							"    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';\r",
-							"    let username = '';\r",
-							"    for (let i = 0; i < length; i++) {\r",
-							"        username += chars.charAt(Math.floor(Math.random() * chars.length));\r",
-							"    }\r",
-							"    return username;\r",
-							"}\r",
-							"\r",
-							"// Generate a 10-character username\r",
-							"let username = generateUsername(10);\r",
-							"\r",
-							"// Store it in an environment variable\r",
-							"pm.environment.set(\"username\", username);\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Parse the JSON response body\r",
-							"let responseJson = pm.response.json();\r",
-							"\r",
-							"\r",
-							"// Validate that ID is a number\r",
-							"pm.test(\"ID is a number\", function() {\r",
-							"    pm.expect(responseJson.id).to.be.a('number');\r",
-							"});\r",
-							"\r",
-							"// Validate that username is a string\r",
-							"pm.test(\"Username is a string\", function() {\r",
-							"    pm.expect(responseJson.username).to.be.a('string');\r",
-							"});\r",
-							"\r",
-							"// Validate that products is an array\r",
-							"pm.test(\"Products is an array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array');\r",
-							"});\r",
-							"\r",
-							"// Validate that products array is empty\r",
-							"pm.test(\"Products is an empty array\", function() {\r",
-							"    pm.expect(responseJson.products).to.be.an('array').that.is.empty;\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"1234\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"200 OK\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"let body = {};\r",
+									"try { body = pm.response.json(); } catch(e) { body = {}; }\r",
+									"const token = body.access_token || body.token || body.jwt;\r",
+									"pm.test(\"Has token\", function () {\r",
+									"  pm.expect(token).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"pm.expect(token.length).to.be.greaterThan(10); // sanity check length\r",
+									"pm.environment.set(\"TOKEN\", token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "{{backend.env}}/signup",
-					"host": [
-						"{{backend.env}}"
 					],
-					"path": [
-						"signup"
-					]
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"username\": \"{{USERNAME}}\", \"password\": \"{{PASSWORD}}\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"200 OK\", () => pm.response.to.have.status(200));\r",
+									"const u = pm.response.json();\r",
+									"const list = u.products;\r",
+									"pm.test(\"Has product list (array)\", () => pm.expect(list).to.be.an(\"array\"));\r",
+									"pm.environment.set(\"products_count_before\", list.length);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/user",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Product Catalog",
+			"item": [
+				{
+					"name": "Create products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Creating a product in the catalog should succeed\r",
+									"pm.test(\"Created (200/201)\", () => pm.expect([200,201]).to.include(pm.response.code));\r",
+									"\r",
+									"// Parse response body\r",
+									"const p = pm.response.json();\r",
+									"\r",
+									"//Capture product info for next step\r",
+									"pm.environment.set(\"created_product_id\", p.id);\r",
+									"pm.environment.set(\"created_product_name\", p.name);\r",
+									"\r",
+									"//Basic shape checks\r",
+									"pm.test(\"Product has id\", () => pm.expect(pm.environment.get(\"created_product_id\")).to.exist);\r",
+									"pm.test(\"Product has name\", () => pm.expect(pm.environment.get(\"created_product_name\")).to.be.a(\"string\"));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"200 OK\", () => pm.response.to.have.status(200));\r",
+									"\r",
+									"const list = pm.response.json();\r",
+									"pm.test(\"Catalog is an array\", () => pm.expect(list).to.be.an(\"array\"));\r",
+									"\r",
+									"const createdName = pm.environment.get(\"created_product_name\");\r",
+									"const createdId   = pm.environment.get(\"created_product_id\");\r",
+									"\r",
+									"//Verify that the newly created product is available in the app (present in the catalog)\r",
+									"const found = list.some(x =>\r",
+									"  (createdId   && (x.id == createdId || x.product_id == createdId || x.guid == createdId)) ||\r",
+									"  (createdName && (x.name === createdName || x.title === createdName))\r",
+									");\r",
+									"\r",
+									"pm.test(\"New product is available in the app (present in catalog)\", () => pm.expect(found).to.be.true);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
