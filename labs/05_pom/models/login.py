@@ -1,14 +1,14 @@
-# Implement PO for login
-# 2 inputs and 1 button
-# Naming example:  input_username
+from playwright.sync_api import Page, expect
 
 class LoginPage:
-    def __init__(self, page):
+    def __init__(self, page: Page):
         self.page = page
-        #self.input_username = page.locator(??)
-        #self.input_password = page.locator(??)
-        #self.button_login = page.locator(??)
-        self.button_signup = page.locator("#signup")
+        self.base_url = "http://localhost:5173/"
 
-    def navigate_to_signup(self):
-        self.button_signup.click()
+    def navigate(self):
+        self.page.goto(self.base_url, wait_until="networkidle")
+
+    def login_user(self, username: str, password: str):
+        self.page.get_by_role("textbox", name="Username").fill(username)
+        self.page.get_by_role("textbox", name="Password").fill(password)
+        self.page.get_by_role("button", name="Login").click()
