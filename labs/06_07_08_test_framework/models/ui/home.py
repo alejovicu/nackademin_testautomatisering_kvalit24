@@ -23,4 +23,7 @@ class HomePage:
         self.login_btn_login.click()
 
     def go_to_signup(self):
-        # complete code
+        # Click the "Sign Up" button/link
+        self.login_btn_signup.click()
+        # Wait until the signup view is rendered (button "Login" appears)
+        self.page.get_by_role("button", name="Login").wait_for(state="visible")

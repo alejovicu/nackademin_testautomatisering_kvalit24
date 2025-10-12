@@ -1,19 +1,37 @@
-from playwright.sync_api import Page
-from models.login import LoginPage
-# complete imports
-
+from playwright.sync_api import Page, expect
+from models.ui.home import HomePage
+from models.ui.signup import SignupPage
+from facade.users import UsersFacade
 import libs.utils
 
+# Inline helper (no wait_for_response needed)
+def _assert_logged_in(page: Page, timeout_ms: int = 10000):
+    # 1) token persisted in localStorage
+    page.wait_for_function("() => !!window.localStorage.getItem('token')", timeout=timeout_ms)
+    # 2) UI signal: Logout button visible
+    expect(page.get_by_role("button", name="Logout")).to_be_visible()
 
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
 def test_signup(page: Page):
-    # complete code
+    username = libs.utils.generate_string_with_prefix(prefix="user")
+    password = "pass123"
 
+    home = HomePage(page)
+    signup = SignupPage(page)
 
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
-def test_signup(page: Page):
-    # complete code
+    home.navigate()
+    home.go_to_signup()
+
+    signup.signup(username, password)
+    signup.go_to_home()
+
+    home.login(username, password)
+    _assert_logged_in(page)
+
+    expect(page.get_by_text("Your Products:")).to_be_visible()
+
+def test_signup_auth(page: Page):
+    facade = UsersFacade(page)
+    username, password = facade.login_as_new_user()
+    _assert_logged_in(page)
+
+    expect(page.get_by_text("Your Products:")).to_be_visible()
