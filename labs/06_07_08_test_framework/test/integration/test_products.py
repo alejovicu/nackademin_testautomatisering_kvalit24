@@ -40,7 +40,7 @@ def test_remove_product_from_catalog():
     BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000/"
                             )
     admin_username = "test_admin"
-    admin_password = "1234"
+    admin_password = "test1234"
 
     user_api = UserAPI(BACKEND_URL)
     login_response = user_api.login(admin_username, admin_password)
