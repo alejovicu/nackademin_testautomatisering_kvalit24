@@ -26,8 +26,8 @@ def test_signup():
 
 def test_login():
     # Given I am an authenticated user​
-    username = "test_user"
-    password = "test_password"
+    username = "test_admin"
+    password = "test1234"
 
     user_api = UserAPI(BACKEND_URL)
 
