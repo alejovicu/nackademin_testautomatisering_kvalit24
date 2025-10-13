@@ -4,12 +4,10 @@ from playwright.sync_api import Page, expect
 import os, time, requests
 from models.ui.admin import AdminPage
 import re
-
-APP_URL = os.getenv("APP_FRONT_URL", "http://localhost:5173")
-BACK_URL = os.getenv("APP_BACK_URL", "http://localhost:8000")
+from config import FRONTEND_URL, BACKEND_URL
 
 def _api_login(username: str, password: str) -> str:
-    resp = requests.post(f"{BACK_URL}/login", json={"username": username, "password": password})
+    resp = requests.post(f"{BACKEND_URL}/login", json={"username": username, "password": password})
     resp.raise_for_status()
     token = resp.json().get("access_token")
     assert token, "No access_token in login response"
@@ -19,7 +17,7 @@ def _open_as_admin(page: Page):
     # Login via API and inject token before first navigation
     token = _api_login("admin", "admin123")
     page.add_init_script(f"window.localStorage.setItem('token', '{token}');")
-    page.goto(APP_URL)
+    page.goto(FRONTEND_URL)
     # sanity: we should not be on /login
     expect(page).not_to_have_url(re.compile(r"/login\b"))
     return token

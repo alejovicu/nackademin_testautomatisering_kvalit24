@@ -53,7 +53,7 @@ class UserAPI:
 
         # add by id
         body = {"productId": target["id"]}
-        resp = self.session.post(self._url("/user/products"), json=body, headers=self._headers())
+        resp = self.session.post(self._url("/user/product"), json=body, headers=self._headers())
         return resp
 
     def remove_product_from_user(self, product_name: str) -> requests.Response:
@@ -73,5 +73,5 @@ class UserAPI:
         pid = target["id"]
 
         # 3) delete
-        resp = self.session.delete(self._url(f"/user/products/{pid}"), headers=self._headers())
+        resp = self.session.delete(self._url(f"/user/product/{pid}"), headers=self._headers())
         return resp

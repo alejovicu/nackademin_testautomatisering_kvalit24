@@ -24,7 +24,7 @@ class AdminAPI:
     # -------- CREATE (return Response) --------
     def create_product(self, product_name: str) -> requests.Response:
         body = {"name": product_name}
-        resp = self.session.post(self._url("/products"), json=body, headers=self._headers())
+        resp = self.session.post(self._url("/product"), json=body, headers=self._headers())
         return resp  # test kollar .status_code och ev. .json()
 
     # -------- DELETE (return Response) --------
