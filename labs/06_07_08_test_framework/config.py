@@ -61,6 +61,6 @@ def setup_new_user():
         print("There was an error adding the product to the user.")
 
 
-if name == "main":
+if __name__ == "__main__":
     setup_admin()
     setup_new_user()
