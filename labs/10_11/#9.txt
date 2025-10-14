@@ -1,0 +1,198 @@
+Started by user Saga
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/lab-ci
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clean + Checkout)
+[Pipeline] deleteDir
+[Pipeline] sh
+[2025-10-14T01:27:13.446Z] + set -eux
+[2025-10-14T01:27:13.446Z] + git clone --depth 1 -b lab_10-14_saga_andersson https://github.com/sagansagan/nackademin_testautomatisering_kvalit24.git .
+[2025-10-14T01:27:13.446Z] Cloning into '.'...
+[2025-10-14T01:27:14.360Z] + ls
+[2025-10-14T01:27:14.361Z] README.md
+[2025-10-14T01:27:14.361Z] application
+[2025-10-14T01:27:14.361Z] labs
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run tests)
+[Pipeline] dir
+[2025-10-14T01:27:14.750Z] Running in /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework
+[Pipeline] {
+[Pipeline] sh
+[2025-10-14T01:27:15.138Z] + set -eux
+[2025-10-14T01:27:15.138Z] + [ -d /var/jenkins_home/.venv ]
+[2025-10-14T01:27:15.139Z] + . /var/jenkins_home/.venv/bin/activate
+[2025-10-14T01:27:15.139Z] + deactivate nondestructive
+[2025-10-14T01:27:15.139Z] + [ -n  ]
+[2025-10-14T01:27:15.139Z] + [ -n  ]
+[2025-10-14T01:27:15.139Z] + [ -n  -o -n  ]
+[2025-10-14T01:27:15.139Z] + [ -n  ]
+[2025-10-14T01:27:15.139Z] + unset VIRTUAL_ENV
+[2025-10-14T01:27:15.139Z] + unset VIRTUAL_ENV_PROMPT
+[2025-10-14T01:27:15.139Z] + [ ! nondestructive = nondestructive ]
+[2025-10-14T01:27:15.139Z] + VIRTUAL_ENV=/var/jenkins_home/.venv
+[2025-10-14T01:27:15.139Z] + export VIRTUAL_ENV
+[2025-10-14T01:27:15.139Z] + _OLD_VIRTUAL_PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2025-10-14T01:27:15.139Z] + PATH=/var/jenkins_home/.venv/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2025-10-14T01:27:15.139Z] + export PATH
+[2025-10-14T01:27:15.139Z] + [ -n  ]
+[2025-10-14T01:27:15.139Z] + [ -z  ]
+[2025-10-14T01:27:15.139Z] + _OLD_VIRTUAL_PS1=$ 
+[2025-10-14T01:27:15.139Z] + PS1=(.venv) $ 
+[2025-10-14T01:27:15.140Z] + export PS1
+[2025-10-14T01:27:15.140Z] + VIRTUAL_ENV_PROMPT=(.venv) 
+[2025-10-14T01:27:15.140Z] + export VIRTUAL_ENV_PROMPT
+[2025-10-14T01:27:15.140Z] + [ -n  -o -n  ]
+[2025-10-14T01:27:15.140Z] + export BACKEND_URL=http://app-backend:8000
+[2025-10-14T01:27:15.140Z] + export FRONTEND_URL=http://app-frontend:5173
+[2025-10-14T01:27:15.140Z] + [ -f config.py ]
+[2025-10-14T01:27:15.140Z] + echo config.py found. Running...
+[2025-10-14T01:27:15.140Z] config.py found. Running...
+[2025-10-14T01:27:15.140Z] + python config.py
+[2025-10-14T01:27:15.140Z] + mkdir -p logs
+[2025-10-14T01:27:15.141Z] + pytest -v -s test/integration --junitxml=logs/junit-integration.xml --html=logs/report-integration.html --self-contained-html
+[2025-10-14T01:27:16.490Z] ============================= test session starts ==============================
+[2025-10-14T01:27:16.490Z] platform linux -- Python 3.11.2, pytest-8.4.2, pluggy-1.6.0 -- /var/jenkins_home/.venv/bin/python3
+[2025-10-14T01:27:16.490Z] cachedir: .pytest_cache
+[2025-10-14T01:27:16.490Z] metadata: {'Python': '3.11.2', 'Platform': 'Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.36', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'html': '4.1.1', 'base-url': '2.1.0', 'metadata': '3.1.1', 'playwright': '0.7.0', 'anyio': '4.11.0'}, 'CI': 'true', 'BUILD_NUMBER': '9', 'BUILD_ID': '9', 'BUILD_URL': 'http://localhost:8080/job/lab-ci/9/', 'NODE_NAME': 'built-in', 'JOB_NAME': 'lab-ci', 'BUILD_TAG': 'jenkins-lab-ci-9', 'EXECUTOR_NUMBER': '1', 'JENKINS_URL': 'http://localhost:8080/', 'JAVA_HOME': '/opt/java/openjdk', 'WORKSPACE': '/var/jenkins_home/workspace/lab-ci', 'GIT_BRANCH': 'lab_10-14_saga_andersson', 'Base URL': ''}
+[2025-10-14T01:27:16.490Z] rootdir: /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework
+[2025-10-14T01:27:16.490Z] plugins: html-4.1.1, base-url-2.1.0, metadata-3.1.1, playwright-0.7.0, anyio-4.11.0
+[2025-10-14T01:27:16.490Z] collecting ... collected 4 items
+[2025-10-14T01:27:16.490Z] 
+[2025-10-14T01:27:17.043Z] test/integration/test_products.py::test_add_product_to_catalog PASSED
+[2025-10-14T01:27:17.295Z] test/integration/test_products.py::test_remove_product_from_catalog PASSED
+[2025-10-14T01:27:17.847Z] test/integration/test_users.py::test_signup PASSED
+[2025-10-14T01:27:18.350Z] test/integration/test_users.py::test_login PASSED
+[2025-10-14T01:27:18.350Z] 
+[2025-10-14T01:27:18.350Z] - generated xml file: /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs/junit-integration.xml -
+[2025-10-14T01:27:18.350Z] - Generated html report: file:///var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs/report-integration.html -
+[2025-10-14T01:27:18.350Z] ============================== 4 passed in 1.82s ===============================
+[2025-10-14T01:27:18.350Z] + playwright install chromium firefox
+[2025-10-14T01:27:19.698Z] + pytest -v -s --browser chromium test/e2e --junitxml=logs/junit-e2e-chromium.xml --html=logs/report-e2e-chromium.html --self-contained-html
+[2025-10-14T01:27:19.950Z] ============================= test session starts ==============================
+[2025-10-14T01:27:19.951Z] platform linux -- Python 3.11.2, pytest-8.4.2, pluggy-1.6.0 -- /var/jenkins_home/.venv/bin/python3
+[2025-10-14T01:27:19.951Z] cachedir: .pytest_cache
+[2025-10-14T01:27:19.951Z] metadata: {'Python': '3.11.2', 'Platform': 'Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.36', 'Packages': {'pytest': '8.4.2', 'pluggy': '1.6.0'}, 'Plugins': {'html': '4.1.1', 'base-url': '2.1.0', 'metadata': '3.1.1', 'playwright': '0.7.0', 'anyio': '4.11.0'}, 'CI': 'true', 'BUILD_NUMBER': '9', 'BUILD_ID': '9', 'BUILD_URL': 'http://localhost:8080/job/lab-ci/9/', 'NODE_NAME': 'built-in', 'JOB_NAME': 'lab-ci', 'BUILD_TAG': 'jenkins-lab-ci-9', 'EXECUTOR_NUMBER': '1', 'JENKINS_URL': 'http://localhost:8080/', 'JAVA_HOME': '/opt/java/openjdk', 'WORKSPACE': '/var/jenkins_home/workspace/lab-ci', 'GIT_BRANCH': 'lab_10-14_saga_andersson', 'Base URL': ''}
+[2025-10-14T01:27:19.951Z] rootdir: /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework
+[2025-10-14T01:27:19.951Z] plugins: html-4.1.1, base-url-2.1.0, metadata-3.1.1, playwright-0.7.0, anyio-4.11.0
+[2025-10-14T01:27:19.951Z] collecting ... collected 4 items
+[2025-10-14T01:27:19.951Z] 
+[2025-10-14T01:27:23.185Z] test/e2e/test_products.py::test_add_product_to_catalog[chromium] PASSED
+[2025-10-14T01:27:24.098Z] test/e2e/test_products.py::test_remove_product_from_catalog[chromium] PASSED
+[2025-10-14T01:27:24.650Z] test/e2e/test_users.py::test_signup[chromium] FAILED
+[2025-10-14T01:27:25.977Z] test/e2e/test_users.py::test_signup_auth[chromium] PASSED
+[2025-10-14T01:27:25.978Z] 
+[2025-10-14T01:27:25.978Z] =================================== FAILURES ===================================
+[2025-10-14T01:27:25.978Z] ____________________________ test_signup[chromium] _____________________________
+[2025-10-14T01:27:25.978Z] 
+[2025-10-14T01:27:25.978Z] page = <Page url='http://app-frontend:5173/'>
+[2025-10-14T01:27:25.978Z] 
+[2025-10-14T01:27:25.978Z]     def test_signup(page: Page):
+[2025-10-14T01:27:25.978Z]         username = libs.utils.generate_string_with_prefix("user")
+[2025-10-14T01:27:25.978Z]         password = "pass123"
+[2025-10-14T01:27:25.978Z]     
+[2025-10-14T01:27:25.978Z]         home = HomePage(page)
+[2025-10-14T01:27:25.978Z]         signup = SignupPage(page)
+[2025-10-14T01:27:25.978Z]     
+[2025-10-14T01:27:25.978Z]         home.navigate()
+[2025-10-14T01:27:25.978Z]         home.go_to_signup()
+[2025-10-14T01:27:25.978Z]         signup.signup(username, password)
+[2025-10-14T01:27:25.978Z]         signup.go_to_home()
+[2025-10-14T01:27:25.978Z]     
+[2025-10-14T01:27:25.978Z]         # Login via API + inject
+[2025-10-14T01:27:25.978Z] >       token = _api_login(username, password)
+[2025-10-14T01:27:25.978Z]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2025-10-14T01:27:25.978Z] 
+[2025-10-14T01:27:25.978Z] test/e2e/test_users.py:53: 
+[2025-10-14T01:27:25.978Z] _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+[2025-10-14T01:27:25.978Z] test/e2e/test_users.py:18: in _api_login
+[2025-10-14T01:27:25.978Z]     r.raise_for_status()
+[2025-10-14T01:27:25.978Z] _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+[2025-10-14T01:27:25.978Z] 
+[2025-10-14T01:27:25.978Z] self = <Response [401]>
+[2025-10-14T01:27:25.978Z] 
+[2025-10-14T01:27:25.978Z]     def raise_for_status(self):
+[2025-10-14T01:27:25.978Z]         """Raises :class:`HTTPError`, if one occurred."""
+[2025-10-14T01:27:25.978Z]     
+[2025-10-14T01:27:25.978Z]         http_error_msg = ""
+[2025-10-14T01:27:25.978Z]         if isinstance(self.reason, bytes):
+[2025-10-14T01:27:25.978Z]             # We attempt to decode utf-8 first because some servers
+[2025-10-14T01:27:25.978Z]             # choose to localize their reason strings. If the string
+[2025-10-14T01:27:25.978Z]             # isn't utf-8, we fall back to iso-8859-1 for all other
+[2025-10-14T01:27:25.978Z]             # encodings. (See PR #3538)
+[2025-10-14T01:27:25.979Z]             try:
+[2025-10-14T01:27:25.979Z]                 reason = self.reason.decode("utf-8")
+[2025-10-14T01:27:25.979Z]             except UnicodeDecodeError:
+[2025-10-14T01:27:25.979Z]                 reason = self.reason.decode("iso-8859-1")
+[2025-10-14T01:27:25.979Z]         else:
+[2025-10-14T01:27:25.979Z]             reason = self.reason
+[2025-10-14T01:27:25.979Z]     
+[2025-10-14T01:27:25.979Z]         if 400 <= self.status_code < 500:
+[2025-10-14T01:27:25.979Z]             http_error_msg = (
+[2025-10-14T01:27:25.979Z]                 f"{self.status_code} Client Error: {reason} for url: {self.url}"
+[2025-10-14T01:27:25.979Z]             )
+[2025-10-14T01:27:25.979Z]     
+[2025-10-14T01:27:25.979Z]         elif 500 <= self.status_code < 600:
+[2025-10-14T01:27:25.979Z]             http_error_msg = (
+[2025-10-14T01:27:25.979Z]                 f"{self.status_code} Server Error: {reason} for url: {self.url}"
+[2025-10-14T01:27:25.979Z]             )
+[2025-10-14T01:27:25.979Z]     
+[2025-10-14T01:27:25.979Z]         if http_error_msg:
+[2025-10-14T01:27:25.979Z] >           raise HTTPError(http_error_msg, response=self)
+[2025-10-14T01:27:25.979Z] E           requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: http://app-backend:8000/login
+[2025-10-14T01:27:25.979Z] 
+[2025-10-14T01:27:25.979Z] ../../../../.venv/lib/python3.11/site-packages/requests/models.py:1026: HTTPError
+[2025-10-14T01:27:25.979Z] - generated xml file: /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs/junit-e2e-chromium.xml -
+[2025-10-14T01:27:25.979Z] - Generated html report: file:///var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs/report-e2e-chromium.html -
+[2025-10-14T01:27:25.979Z] =========================== short test summary info ============================
+[2025-10-14T01:27:25.980Z] FAILED test/e2e/test_users.py::test_signup[chromium] - requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: http://app-backend:8000/login
+[2025-10-14T01:27:25.980Z] ========================= 1 failed, 3 passed in 6.05s ==========================
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] dir
+[2025-10-14T01:27:26.707Z] Running in /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework
+[Pipeline] {
+[Pipeline] junit
+[2025-10-14T01:27:26.793Z] Recording test results
+[2025-10-14T01:27:26.848Z] [Checks API] No suitable checks publisher found.
+[Pipeline] publishHTML
+[2025-10-14T01:27:26.894Z] [htmlpublisher] Archiving HTML reports...
+[2025-10-14T01:27:26.897Z] [htmlpublisher] Archiving at BUILD level /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs to Integration_20HTML_20Report
+[2025-10-14T01:27:26.897Z] [htmlpublisher] Copying recursive using current thread
+[Pipeline] publishHTML
+[2025-10-14T01:27:26.962Z] [htmlpublisher] Archiving HTML reports...
+[2025-10-14T01:27:26.964Z] [htmlpublisher] Archiving at BUILD level /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs to E2E_20Chromium_20HTML_20Report
+[2025-10-14T01:27:26.965Z] [htmlpublisher] Copying recursive using current thread
+[Pipeline] publishHTML
+[2025-10-14T01:27:27.039Z] [htmlpublisher] Archiving HTML reports...
+[2025-10-14T01:27:27.042Z] [htmlpublisher] Archiving at BUILD level /var/jenkins_home/workspace/lab-ci/labs/06_07_08_test_framework/logs to E2E_20Firefox_20HTML_20Report
+[2025-10-14T01:27:27.042Z] [htmlpublisher] Copying recursive using current thread
+[Pipeline] archiveArtifacts
+[2025-10-14T01:27:27.132Z] Archiving artifacts
+[2025-10-14T01:27:27.143Z] Recording fingerprints
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] echo
+[2025-10-14T01:27:27.445Z] Some tests failed. Check the reports.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
