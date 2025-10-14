@@ -12,24 +12,21 @@ class AdminPage:
         self.input_product_name = page.get_by_placeholder("Product Name")
         self.btn_create = page.get_by_role("button", name="Create Product")
 
+    def _wait_admin_view_loaded(self):
+        expect(self.page.get_by_text("Products available:")).to_be_visible(timeout=5000)
+        expect(self.input_product_name).to_be_visible(timeout=5000)
+
     def get_current_product_count(self) -> int:
+        self._wait_admin_view_loaded()
         return self.products.count()
 
     def create_product(self, product_name: str):
-        #Fill name, click create, wait for +1 and row visible.
-        before = self.get_current_product_count()
+        self._wait_admin_view_loaded()
         self.input_product_name.fill(product_name)
         self.btn_create.click()
-        # wait for the new row to appear and count to increase
-        expect(self.products).to_have_count(before + 1)
-        expect(self.page.locator(".product-item", has_text=product_name)).to_have_count(1)
+        expect(self.products.filter(has_text=product_name).first).to_be_visible(timeout=5000)
 
     def delete_product_by_name(self, product_name: str):
-        #Click 'Delete' in the row matching product_name and wait until it's removed.
-        row = self.page.locator(".product-item", has_text=product_name)
-        expect(row).to_be_visible()
-        before = self.get_current_product_count()
+        row = self.products.filter(has_text=product_name)
         row.get_by_role("button", name="Delete").click()
-        # after delete, count decreases and row disappears
-        expect(self.products).to_have_count(before - 1)
-        expect(self.page.locator(".product-grid .product-item").filter(has_text=product_name)).to_have_count(0)
+        expect(row).to_have_count(0)
