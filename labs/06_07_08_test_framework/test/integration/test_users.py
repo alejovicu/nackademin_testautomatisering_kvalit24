@@ -1,31 +1,26 @@
-from playwright.sync_api import Page
-# complete imports
-import libs.utils
 from models.api.user import UserAPI
+from models.api.admin import AdminAPI
+import os, time
+from config import BACKEND_URL
 
-
-# Given I am a new potential customer​
-# When I signup in the app​
-# Then I should be able to log in with my new user
 def test_signup():
-    # Given I am a new potential customer​
-    username = libs.utils.generate_string_with_prefix()
-    password = "test_1234?"
+    user_api = UserAPI(BACKEND_URL)
+    username = f"user_{int(time.time())}"
+    password = "pass123"
 
-    user_api = UserAPI('http://localhost:8000')
+    # signup + login
+    user_api.session.post(f"{BACKEND_URL}/signup", json={"username": username, "password": password})
+    token = user_api.login(username, password)
+    assert token and isinstance(token, str)
 
-    # When I signup in the app​
-    signup_api_response = user_api.signup(username,password)
-    assert signup_api_response.status_code == 200
-
-    # Then I should be able to log in with my new user
-    login_api_response = user_api.login(username,password)
-    assert login_api_response.status_code == 200
-
-
-# Given I am an authenticated user​
-# When I log in into the application​
-# Then I should see all my products
 def test_login():
-    # complete code
-    pass
+    user_api = UserAPI(BACKEND_URL)
+    username, password = "admin", "admin123"
+    user_api.session.post(f"{BACKEND_URL}/signup", json={"username": username, "password": password})
+    token = user_api.login(username, password)
+
+    admin_api = AdminAPI(BACKEND_URL, token=token)
+    products = admin_api.get_product_list()
+    count = admin_api.get_current_product_count()
+    assert isinstance(products, list)
+    assert count == len(products)

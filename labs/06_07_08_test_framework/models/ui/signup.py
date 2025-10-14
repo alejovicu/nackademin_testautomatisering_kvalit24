@@ -16,4 +16,13 @@ class SignupPage:
         self.signup_btn_signup.click()
 
     def go_to_home(self):
-        # complete code
+        # Click the "Login" button/link to navigate back to the home/login view
+        self.signup_btn_login.click()
+        # Wait until the login view is rendered (Username input becomes visible)
+        self.page.get_by_placeholder('Username').wait_for(state='visible')
+
+
+
+
+
+
