@@ -18,6 +18,7 @@ def _open_as_admin(page: Page):
     token = _api_login("admin", "admin123")
     page.add_init_script(f"window.localStorage.setItem('token', '{token}');")
     page.goto(FRONTEND_URL)
+    page.wait_for_load_state("networkidle")
     # sanity: we should not be on /login
     expect(page).not_to_have_url(re.compile(r"/login\b"))
     return token

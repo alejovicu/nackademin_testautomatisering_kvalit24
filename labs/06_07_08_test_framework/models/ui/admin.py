@@ -13,8 +13,9 @@ class AdminPage:
         self.btn_create = page.get_by_role("button", name="Create Product")
 
     def _wait_admin_view_loaded(self):
-        expect(self.page.get_by_text("Products available:")).to_be_visible(timeout=5000)
         expect(self.input_product_name).to_be_visible(timeout=5000)
+        expect(self.btn_create).to_be_visible(timeout=5000)
+        self.page.wait_for_load_state("networkidle")
 
     def get_current_product_count(self) -> int:
         self._wait_admin_view_loaded()
